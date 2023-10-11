@@ -54,6 +54,7 @@ char get_next_char(Buffer *buffer, FILE *arq, Lex *lex) {
 void Tabela_DFA(Lex *lex, char letra, Buffer *buffer){
 
   int estado = 0;
+  bool erro = false;
 
   while 
 
