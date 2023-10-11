@@ -52,78 +52,7 @@ char get_next_char(Buffer *buffer, FILE *arq, Lex *lex) {
 
 void cases_aninhados_dfa(Lex *lex, char letra, Buffer *buffer){
 
-    switch (lex->estado) {
-        case INICIO:
-            if (isspace(letra)) {
-                lex->estado = INICIO;
-            }
-            else if (letra == '{') {
-                lex->estado = INCOMENT;
-            }
-            else if (isalpha(letra)) {
-                lex->estado = INID;
-            }
-            else if (isdigit(letra)) {
-                lex->estado = INNUM;
-            }
-            else if (letra == ':') {
-                lex->estado = INATRIB;
-            }
-            else if (letra == EOF){
-                lex->Aux = 1;
-                //buffer->pos--;
-                lex->estado = FIM;
-            }
-            else if(letra == '+'||letra == '-'||letra == '*'||letra == '/'||letra == '%'||letra == '='||letra == '<'||letra == '('||letra == ')'|| letra == ';'){ 
-                //lex->Aux = 1;
-                //buffer->pos--;
-                lex->estado = FIM;
-            }
-            break;
-        case INCOMENT:
-            if (letra == '}') {
-                //lex->Aux = 1;
-                lex->estado = FIM;
-            }
-            else{
-                lex->estado = INCOMENT;
-            }
-            break;
-        case INNUM:
-            if (isdigit(letra)) {
-                lex->estado = INNUM;
-            }
-            else {
-                lex->Aux = 1;
-                buffer->pos--;
-                lex->estado = FIM;
-            }
-            break;
-        case INID:
-            if (isalpha(letra)) {
-                lex->estado = INID;
-            }
-            else {
-                lex->Aux = 1;
-                buffer->pos--;
-                lex->estado = FIM;
-            }
-            break;
-        case INATRIB:
-            if (letra == '=') {
-                //buffer->pos--;
-                //lex->Aux = 1;
-                lex->estado = FIM;
-            }
-            else{
-                //buffer->pos--;
-                lex->estado = ERRO;
-            }
-            break;
-        case FIM:
-            lex->Aux = 1;
-            break;
-    }
+    
 
 }
 
