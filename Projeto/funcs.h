@@ -7,7 +7,8 @@ typedef enum token{
 }TokenType;
 
 typedef enum estado{
-    INICIO, INCOMENT, INNUM, INID, INATRIB, FIM, ERRO
+    INICIO, INCOMENT, INNUM, INID, INATRIB, MENOR, MAIOR, DIFERENTE,
+    COMPARACAO, MAIORIGUAL, MENORIGUAL, WNC, WNC2, FIM, ERRO
 }DfaType;
 
 typedef struct buffer{
