@@ -32,6 +32,6 @@ char get_next_char(Buffer *buffer, FILE *arq, Lex *lex);//pega o proximo char do
 char* enche_buffer(Buffer *buffer, FILE *arq);
 void Verifica_palavra_reservada(char *palavra, Lex *lex);
 char* Pega_ID(int valor_letra, Lex *lex);
-void cases_aninhados_dfa(Lex *lex, char letra, Buffer *buffer);
+void Tabela_DFA(Lex *lex, char letra, Buffer *buffer);
 
 

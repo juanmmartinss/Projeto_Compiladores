@@ -3,6 +3,7 @@
 #include "funcs5.h"
 #include <string.h>
 #include <ctype.h>
+#include <stdbool.h>
 
 Buffer *allocate_buffer(int size) {
     Buffer *buffer = (Buffer*)malloc(sizeof(Buffer));
@@ -50,9 +51,11 @@ char get_next_char(Buffer *buffer, FILE *arq, Lex *lex) {
     
 }
 
-void cases_aninhados_dfa(Lex *lex, char letra, Buffer *buffer){
+void Tabela_DFA(Lex *lex, char letra, Buffer *buffer){
 
-    
+  int estado = 0;
+
+  while 
 
 }
 
