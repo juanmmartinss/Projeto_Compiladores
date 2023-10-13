@@ -54,7 +54,33 @@ char get_next_char(Buffer *buffer, FILE *arq, Lex *lex) {
 void Tabela_DFA(Lex *lex, char letra, Buffer *buffer){
 
   int estado = 0;
+  int novo_estado = 0;
   bool erro = false;
+
+  while(novo_estado != 14 && novo_estado != 15 && erro == false){
+    estado = novo_estado;
+    novo_estado = matriz_dfa[estado][seleciona(letra)];
+    if(novo_estado == 14){
+      lex->estado = estado;
+      lex->Aux = 1;
+      lex->lexema[lex->Aux] = '\0';
+      lex->token = estado;
+      erro = true;
+    }
+    else if(novo_estado == 15){
+      lex->estado = estado;
+      lex->Aux = 1;
+      lex->lexema[lex->Aux] = '\0';
+      lex->token = estado;
+      erro = true;
+    }
+    else{
+      lex->estado = novo_estado;
+      lex->lexema[lex->Aux] = letra;
+      lex->Aux++;
+      letra = get_next_char(buffer, NULL, lex);
+    }
+  }
 
 }
 

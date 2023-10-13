@@ -51,8 +51,9 @@ int main(int argc, char *argv[]) {
     while ((letra = get_next_char(buffer, input_file, lex)) != '\0') {//pega a linha do arquivo e coloca no buffer
 
         buffer->pos = 0;
+        
        //pega a linha do arquivo, e coloca no contador para armazenar em qual linha esta o lexema
-        //int controle = 0;//variavel de controle para verificar se o lexema é valido
+
         for (int i = 0; i < buffer->size; i++) {//percorre a linha do arquivo
 
             //lex->estado = INICIO;
@@ -65,15 +66,11 @@ int main(int argc, char *argv[]) {
 
                 c = get_next_char(buffer, input_file, lex);
 
-                //cases_aninhados_dfa(lex, c, buffer);//verifica se o char é um simbolo
-                // if (c != '\0') {
-                //     printf("char: %c\n", c);
-                // }
 
                 Tabela_DFA(lex, c, buffer);//verifica se o char é um simbolo
 
                 if(lex->Aux == 0){
-                    //cases_aninhados_dfa(lex, c, buffer);//verifica se o char é um simbolo
+
                     lex->lexema[j] = c;
                 }
                 else{
