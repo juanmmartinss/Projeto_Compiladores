@@ -5,6 +5,7 @@
 #include <ctype.h>
 
 int main(int argc, char *argv[]) {
+    
 
     if (argc != 2) {//verifica se o arquivo foi passado
         fprintf(stderr, "Usage: %s <input file>\n", argv[0]);
