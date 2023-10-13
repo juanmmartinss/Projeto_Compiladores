@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
     }
 
 
-    char* pega_carac = (char*)malloc(sizeof(char)*64);
+    char* pega_carac = (char*)malloc(sizeof(char)*128);
     char letra;
     char c;
 
@@ -57,13 +57,13 @@ int main(int argc, char *argv[]) {
 
         for (int i = 0; i < buffer->size; i++) {//percorre a linha do arquivo
 
-            //lex->estado = INICIO;
+            //lex->estado = 0;
 
             for (int k = 0; k < 64; k++) { // Zera o vetor lexema
                     lex->lexema[k] = '\0';
             }
 
-            for (int j = 0; j < 64; j++) {//percorre o lexema da linha
+            for (int j = 0; j < 128; j++) {//percorre o lexema da linha
 
                 c = get_next_char(buffer, input_file, lex);
 

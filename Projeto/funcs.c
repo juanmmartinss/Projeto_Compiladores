@@ -72,10 +72,10 @@ int pega_valor_para_matriz(char letra){
   int valor;
 
   if (isdigit(letra) != 0){
-    valor = 0;
+    valor = 1;
   }
   else if (isalpha(letra) != 0){
-    valor = 1;
+    valor = 0;
   }
   else if (letra == '*'){
     valor = 2;
@@ -125,8 +125,11 @@ int pega_valor_para_matriz(char letra){
   else if (letra == ']'){
     valor = 17;
   }
-  else{
+  else if (letra == '.'){
     valor = 18;
+  }
+  else{
+    valor = 19;
   }
 
   return valor;
@@ -134,25 +137,31 @@ int pega_valor_para_matriz(char letra){
 
 void Tabela_DFA(Lex *lex, char letra, Buffer *buffer){
 
-  int estado = 0;
+  int estado;
   int valor;
 
   if (lex->estado != 14 && lex->estado != 15){
 
-    estado = lex->estado;
+    if(lex->estado != 0){
+      estado = lex->estado - 1;
+    }
+    else{
+      estado = lex->estado;
+    }
 
     valor = pega_valor_para_matriz(letra);
 
     lex->estado = matriz_dfa[estado][valor];
 
+    printf("letra: %c\n", letra);
+
     printf("matriz na posicao [%d][%d]: %d\n", estado, valor, matriz_dfa[estado][valor]);
 
-    printf("letra: %c\n", letra);
 
     if(lex->estado == 14){
       lex->Aux = 1;
     }
-    //se for diferente de estado de aceitacao
+
   }
 }
 
