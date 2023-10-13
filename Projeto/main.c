@@ -70,7 +70,6 @@ int main(int argc, char *argv[]) {
                 Tabela_DFA(lex, c, buffer);//verifica se o char é um simbolo
 
                 if(lex->Aux == 0){
-
                     lex->lexema[j] = c;
                 }
                 else{
@@ -89,7 +88,6 @@ int main(int argc, char *argv[]) {
                 }
             }
 
-
             Verifica_palavra_reservada(aux, lex);//verifica se o lexema é uma palavra reservada
 
             if (aux[0] != '\0') { // Verifica se a string não está vazia.
@@ -99,7 +97,7 @@ int main(int argc, char *argv[]) {
                 printf("Token: %s, Linha: %d, Lexema: %s \n",pega_carac, lex->linha, aux);
             }
 
-            lex->estado = INICIO;
+            lex->estado = 1;
             lex->Aux = 0;
 
         }

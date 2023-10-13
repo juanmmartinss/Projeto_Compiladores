@@ -6,10 +6,10 @@ typedef enum token{
     ELSE, IF, INT, RETURN, VOID, WHILE, ID, NUM
 }TokenType;
 
-typedef enum estado{
-    INICIO, INCOMENT, INNUM, INID, INATRIB, MENOR, MAIOR, DIFERENTE,
-    COMPARACAO, MAIORIGUAL, MENORIGUAL, WNC, WNC2, FIM, ERRO
-}DfaType;
+// typedef enum estado{
+//     INICIO, INCOMENT, INNUM, INID, INATRIB, MENOR, MAIOR, DIFERENTE,
+//     COMPARACAO, MAIORIGUAL, MENORIGUAL, WNC, WNC2, FIM, ERRO
+// }DfaType;
 
 typedef struct buffer{
     char *data;
@@ -20,7 +20,7 @@ typedef struct buffer{
 typedef struct lex{
     int linha;
     TokenType token;
-    DfaType estado;
+    int estado;
     char lexema[64];
     int Aux;
 }Lex;
