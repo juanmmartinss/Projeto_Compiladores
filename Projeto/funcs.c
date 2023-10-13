@@ -145,9 +145,9 @@ void Tabela_DFA(Lex *lex, char letra, Buffer *buffer){
 
     lex->estado = matriz_dfa[estado][valor];
 
-    // printf("matriz na posicao [%d][%d]: %d\n", estado, valor, matriz_dfa[estado][valor]);
+    printf("matriz na posicao [%d][%d]: %d\n", estado, valor, matriz_dfa[estado][valor]);
 
-    // printf("letra: %c\n", letra);
+    printf("letra: %c\n", letra);
 
     if(lex->estado == 14){
       lex->Aux = 1;
