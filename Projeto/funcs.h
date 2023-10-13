@@ -25,6 +25,22 @@ typedef struct lex{
     int Aux;
 }Lex;
 
+int matriz_dfa[14][19] = {
+                         {},
+                         {},
+                         {},
+                         {},
+                         {},
+                         {},
+                         {},
+                         {},
+                         {},
+                         {},
+                         {},
+                         {},
+                         {},
+                         {},
+                         };
 
 Buffer *allocate_buffer(int size);// aloca a memoria do buffer
 void deallocate_buffer(Buffer *buffer);//desaloca a memoria do buffer

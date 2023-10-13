@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "funcs5.h"
+#include "funcs.h"
 #include <string.h>
 #include <ctype.h>
 
@@ -70,7 +70,7 @@ int main(int argc, char *argv[]) {
                 //     printf("char: %c\n", c);
                 // }
 
-                cases_aninhados_dfa(lex, c, buffer);//verifica se o char é um simbolo
+                Tabela_DFA(lex, c, buffer);//verifica se o char é um simbolo
 
                 if(lex->Aux == 0){
                     //cases_aninhados_dfa(lex, c, buffer);//verifica se o char é um simbolo
