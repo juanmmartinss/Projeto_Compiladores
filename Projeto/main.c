@@ -98,7 +98,7 @@ int main(int argc, char *argv[]) {
                 printf("Token: %s, Linha: %d, Lexema: %s \n",pega_carac, lex->linha, aux);
             }
 
-            lex->estado = 1;
+            lex->estado = 0;
             lex->Aux = 0;
 
         }
