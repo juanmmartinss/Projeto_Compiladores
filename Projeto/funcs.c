@@ -138,7 +138,7 @@ void Tabela_DFA(Lex *lex, char letra, Buffer *buffer){
   int valor;
 
 //table driven
-  if(lex->estado != 14 && lex->estado != 15){
+  if (lex->estado != 14 && lex->estado != 15){
 
     estado = lex->estado;
 
