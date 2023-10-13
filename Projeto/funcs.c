@@ -51,26 +51,91 @@ char get_next_char(Buffer *buffer, FILE *arq, Lex *lex) {
     
 }
 
+int pega_valor_para_matriz(char letra){
+  int valor;
+
+  if (isdigit(letra) != 0){
+    valor = 0;
+  }
+  else if (isalpha(letra) != 0){
+    valor = 1;
+  }
+  else if (letra == '*'){
+    valor = 2;
+  }
+  else if (letra == '+'){
+    valor = 3;
+  }
+  else if (letra == '-'){
+    valor = 4;
+  }
+  else if (letra == ','){
+    valor = 5;
+  }
+  else if (letra == '{'){
+    valor = 6;
+  }
+  else if (letra == '}'){
+    valor = 7;
+  }
+  else if (letra == '('){
+    valor = 8;
+  }
+  else if (letra == ')'){
+    valor = 9;
+  }
+  else if (letra == ';'){
+    valor = 10;
+  }
+  else if (letra == '/'){
+    valor = 11;
+  }
+  else if (letra == '='){
+    valor = 12;
+  }
+  else if (letra == '<'){
+    valor = 13;
+  }
+  else if (letra == '>'){
+    valor = 14;
+  }
+  else if (letra == '!'){
+    valor = 15;
+  }
+  else if (letra == '['){
+    valor = 16;
+  }
+  else if (letra == ']'){
+    valor = 17;
+  }
+  else{
+    valor = 18;
+  }
+
+  return valor;
+}
+
 void Tabela_DFA(Lex *lex, char letra, Buffer *buffer){
 
   int estado = 0;
+  int valor;
 
-/*
-estado := 1;
-ch := proximo caractere de entrada;
+//table driven
+  while(lex->estado != 14 && lex->estado != 15){
 
-while not Aceita[estado] and not erro(estado) do
-	novoestado:= T[estado, ch]
-	if Avance[estado, ch] then ch := proximo caractere de entrada;
-	estado := novo estado;
-	
-end while;
-if Aceita[estado] then aceitação;
-
-*/
-//passar para o proximo estado
+    valor = pega_valor_para_matriz(letra);
+    
+    lex->estado = matriz_dfa[lex->estado][valor];
+    //se for diferente de estado de aceitacao
+    if(lex->estado != 14){
+      break;
+    }
 
 
+  }
+  if(lex->estado == 14){
+    lex->estado = 1;
+  }
 }
 
 void Verifica_palavra_reservada(char *palavra, Lex *lex){

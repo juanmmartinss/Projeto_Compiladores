@@ -45,6 +45,7 @@ Buffer *allocate_buffer(int size);// aloca a memoria do buffer
 void deallocate_buffer(Buffer *buffer);//desaloca a memoria do buffer
 char get_next_char(Buffer *buffer, FILE *arq, Lex *lex);//pega o proximo char do buffer
 char* enche_buffer(Buffer *buffer, FILE *arq);
+int pega_valor_para_matriz(char letra);
 void Verifica_palavra_reservada(char *palavra, Lex *lex);
 char* Pega_ID(int valor_letra, Lex *lex);
 void Tabela_DFA(Lex *lex, char letra, Buffer *buffer);
