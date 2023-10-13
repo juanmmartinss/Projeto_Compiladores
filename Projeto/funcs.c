@@ -121,17 +121,14 @@ void Tabela_DFA(Lex *lex, char letra, Buffer *buffer){
   int valor;
 
 //table driven
-  while(lex->estado != 14 && lex->estado != 15){
+  if(lex->estado != 14 && lex->estado != 15){
+
+    estado = lex->estado;
 
     valor = pega_valor_para_matriz(letra);
-    
-    lex->estado = matriz_dfa[lex->estado][valor];
+
+    lex->estado = matriz_dfa[estado][valor];
     //se for diferente de estado de aceitacao
-    if(lex->estado != 14){
-      break;
-    }
-
-
   }
   if(lex->estado == 14){
     lex->estado = 1;
