@@ -64,6 +64,8 @@ char get_next_char(Buffer *buffer, FILE *arq, Lex *lex) {
         buffer->pos = 0;
     }
     
+    printf("%c\n", buffer->data[buffer->pos]);
+    
     
     return buffer->data[buffer->pos++];
 
@@ -150,9 +152,6 @@ int Tabela_DFA(Lex *lex, char letra, Buffer *buffer) {
         } else {
             estado = lex->estado;
         }
-
-        printf("letra: |%c|\n", letra);
-        //printf("matriz: |%d|\n", matriz_dfa[estado][valor]);
 
         valor = pega_valor_para_matriz(letra);
 

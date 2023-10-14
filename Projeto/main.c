@@ -46,6 +46,7 @@ int main(int argc, char *argv[]) {
 
     lex->linha = 0;
     buffer->pos = 0;
+    int tamanho = 0;
     //int flag = 0;
 
 
@@ -71,6 +72,7 @@ int main(int argc, char *argv[]) {
 
                 if(controle == 0){
                     lex->lexema[j] = c;
+                    tamanho++;
                 }
                 else{
                     break;
