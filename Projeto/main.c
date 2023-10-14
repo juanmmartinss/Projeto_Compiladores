@@ -54,6 +54,7 @@ int main(int argc, char *argv[]) {
         buffer->pos = 0;
         
        //pega a linha do arquivo, e coloca no contador para armazenar em qual linha esta o lexema
+       int guardapos = 0;
 
         for (int i = 0; i < (buffer->size); i++) {//percorre a linha do arquivo
 
@@ -73,7 +74,7 @@ int main(int argc, char *argv[]) {
                     lex->lexema[j] = c;
                 }
                 else{
-                    //volta na posicao para ler uma letra antes
+                    //depois que encontrou a letra volta para classificar a ultima letra
                     break;
                 }
             }
@@ -82,9 +83,9 @@ int main(int argc, char *argv[]) {
             char *aux;
 
             //monta novo vetor sem espacos no comeco
-            for (int i = 0; i < strlen(lex->lexema); i++) {
-                if (isspace(lex->lexema[i]) == 0) {
-                    aux = &lex->lexema[i];
+            for (int l = 0; l < strlen(lex->lexema); l++) {
+                if (isspace(lex->lexema[l]) == 0) {
+                    aux = &lex->lexema[l];
                     break;
                 }
             }
