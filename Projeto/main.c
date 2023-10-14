@@ -59,7 +59,7 @@ int main(int argc, char *argv[]) {
 
             //lex->estado = 0;
 
-            for (int k = 0; k < 64; k++) { // Zera o vetor lexema
+            for (int k = 0; k < 128; k++) { // Zera o vetor lexema
                     lex->lexema[k] = '\0';
             }
 
@@ -91,6 +91,8 @@ int main(int argc, char *argv[]) {
 
             Verifica_palavra_reservada(aux, lex);//verifica se o lexema é uma palavra reservada
 
+            printf("lex->token: %d\n", lex->token);
+
             if (aux[0] != '\0') { // Verifica se a string não está vazia.
 
                 pega_carac = Pega_ID(lex->token, lex);//pega o token e o lexema e retorna o token em string 
@@ -98,7 +100,7 @@ int main(int argc, char *argv[]) {
                 printf("Token: %s, Linha: %d, Lexema: %s \n",pega_carac, lex->linha, aux);
             }
 
-            lex->estado = 0;
+            //lex->estado = 0;
             lex->Aux = 0;
 
         }
