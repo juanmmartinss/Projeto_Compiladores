@@ -55,7 +55,7 @@ int main(int argc, char *argv[]) {
         
        //pega a linha do arquivo, e coloca no contador para armazenar em qual linha esta o lexema
 
-        for (int i = 0; i < buffer->size; i++) {//percorre a linha do arquivo
+        for (int i = 0; i < (buffer->size); i++) {//percorre a linha do arquivo
 
             //lex->estado = 0;
 
@@ -74,7 +74,6 @@ int main(int argc, char *argv[]) {
                     lex->lexema[j] = c;
                 }
                 else{
-                    printf("entra aqui");
                     break;
                 }
             }
@@ -103,7 +102,7 @@ int main(int argc, char *argv[]) {
                 printf("Token: %s, Linha: %d, Lexema: |%s| \n",pega_carac, lex->linha, aux);
             }
 
-            lex->estado = 1;
+            lex->estado = 0;
             lex->Aux = 0;
 
         }

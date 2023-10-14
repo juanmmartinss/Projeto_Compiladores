@@ -10,7 +10,7 @@ int matriz_dfa[13][21] = {
                          {2, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14},
                          {14, 3, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 15, 14},
                          {15, 14, 5, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 4, 14},
-                         {5, 5, 6, 5, 5, 5, 5, 5, 5, 5, 5, 6, 5, 5, 5, 5, 5, 5, 5, 5, 5},
+                         {5, 5, 6, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5},
                          {5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 14, 5, 5, 5, 5, 5, 5, 5, 5, 5},
                          {15, 14, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 13, 15, 15, 15, 15, 15, 15, 7, 14},
                          {15, 14, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 12, 15, 15, 15, 15, 15, 15, 8, 14},
@@ -156,9 +156,9 @@ void Tabela_DFA(Lex *lex, char letra, Buffer *buffer){
 
     lex->estado = matriz_dfa[estado][valor];
 
-    printf("letra: %c\n", letra);
+    //printf("letra: %c\n", letra);
 
-    printf("matriz na posicao [%d][%d]: %d\n", estado, valor, matriz_dfa[estado][valor]);
+    // printf("matriz na posicao [%d][%d]: %d\n", estado, valor, matriz_dfa[estado][valor]);
 
   }
   if(lex->estado == 14){//se o estado for 14, o lexema é um simbolo, estado de aceitação
