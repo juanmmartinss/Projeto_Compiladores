@@ -74,6 +74,7 @@ int main(int argc, char *argv[]) {
                     lex->lexema[j] = c;
                 }
                 else{
+                    printf("entra aqui");
                     break;
                 }
             }
@@ -91,16 +92,18 @@ int main(int argc, char *argv[]) {
 
             Verifica_palavra_reservada(aux, lex);//verifica se o lexema é uma palavra reservada
 
-            printf("lex->token: %d\n", lex->token);
+            //printf("lex->token: %d\n", lex->token);
+
+            //printf("lex->lexema: %s\n", aux);
 
             if (aux[0] != '\0') { // Verifica se a string não está vazia.
 
                 pega_carac = Pega_ID(lex->token, lex);//pega o token e o lexema e retorna o token em string 
 
-                printf("Token: %s, Linha: %d, Lexema: %s \n",pega_carac, lex->linha, aux);
+                printf("Token: %s, Linha: %d, Lexema: |%s| \n",pega_carac, lex->linha, aux);
             }
 
-            //lex->estado = 0;
+            lex->estado = 1;
             lex->Aux = 0;
 
         }
