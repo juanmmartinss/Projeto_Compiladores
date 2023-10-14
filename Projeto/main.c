@@ -95,7 +95,7 @@ int main(int argc, char *argv[]) {
 
                 pega_carac = Pega_ID(lex->token, lex);//pega o token e o lexema e retorna o token em string 
 
-                printf("Token: %s, Linha: %d, Lexema: %s \n",pega_carac, lex->linha, aux);
+                printf("Token: %s, Linha: %d, Lexema: |%s| \n",pega_carac, lex->linha, aux);
             }
 
             lex->estado = 0;
