@@ -36,4 +36,3 @@ void Verifica_palavra_reservada(char *palavra, Lex *lex);
 char* Pega_ID(int valor_letra, Lex *lex);
 void Tabela_DFA(Lex *lex, char letra, Buffer *buffer);
 
-

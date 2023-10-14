@@ -54,7 +54,6 @@ int main(int argc, char *argv[]) {
         buffer->pos = 0;
         
        //pega a linha do arquivo, e coloca no contador para armazenar em qual linha esta o lexema
-       int guardapos = 0;
 
         for (int i = 0; i < (buffer->size); i++) {//percorre a linha do arquivo
 
@@ -74,7 +73,7 @@ int main(int argc, char *argv[]) {
                     lex->lexema[j] = c;
                 }
                 else{
-                    //depois que encontrou a letra volta para classificar a ultima letra
+                    //volta um caractere
                     break;
                 }
             }
@@ -101,6 +100,9 @@ int main(int argc, char *argv[]) {
 
             lex->estado = 0;
             lex->Aux = 0;
+            // printf("posicao: %d\n", buffer->pos);
+            // printf("posicao --: %d\n", (buffer->pos)-1);
+
 
         }
     }

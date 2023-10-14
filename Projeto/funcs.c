@@ -11,7 +11,7 @@ int matriz_dfa[13][21] = {
                          {14, 3, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 15, 14},
                          {15, 14, 5, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 4, 14},
                          {5, 5, 6, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5},
-                         {5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 14, 5, 5, 5, 5, 5, 5, 5, 5, 5},
+                         {5, 5, 6, 5, 5, 5, 5, 5, 5, 5, 5, 14, 5, 5, 5, 5, 5, 5, 5, 5, 5},
                          {15, 14, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 13, 15, 15, 15, 15, 15, 15, 7, 14},
                          {15, 14, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 12, 15, 15, 15, 15, 15, 15, 8, 14},
                          {15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 14, 15, 15, 15, 15, 15, 15, 9, 15},
@@ -63,10 +63,11 @@ char get_next_char(Buffer *buffer, FILE *arq, Lex *lex) {
         buffer->pos = 0;
     }
     
+    
     return buffer->data[buffer->pos++];
 
-    
 }
+
 
 int pega_valor_para_matriz(char letra){
   int valor;
@@ -138,31 +139,30 @@ int pega_valor_para_matriz(char letra){
   return valor;
 }
 
-void Tabela_DFA(Lex *lex, char letra, Buffer *buffer){
+void Tabela_DFA(Lex *lex, char letra, Buffer *buffer) {
+    int estado;
+    int valor;
 
-  int estado;
-  int valor;
+    if (lex->estado != 14 && lex->estado != 15) {
+        if (lex->estado != 0) {
+            estado = lex->estado - 1;
+        } else {
+            estado = lex->estado;
+        }
 
-  if (lex->estado != 14 && lex->estado != 15){
+        printf("letra: |%c|\n", letra);
 
-    if(lex->estado != 0){
-      estado = lex->estado - 1;
+        valor = pega_valor_para_matriz(letra);
+
+        lex->estado = matriz_dfa[estado][valor];
     }
-    else{
-      estado = lex->estado;
+
+    if (lex->estado == 14) { // se o estado for 14, o lexema é um símbolo, estado de aceitação
+        buffer->data[buffer->pos - 1] = letra; // Armazena a última letra no buffer
+        lex->Aux = 1;
     }
-
-    printf("letra: |%c|\n", letra);
-
-    valor = pega_valor_para_matriz(letra);
-
-    lex->estado = matriz_dfa[estado][valor];
-
-  }
-  if(lex->estado == 14){//se o estado for 14, o lexema é um simbolo, estado de aceitação
-      lex->Aux = 1;
-  }
 }
+
 
 void Verifica_palavra_reservada(char *palavra, Lex *lex){
 
