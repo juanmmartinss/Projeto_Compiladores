@@ -42,10 +42,10 @@ int main(int argc, char *argv[]) {
     char* pega_carac = (char*)malloc(sizeof(char)*128);
     char letra;
     char c;
+    int controle = 0;
 
     lex->linha = 0;
     buffer->pos = 0;
-    lex->Aux = 0;
     //int flag = 0;
 
 
@@ -67,13 +67,12 @@ int main(int argc, char *argv[]) {
 
                 c = get_next_char(buffer, input_file, lex);
 
-                Tabela_DFA(lex, c, buffer);//verifica se o char é um simbolo
+                controle = Tabela_DFA(lex, c, buffer);//verifica se o char é um simbolo
 
-                if(lex->Aux == 0){
+                if(controle == 0){
                     lex->lexema[j] = c;
                 }
                 else{
-                    //volta um caractere
                     break;
                 }
             }
@@ -99,9 +98,7 @@ int main(int argc, char *argv[]) {
             }
 
             lex->estado = 0;
-            lex->Aux = 0;
-            // printf("posicao: %d\n", buffer->pos);
-            // printf("posicao --: %d\n", (buffer->pos)-1);
+            controle = 0;
 
 
         }

@@ -9,7 +9,7 @@ int matriz_dfa[14][21] = {
                          {2, 3, 14, 14, 14, 14, 14, 14, 14, 14, 14, 4, 10, 7, 8, 9, 14, 14, 14, 1, 16},
                          {2, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15},
                          {15, 3, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 16, 15},
-                         {16, 15, 5, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 4, 15},
+                         {15, 15, 5, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 4, 15},
                          {5, 5, 6, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5},
                          {5, 5, 6, 5, 5, 5, 5, 5, 5, 5, 5, 15, 5, 5, 5, 5, 5, 5, 5, 5, 5},
                          {15, 15, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 13, 16, 16, 16, 16, 16, 16, 7, 15},
@@ -140,7 +140,7 @@ int pega_valor_para_matriz(char letra){
   return valor;
 }
 
-void Tabela_DFA(Lex *lex, char letra, Buffer *buffer) {
+int Tabela_DFA(Lex *lex, char letra, Buffer *buffer) {
     int estado;
     int valor;
 
@@ -161,8 +161,9 @@ void Tabela_DFA(Lex *lex, char letra, Buffer *buffer) {
 
     if (lex->estado == 15) { // se o estado for 15, o lexema é um símbolo, estado de aceitação
         buffer->data[buffer->pos - 1] = letra; // Armazena a última letra no buffer
-        lex->Aux = 1;
+        return 1;
     }
+    return 0;
 }
 
 

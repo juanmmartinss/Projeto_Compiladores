@@ -23,7 +23,6 @@ typedef struct lex{
     TokenType token;
     int estado;
     char lexema[64];
-    int Aux;
 }Lex;
 
 
@@ -34,5 +33,5 @@ char* enche_buffer(Buffer *buffer, FILE *arq);
 int pega_valor_para_matriz(char letra);
 void Verifica_palavra_reservada(char *palavra, Lex *lex);
 char* Pega_ID(int valor_letra, Lex *lex);
-void Tabela_DFA(Lex *lex, char letra, Buffer *buffer);
+int Tabela_DFA(Lex *lex, char letra, Buffer *buffer);
 
