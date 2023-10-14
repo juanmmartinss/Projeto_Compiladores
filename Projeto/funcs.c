@@ -15,8 +15,8 @@ int matriz_dfa[13][21] = {
                          {15, 14, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 13, 15, 15, 15, 15, 15, 15, 7, 14},
                          {15, 14, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 12, 15, 15, 15, 15, 15, 15, 8, 14},
                          {15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 14, 15, 15, 15, 15, 15, 15, 9, 15},
-                         {14, 14, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 11, 15, 15, 15, 15, 15, 15, 10, 14},
-                         {14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 11, 14},
+                         {14, 14, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 11, 15, 15, 15, 15, 15, 15, 14, 14},
+                         {14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14},
                          {15, 14, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 12, 14},
                          {15, 14, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 13, 14},
                          };
@@ -152,13 +152,11 @@ void Tabela_DFA(Lex *lex, char letra, Buffer *buffer){
       estado = lex->estado;
     }
 
+    printf("letra: |%c|\n", letra);
+
     valor = pega_valor_para_matriz(letra);
 
     lex->estado = matriz_dfa[estado][valor];
-
-    //printf("letra: %c\n", letra);
-
-    // printf("matriz na posicao [%d][%d]: %d\n", estado, valor, matriz_dfa[estado][valor]);
 
   }
   if(lex->estado == 14){//se o estado for 14, o lexema é um simbolo, estado de aceitação
@@ -192,6 +190,69 @@ void Verifica_palavra_reservada(char *palavra, Lex *lex){
   else if (strcmp(palavra, "num") == 0){
     lex->token = NUM;
   }
+  // else if (strcmp(palavra, "-") == 0){
+  //   lex->token = MINUS;
+  // }
+  // else if (strcmp(palavra, "+") == 0){
+  //   lex->token = PLUS;
+  // }
+  // else if (strcmp(palavra, "*") == 0){
+  //   lex->token = TIMES;
+  // }
+  // else if (strcmp(palavra, "/") == 0){
+  //   lex->token = OVER;
+  // }
+  // else if (strcmp(palavra, "<") == 0){
+  //   lex->token = LT;
+  // }
+  // else if (strcmp(palavra, "<=") == 0){
+  //   lex->token = LE;
+  // }
+  // else if (strcmp(palavra, ">") == 0){
+  //   lex->token = GT;
+  // }
+  // else if (strcmp(palavra, ">=") == 0){
+  //   lex->token = GE;
+  // }
+  // else if (strcmp(palavra, "==") == 0){
+  //   lex->token = EQ;
+  // }
+  // else if (strcmp(palavra, "!=") == 0){
+  //   lex->token = NE;
+  // }
+  // else if (strcmp(palavra, "=") == 0){
+  //   lex->token = ASSIGN;
+  // }
+  // else if (strcmp(palavra, ";") == 0){
+  //   lex->token = SEMI;
+  // }
+  // else if (strcmp(palavra, ",") == 0){
+  //   lex->token = COMMA;
+  // }
+  // else if (strcmp(palavra, "(") == 0){
+  //   lex->token = LPAREN;
+  // }
+  // else if (strcmp(palavra, ")") == 0){
+  //   lex->token = RPAREN;
+  // }
+  // else if (strcmp(palavra, "[") == 0){
+  //   lex->token = LBRACKET;
+  // }
+  // else if (strcmp(palavra, "]") == 0){
+  //   lex->token = RBRACKET;
+  // }
+  // else if (strcmp(palavra, "{") == 0){
+  //   lex->token = LBRACE;
+  // }
+  // else if (strcmp(palavra, "}") == 0){
+  //   lex->token = RBRACE;
+  // }
+  // else if (strcmp(palavra, "main") == 0){
+  //   lex->token = MAIN;
+  // }
+  // else if (strcmp(palavra, "printf") == 0){
+  //   lex->token = PRINTF;
+  // }
   else{
     lex->token = ID;
   }
@@ -232,9 +293,97 @@ char* Pega_ID(int valor_letra, Lex *lex){
     pega_carac = "ID";
     return pega_carac;
   }
-  else if (valor_letra == 7){
-    pega_carac = "NUM";
-    return pega_carac;
-  }
+  // else if (valor_letra == 7){
+  //   pega_carac = "NUM";
+  //   return pega_carac;
+  // }
+  // else if (valor_letra == 8){
+  //   pega_carac = "+";
+  //   return pega_carac;
+  // }
+  // else if (valor_letra == 9){
+  //   pega_carac = "-";
+  //   return pega_carac;
+  // }
+  // else if (valor_letra == 10){
+  //   pega_carac = "*";
+  //   return pega_carac;
+  // }
+  // else if (valor_letra == 11){
+  //   pega_carac = "/";
+  //   return pega_carac;
+  // }
+  // else if (valor_letra == 12){
+  //   pega_carac = "<";
+  //   return pega_carac;
+  // }
+  // else if (valor_letra == 13){
+  //   pega_carac = "<=";
+  //   return pega_carac;
+  // }
+  // else if (valor_letra == 14){
+  //   pega_carac = ">";
+  //   return pega_carac;
+  // }
+  // else if (valor_letra == 15){
+  //   pega_carac = ">=";
+  //   return pega_carac;
+  // }
+  // else if (valor_letra == 16){
+  //   pega_carac = "==";
+  //   return pega_carac;
+  // }
+  // else if (valor_letra == 17){
+  //   pega_carac = "!=";
+  //   return pega_carac;
+  // }
+  // else if (valor_letra == 18){
+  //   pega_carac = "=";
+  //   return pega_carac;
+  // }
+  // else if (valor_letra == 19){
+  //   pega_carac = ";";
+  //   return pega_carac;
+  // }
+  // else if (valor_letra == 20){
+  //   pega_carac = ",";
+  //   return pega_carac;
+  // }
+  // else if (valor_letra == 21){
+  //   pega_carac = "(";
+  //   return pega_carac;
+  // }
+  // else if (valor_letra == 22){
+  //   pega_carac = ")";
+  //   return pega_carac;
+  // }
+  // else if (valor_letra == 23){
+  //   pega_carac = "[";
+  //   return pega_carac;
+  // }
+  // else if (valor_letra == 24){
+  //   pega_carac = "]";
+  //   return pega_carac;
+  // }
+  // else if (valor_letra == 25){
+  //   pega_carac = "{";
+  //   return pega_carac;
+  // }
+  // else if (valor_letra == 26){
+  //   pega_carac = "}";
+  //   return pega_carac;
+  // }
+  // else if (valor_letra == 27){
+  //   pega_carac = "main";
+  //   return pega_carac;
+  // }
+  // else if (valor_letra == 28){
+  //   pega_carac = "printf";
+  //   return pega_carac;
+  // }
+  // else{
+  //   pega_carac = "ERROR";
+  //   return pega_carac;
+  // }
 
 }

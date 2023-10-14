@@ -3,7 +3,8 @@
 #include <string.h>
 
 typedef enum token{
-    ELSE, IF, INT, RETURN, VOID, WHILE, ID, NUM
+    ELSE, IF, INT, RETURN, VOID, WHILE, ID, NUM, PLUS, MINUS, TIMES, OVER, LT, LE, GT, GE, EQ, NE, ASSIGN, SEMI,
+     COMMA, LPAREN, RPAREN, LBRACKET, RBRACKET, LBRACE, RBRACE, ENDFILE, MAIN, PRINTF, ERROR
 }TokenType;
 
 // typedef enum estado{

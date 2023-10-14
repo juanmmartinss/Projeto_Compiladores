@@ -67,13 +67,13 @@ int main(int argc, char *argv[]) {
 
                 c = get_next_char(buffer, input_file, lex);
 
-
                 Tabela_DFA(lex, c, buffer);//verifica se o char é um simbolo
 
                 if(lex->Aux == 0){
                     lex->lexema[j] = c;
                 }
                 else{
+                    //volta na posicao para ler uma letra antes
                     break;
                 }
             }
@@ -91,15 +91,11 @@ int main(int argc, char *argv[]) {
 
             Verifica_palavra_reservada(aux, lex);//verifica se o lexema é uma palavra reservada
 
-            //printf("lex->token: %d\n", lex->token);
-
-            //printf("lex->lexema: %s\n", aux);
-
             if (aux[0] != '\0') { // Verifica se a string não está vazia.
 
                 pega_carac = Pega_ID(lex->token, lex);//pega o token e o lexema e retorna o token em string 
 
-                printf("Token: %s, Linha: %d, Lexema: |%s| \n",pega_carac, lex->linha, aux);
+                printf("Token: %s, Linha: %d, Lexema: %s \n",pega_carac, lex->linha, aux);
             }
 
             lex->estado = 0;
