@@ -74,7 +74,7 @@ int main(int argc, char *argv[]) {
                     lex->lexema[j] = c;
                     tamanho++;
                 }
-                else{
+                else {
                     break;
                 }
             }
