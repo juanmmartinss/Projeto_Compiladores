@@ -100,29 +100,23 @@ int main(int argc, char *argv[]) {
                     printf("Token: %s, Linha: %d, Lexema: |%s| \n",pega_carac, lex->linha, aux);
                 }
             }
-            else{
-                if(erroimpresso == 0){
-                    erroimpresso = 1;
+            else {
+                if (lex->linhaaux != lex->linha) {
                     lex->linhaaux = lex->linha;
-                    printf("ERRO LÉXICO: \"%s\" LINHA: %d\n", buffer->data, lex->linha);
-                    lex->aux = 0;
+                    if (erroimpresso == 0) {
+                        printf("ERRO LÉXICO: \"%s\" LINHA: %d\n", buffer->data, lex->linha);
+                    }
+                    erroimpresso = 1; // Marca o erro como impresso para a linha atual
                 }
+                lex->aux = 0; // Redefine lex->aux para permitir a detecção de outros erros na mesma linha
             }
 
             lex->estado = 0;
             controle = 0;
 
-            if(lex->linha == lex->linhaaux){//verifica se a linha atual é igual a linha do erro, se for, nao printa mais o erro. Para que nao seja ptintada a mesma linha varias vezes.
-                erroimpresso = 1;
-            }
-            else{
-                erroimpresso = 0;
-
-            }
-
 
         }
-        //lex->aux = 0;
+        lex->aux = 0;
     }
 
     deallocate_buffer(buffer);
