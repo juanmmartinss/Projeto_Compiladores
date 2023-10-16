@@ -46,6 +46,7 @@ int main(int argc, char *argv[]) {
 
     lex->linha = 0;
     buffer->pos = 0;
+    int erroimpresso = 0;
     //int tamanho = 0;
     //int flag = 0;
 
@@ -99,14 +100,25 @@ int main(int argc, char *argv[]) {
                     printf("Token: %s, Linha: %d, Lexema: |%s| \n",pega_carac, lex->linha, aux);
                 }
             }
-            else {
-                printf("ERRO LÉXICO: \"%s\" LINHA: %d\n", buffer->data, lex->linha);
-                lex->aux = 0;
-                //break;
+            else{
+                if(erroimpresso == 0){
+                    erroimpresso = 1;
+                    lex->linhaaux = lex->linha;
+                    printf("ERRO LÉXICO: \"%s\" LINHA: %d\n", buffer->data, lex->linha);
+                    lex->aux = 0;
+                }
             }
 
             lex->estado = 0;
             controle = 0;
+
+            if(lex->linha == lex->linhaaux){//verifica se a linha atual é igual a linha do erro, se for, nao printa mais o erro. Para que nao seja ptintada a mesma linha varias vezes.
+                erroimpresso = 1;
+            }
+            else{
+                erroimpresso = 0;
+
+            }
 
 
         }

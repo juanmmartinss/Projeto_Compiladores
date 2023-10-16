@@ -144,7 +144,6 @@ int Tabela_DFA(Lex *lex, char letra, Buffer *buffer) {
     int estado;
     int valor;
     int isSpecialChar = 0; // Flag to track if the character is a special character
-    int linha;
     //lex->aux = 0;
 
     if (lex->estado != 16 && lex->estado != 17) {
@@ -164,13 +163,12 @@ int Tabela_DFA(Lex *lex, char letra, Buffer *buffer) {
         isSpecialChar = 1;
     }
 
-    if (lex->estado == 17 && linha != lex->linha) {
+    if (lex->estado == 17) {
         lex->aux = 1;
-        linha = lex->linha;
         return 1;
     }
 
-    if (!isSpecialChar) {
+    if (!isSpecialChar) {// se não for um caracter especial, armazena no buffer
         buffer->data[buffer->pos - 1] = letra; // Store the last letter in the buffer if it's not a special character
     } else {
         buffer->pos--; // Move back one position in the buffer to include the special character in the next lexeme
