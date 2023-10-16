@@ -3,6 +3,7 @@ segundo o algoritmo.*/
 
 #
 &#$@
+##a
 
 int gcd (int u, int v) 
 { 

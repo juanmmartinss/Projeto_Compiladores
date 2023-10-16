@@ -163,7 +163,7 @@ int Tabela_DFA(Lex *lex, char letra, Buffer *buffer) {
         isSpecialChar = 1;
     }
 
-    if (lex->estado == 17) {
+    if (lex->estado == 17) {//se o estado for 17, o lexema é um erro
         lex->aux = 1;
         return 1;
     }
