@@ -23,6 +23,8 @@ typedef struct lex{
     TokenType token;
     int estado;
     char lexema[64];
+    int aux;
+    int jaimpresso;
 }Lex;
 
 
