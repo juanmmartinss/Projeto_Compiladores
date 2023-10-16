@@ -98,7 +98,7 @@ int main(int argc, char *argv[]) {
                 }
             }
             else{
-                if(linha_atual != lex->linha){
+                if(linha_atual != lex->linha){//logica para verificar se esta na mesma linha, se estiver printa apenas uma vez
                     char *aux2;
                     
                     //retira o \n do final do lexema
