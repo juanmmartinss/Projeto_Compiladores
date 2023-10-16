@@ -97,9 +97,8 @@ int main(int argc, char *argv[]) {
                     }
                 }
             }
-            else{
+            else{//se for um erro, printa a linha do erro
                 if(linha_atual != lex->linha){//logica para verificar se esta na mesma linha, se estiver printa apenas uma vez
-                    char *aux2;
                     
                     //retira o \n do final do lexema
                     if(buffer->data[strlen(buffer->data)-1] == '\n'){//para nao pegar o \n do final da linha
