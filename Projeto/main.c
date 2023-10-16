@@ -75,6 +75,7 @@ int main(int argc, char *argv[]) {
             }
             
             if(lex->aux == 0){//verifica se o lexema é um erro, se for 1 é um erro e nao printa, apenas mostra a msg de erro
+                //printf("buffer->data detro do if: %s\n", buffer->data);
                 if(linha_atual != lex->linha){//verifica se a linha atual é diferente da linha do lexema, para nao mostrar o erro da mesma linha mais de uma vez
                     //tira espacos em branco do inicio do lexema
                     char *aux;
@@ -98,13 +99,10 @@ int main(int argc, char *argv[]) {
                 }
             }
             else{//se for um erro, printa a linha do erro
+                //printf("buffer->data dentro do else: %s\n", buffer->data);
                 if((linha_atual != lex->linha)){//logica para verificar se esta na mesma linha, se estiver printa apenas uma vez
-                    
-                    //retira o \n do final do lexema
-                    if(buffer->data[strlen(buffer->data)-1] == '\n'){//para nao pegar o \n do final da linha
-                        buffer->data[strlen(buffer->data)-1] = '\0';
-                    }
-
+                    //retira o \n do final do buffer->data
+                    //para nao pegar o \n do final da linha
                     printf("ERRO LÉXICO: |%s| LINHA: %d\n", buffer->data, lex->linha);//como vou printar erro nao preciso passar para o lexema, posso apenas mandar printar a linha toda
                     linha_atual = lex->linha;
                 }

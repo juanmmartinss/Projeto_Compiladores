@@ -1,9 +1,11 @@
 /*Um programa para calcular o mdc 
 segundo o algoritmo de jua.*/
 
-#int
-&#$@
-##a
+#intttt
+
+&#$@aaaaaaaaaa
+
+##aAAAAAAAAAA
 
 int gcd (int u, int v) 
 { 
@@ -18,3 +20,4 @@ void main(void)
   x = input (); y = input();
   output (gcd (x,y)) ;
 }
+%%int
