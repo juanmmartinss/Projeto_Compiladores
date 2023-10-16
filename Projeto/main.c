@@ -99,6 +99,13 @@ int main(int argc, char *argv[]) {
             }
             else{
                 if(linha_atual != lex->linha){
+                    char *aux2;
+                    
+                    //retira o \n do final do lexema
+                    if(buffer->data[strlen(buffer->data)-1] == '\n'){
+                        buffer->data[strlen(buffer->data)-1] = '\0';
+                    }
+
                     printf("ERRO LÉXICO: |%s| LINHA: %d\n", buffer->data, lex->linha);
                     linha_atual = lex->linha;
                 }

@@ -272,7 +272,7 @@ void Verifica_palavra_reservada(char *palavra, Lex *lex){
 }
  
 char* Pega_ID(int valor_letra, Lex *lex){
-  
+
   char *pega_carac = (char*)malloc(sizeof(char)*64);
 
   if (valor_letra == 0){
