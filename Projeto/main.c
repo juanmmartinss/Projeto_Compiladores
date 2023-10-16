@@ -100,6 +100,7 @@ int main(int argc, char *argv[]) {
                 }
             }
             else {
+                printf("ERRO LÉXICO: \"%s\" LINHA: %d\n", buffer->data, lex->linha);
                 lex->aux = 0;
                 //break;
             }

@@ -163,9 +163,8 @@ int Tabela_DFA(Lex *lex, char letra, Buffer *buffer) {
     if (lex->estado == 16) { // If the state is 16, the lexeme is a symbol (acceptance state)
         isSpecialChar = 1;
     }
-    
+
     if (lex->estado == 17 && linha != lex->linha) {
-        printf("ERRO LÉXICO: \"%s\" LINHA: %d\n", buffer->data, lex->linha);
         lex->aux = 1;
         linha = lex->linha;
         return 1;
