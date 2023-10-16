@@ -54,12 +54,15 @@ int main(int argc, char *argv[]) {
     while ((letra = get_next_char(buffer, input_file, lex)) != '\0') {//pega a linha do arquivo e coloca no buffer
 
         buffer->pos = 0;
+
+        //erroimpresso = 0;
         
        //pega a linha do arquivo, e coloca no contador para armazenar em qual linha esta o lexema
 
         for (int i = 0; i < (buffer->size); i++) {//percorre a linha do arquivo
 
             //lex->estado = 0;
+            erroimpresso = 0;
 
             for (int k = 0; k < 128; k++) { // Zera o vetor lexema
                     lex->lexema[k] = '\0';
@@ -100,23 +103,18 @@ int main(int argc, char *argv[]) {
                     printf("Token: %s, Linha: %d, Lexema: |%s| \n",pega_carac, lex->linha, aux);
                 }
             }
-            else {
-                if (lex->linhaaux != lex->linha) {
-                    lex->linhaaux = lex->linha;
-                    if (erroimpresso == 0) {
-                        printf("ERRO LÉXICO: \"%s\" LINHA: %d\n", buffer->data, lex->linha);
-                    }
-                    erroimpresso = 1; // Marca o erro como impresso para a linha atual
+            else{
+                if(erroimpresso == 0){
+                    printf("ERRO LÉXICO: \"%s\" LINHA: %d\n", buffer->data, lex->linha);
+                    lex->aux = 0; // Redefine lex->aux para permitir a detecção de outros erros na mesma linha
+                    erroimpresso = 1;
                 }
-                lex->aux = 0; // Redefine lex->aux para permitir a detecção de outros erros na mesma linha
             }
 
             lex->estado = 0;
             controle = 0;
 
-
         }
-        lex->aux = 0;
     }
 
     deallocate_buffer(buffer);
