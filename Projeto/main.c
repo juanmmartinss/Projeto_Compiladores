@@ -75,31 +75,33 @@ int main(int argc, char *argv[]) {
             }
             
             if(lex->aux == 0){//verifica se o lexema é um erro, se for 1 é um erro e nao printa, apenas mostra a msg de erro
-                //tira espacos em branco do inicio do lexema
-                char *aux;
+                if(linha_atual != lex->linha){//verifica se a linha atual é diferente da linha do lexema, para nao mostrar o erro da mesma linha mais de uma vez
+                    //tira espacos em branco do inicio do lexema
+                    char *aux;
 
-                //monta novo vetor sem espacos no comeco
-                for (int l = 0; l < strlen(lex->lexema); l++) {
-                    if (isspace(lex->lexema[l]) == 0) {
-                        aux = &lex->lexema[l];
-                        break;
+                    //monta novo vetor sem espacos no comeco
+                    for (int l = 0; l < strlen(lex->lexema); l++) {
+                        if (isspace(lex->lexema[l]) == 0) {
+                            aux = &lex->lexema[l];
+                            break;
+                        }
                     }
-                }
 
-                Verifica_palavra_reservada(aux, lex);//verifica se o lexema é uma palavra reservada
+                    Verifica_palavra_reservada(aux, lex);//verifica se o lexema é uma palavra reservada
 
-                if (aux[0] != '\0') { // Verifica se a string não está vazia.
+                    if (aux[0] != '\0') { // Verifica se a string não está vazia.
 
-                    pega_carac = Pega_ID(lex->token, lex);//pega o token e o lexema e retorna o token em string 
+                        pega_carac = Pega_ID(lex->token, lex);//pega o token e o lexema e retorna o token em string 
 
-                    printf("Token: %s, Linha: %d, Lexema: |%s| \n",pega_carac, lex->linha, aux);
+                        printf("Token: %s, Linha: %d, Lexema: |%s| \n",pega_carac, lex->linha, aux);
+                    }
                 }
             }
             else{
                 if(linha_atual != lex->linha){
-                    printf("ERRO LÉXICO: \"%s\" LINHA: %d\n", buffer->data, lex->linha);
+                    printf("ERRO LÉXICO: |%s| LINHA: %d\n", buffer->data, lex->linha);
                     linha_atual = lex->linha;
-                } 
+                }
             }
 
             lex->estado = 0;

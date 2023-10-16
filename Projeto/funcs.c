@@ -181,9 +181,6 @@ int Tabela_DFA(Lex *lex, char letra, Buffer *buffer) {
 
 void Verifica_palavra_reservada(char *palavra, Lex *lex){
 
-  //ELSE, IF, INT, RETURN, VOID, WHILE, ID, NUM
-  //int valor;
-
   if (strcmp(palavra, "if") == 0){
     lex->token = IF;
   }
@@ -275,7 +272,7 @@ void Verifica_palavra_reservada(char *palavra, Lex *lex){
 }
  
 char* Pega_ID(int valor_letra, Lex *lex){
-    //ELSE, IF, INT, RETURN, VOID, WHILE, ID, NUM
+  
   char *pega_carac = (char*)malloc(sizeof(char)*64);
 
   if (valor_letra == 0){
