@@ -102,11 +102,11 @@ int main(int argc, char *argv[]) {
                     char *aux2;
                     
                     //retira o \n do final do lexema
-                    if(buffer->data[strlen(buffer->data)-1] == '\n'){
+                    if(buffer->data[strlen(buffer->data)-1] == '\n'){//para nao pegar o \n do final da linha
                         buffer->data[strlen(buffer->data)-1] = '\0';
                     }
 
-                    printf("ERRO LÉXICO: |%s| LINHA: %d\n", buffer->data, lex->linha);
+                    printf("ERRO LÉXICO: |%s| LINHA: %d\n", buffer->data, lex->linha);//como vou printar erro nao preciso passar para o lexema, posso apenas mandar printar a linha toda
                     linha_atual = lex->linha;
                 }
             }
