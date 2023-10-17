@@ -101,14 +101,16 @@ int main(int argc, char *argv[]) {
             else{//se for um erro, printa a linha do erro
                 //printf("buffer->data dentro do else: %s\n", buffer->data);
                 if((linha_atual != lex->linha)){//logica para verificar se esta na mesma linha, se estiver printa apenas uma vez
+                    if(buffer->data[0] != '\0'){//para nao printar o restando do buffer vazio
 
-                    printf("---------------ERRO LÉXICO-------------------\n");
-                    printf("-> %s\n", buffer->data);
-                    printf("-> CARACTER \"%c\" NAO RECONHECIDO\n", c);//mostrar letra que nao e aceita
-                    printf("-> LINHA: %d\n", lex->linha);
-                    printf("---------------------------------------------\n");
+                        printf("---------------ERRO LÉXICO-------------------\n");
+                        printf("-> %s\n", buffer->data);
+                        printf("-> CARACTERE \"%c\" NAO RECONHECIDO\n", c);//mostrar letra que nao e aceita
+                        printf("-> LINHA: %d\n", lex->linha);
+                        printf("---------------------------------------------\n");
 
-                    linha_atual = lex->linha;
+                        linha_atual = lex->linha;
+                    }
                 }
             }
 
