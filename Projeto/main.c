@@ -101,27 +101,14 @@ int main(int argc, char *argv[]) {
             else{//se for um erro, printa a linha do erro
                 //printf("buffer->data dentro do else: %s\n", buffer->data);
                 if((linha_atual != lex->linha)){//logica para verificar se esta na mesma linha, se estiver printa apenas uma vez
-                    //retira o \n do final do buffer->data
-                    //para nao pegar o \n do final da linha
-                    //buffer->data[strlen(buffer->data)-1] = '\0';
+
                     printf("---------------ERRO LÉXICO-------------------\n");
                     printf("-> %s\n", buffer->data);
+                    printf("-> CARACTER \"%c\" NAO RECONHECIDO\n", c);//mostrar letra que nao e aceita
                     printf("-> LINHA: %d\n", lex->linha);
                     printf("---------------------------------------------\n");
 
                     linha_atual = lex->linha;
-
-
-                    // printf("ERRO LÉXICO: |%s| LINHA: %d\n", buffer->data, lex->linha);//como vou printar erro nao preciso passar para o lexema, posso apenas mandar printar a linha toda
-                    // linha_atual = lex->linha;
-
-                    //passar para a proxima linha do arquivo
-                    // while ((letra = get_next_char(buffer, input_file, lex)) != '\n') {//pega a linha do arquivo e coloca no buffer
-                    //     if (letra == '\0') {//verifica se chegou no final do arquivo
-                    //         break;//se chegou no final do arquivo, sai do while
-                    //     }
-                    // }
-
                 }
             }
 
