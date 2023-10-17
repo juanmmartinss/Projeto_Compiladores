@@ -1,6 +1,6 @@
 int x[10]
 
-int minloc(int a[], int low, int high)
+#int minloc(int a[], int low, int high)
 { 
     int i; int k; int x;
     k = low;
@@ -41,7 +41,7 @@ void main(void)
 {
     int i;
     i = 0;
-    while (i < 10)
+    while (i != 10)
     {
         x[i] = input();
         i = i + 1;

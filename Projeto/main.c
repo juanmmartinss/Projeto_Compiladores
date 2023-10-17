@@ -103,17 +103,17 @@ int main(int argc, char *argv[]) {
                 if((linha_atual != lex->linha)){//logica para verificar se esta na mesma linha, se estiver printa apenas uma vez
                     //retira o \n do final do buffer->data
                     //para nao pegar o \n do final da linha
-                    buffer->data[strlen(buffer->data)-1] = '\0';
+                    //buffer->data[strlen(buffer->data)-1] = '\0';
 
                     printf("ERRO LÉXICO: |%s| LINHA: %d\n", buffer->data, lex->linha);//como vou printar erro nao preciso passar para o lexema, posso apenas mandar printar a linha toda
                     linha_atual = lex->linha;
 
                     //passar para a proxima linha do arquivo
-                    while ((letra = get_next_char(buffer, input_file, lex)) != '\n') {//pega a linha do arquivo e coloca no buffer
-                        if (letra == '\0') {//verifica se chegou no final do arquivo
-                            break;//se chegou no final do arquivo, sai do while
-                        }
-                    }
+                    // while ((letra = get_next_char(buffer, input_file, lex)) != '\n') {//pega a linha do arquivo e coloca no buffer
+                    //     if (letra == '\0') {//verifica se chegou no final do arquivo
+                    //         break;//se chegou no final do arquivo, sai do while
+                    //     }
+                    // }
 
                 }
             }
