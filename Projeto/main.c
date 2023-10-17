@@ -109,9 +109,9 @@ int main(int argc, char *argv[]) {
                     linha_atual = lex->linha;
 
                     //passar para a proxima linha do arquivo
-                    while ((letra = get_next_char(buffer, input_file, lex)) != '\n') {
-                        if (letra == '\0') {
-                            break;
+                    while ((letra = get_next_char(buffer, input_file, lex)) != '\n') {//pega a linha do arquivo e coloca no buffer
+                        if (letra == '\0') {//verifica se chegou no final do arquivo
+                            break;//se chegou no final do arquivo, sai do while
                         }
                     }
 
