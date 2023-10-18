@@ -2,6 +2,7 @@ int x[10]
 
 int &minloc(int a[], int low, int high)
 { 
+    !a
     int i; int k; int x;
     k = low;
     x = a[low];
@@ -10,7 +11,7 @@ int &minloc(int a[], int low, int high)
     { 
         if (a[i] < x)
         { 
-            x = a[i];
+            x != a[i];
             k = i;
         }
         else
@@ -39,6 +40,7 @@ void sort(int a[], in low, int high)
 
 void main(void)
 {
+    !a
     int i;
     i = 0;
     while (i != 10)
