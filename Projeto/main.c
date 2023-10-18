@@ -103,7 +103,7 @@ int main(int argc, char *argv[]) {
                 if((linha_atual != lex->linha)){//logica para verificar se esta na mesma linha, se estiver printa apenas uma vez
                     if(buffer->data[0] != '\0'){//para nao printar o restando do buffer vazio
 
-                        printf("---------------ERRO LÉXICO-------------------\n");
+                        printf("---------------ERRO LEXICO-------------------\n");
                         printf("-> %s\n", buffer->data);
                         printf("-> CARACTERE \"%c\" NAO RECONHECIDO\n", c);//mostrar letra que nao e aceita
                         printf("-> LINHA: %d\n", lex->linha);
