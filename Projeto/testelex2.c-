@@ -1,8 +1,7 @@
 int x[10]
 
 int &minloc(int a[], int low, int high)
-{ 
-    char = juan123
+{
     !a
     int i; int k; int x ;
     k = low;

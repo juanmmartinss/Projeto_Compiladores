@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define HASH_SIZE 28
+
 typedef enum token{
     ELSE, IF, INT, RETURN, VOID, WHILE, ID, NUM, PLUS, MINUS, TIMES, OVER, LT, LE, GT, GE, EQ, NE, ASSIGN, SEMI,
      COMMA, LPAREN, RPAREN, LBRACKET, RBRACKET, LBRACE, RBRACE, MAIN, PRINTF, ERROR
@@ -26,6 +28,12 @@ typedef struct lex{
     int aux;
     int jaleu;
 }Lex;
+
+typedef struct hash{
+    char *palavra;
+    TokenType token;
+    struct hash *prox;
+}PalavraReservada;
 
 
 Buffer *allocate_buffer(int size);// aloca a memoria do buffer

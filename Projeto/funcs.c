@@ -5,6 +5,37 @@
 #include <ctype.h>
 #include <stdbool.h>
 
+PalavraReservada tabela_hash[HASH_SIZE] = {
+  {"if", IF},
+  {"else", ELSE},
+  {"int", INT},
+  {"return", RETURN},
+  {"void", VOID},
+  {"while", WHILE},
+  {"num", NUM},
+  {"+", PLUS},
+  {"-", MINUS},
+  {"*", TIMES},
+  {"/", OVER},
+  {"<", LT},
+  {"<=", LE},
+  {">", GT},
+  {">=", GE},
+  {"==", EQ},
+  {"!=", NE},
+  {"=", ASSIGN},
+  {";", SEMI},
+  {",", COMMA},
+  {"(", LPAREN},
+  {")", RPAREN},
+  {"[", LBRACKET},
+  {"]", RBRACKET},
+  {"{", LBRACE},
+  {"}", RBRACE},
+  {"main", MAIN},
+  {"printf", PRINTF}
+};
+
 int matriz_dfa[16][21] = {
                          {2, 3, 16, 16, 16, 16, 16, 16, 16, 16, 16, 4, 12, 8, 10, 9, 16, 16, 16, 1, 18},
                          {2, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 18},
@@ -180,96 +211,115 @@ int Tabela_DFA(Lex *lex, char letra, Buffer *buffer) {
 
 
 
-void Verifica_palavra_reservada(char *palavra, Lex *lex){
+// void Verifica_palavra_reservada(char *palavra, Lex *lex){
 
-  if (strcmp(palavra, "if") == 0){
-    lex->token = IF;
-  }
-  else if (strcmp(palavra, "else") == 0){ 
-    lex->token = ELSE;
-  }
-  else if (strcmp(palavra, "int") == 0){
-    lex->token = INT;
-  }
-  else if (strcmp(palavra, "return") == 0){
-    lex->token = RETURN;
-  }
-  else if (strcmp(palavra, "void") == 0){
-    lex->token = VOID;
-  }
-  else if (strcmp(palavra, "while") == 0){
-    lex->token = WHILE;
-  }
-  else if (strcmp(palavra, "num") == 0){
-    lex->token = NUM;
-  }
-  else if (strcmp(palavra, "-") == 0){
-    lex->token = MINUS;
-  }
-  else if (strcmp(palavra, "+") == 0){
-    lex->token = PLUS;
-  }
-  else if (strcmp(palavra, "*") == 0){
-    lex->token = TIMES;
-  }
-  else if (strcmp(palavra, "/") == 0){
-    lex->token = OVER;
-  }
-  else if (strcmp(palavra, "<") == 0){
-    lex->token = LT;
-  }
-  else if (strcmp(palavra, "<=") == 0){
-    lex->token = LE;
-  }
-  else if (strcmp(palavra, ">") == 0){
-    lex->token = GT;
-  }
-  else if (strcmp(palavra, ">=") == 0){
-    lex->token = GE;
-  }
-  else if (strcmp(palavra, "==") == 0){
-    lex->token = EQ;
-  }
-  else if (strcmp(palavra, "!=") == 0){
-    lex->token = NE;
-  }
-  else if (strcmp(palavra, "=") == 0){
-    lex->token = ASSIGN;
-  }
-  else if (strcmp(palavra, ";") == 0){
-    lex->token = SEMI;
-  }
-  else if (strcmp(palavra, ",") == 0){
-    lex->token = COMMA;
-  }
-  else if (strcmp(palavra, "(") == 0){
-    lex->token = LPAREN;
-  }
-  else if (strcmp(palavra, ")") == 0){
-    lex->token = RPAREN;
-  }
-  else if (strcmp(palavra, "[") == 0){
-    lex->token = LBRACKET;
-  }
-  else if (strcmp(palavra, "]") == 0){
-    lex->token = RBRACKET;
-  }
-  else if (strcmp(palavra, "{") == 0){
-    lex->token = LBRACE;
-  }
-  else if (strcmp(palavra, "}") == 0){
-    lex->token = RBRACE;
-  }
-  else if (strcmp(palavra, "main") == 0){
-    lex->token = MAIN;
-  }
-  else if (strcmp(palavra, "printf") == 0){
-    lex->token = PRINTF;
-  }
-  else{
+//   if (strcmp(palavra, "if") == 0){
+//     lex->token = IF;
+//   }
+//   else if (strcmp(palavra, "else") == 0){ 
+//     lex->token = ELSE;
+//   }
+//   else if (strcmp(palavra, "int") == 0){
+//     lex->token = INT;
+//   }
+//   else if (strcmp(palavra, "return") == 0){
+//     lex->token = RETURN;
+//   }
+//   else if (strcmp(palavra, "void") == 0){
+//     lex->token = VOID;
+//   }
+//   else if (strcmp(palavra, "while") == 0){
+//     lex->token = WHILE;
+//   }
+//   else if (strcmp(palavra, "num") == 0){
+//     lex->token = NUM;
+//   }
+//   else if (strcmp(palavra, "-") == 0){
+//     lex->token = MINUS;
+//   }
+//   else if (strcmp(palavra, "+") == 0){
+//     lex->token = PLUS;
+//   }
+//   else if (strcmp(palavra, "*") == 0){
+//     lex->token = TIMES;
+//   }
+//   else if (strcmp(palavra, "/") == 0){
+//     lex->token = OVER;
+//   }
+//   else if (strcmp(palavra, "<") == 0){
+//     lex->token = LT;
+//   }
+//   else if (strcmp(palavra, "<=") == 0){
+//     lex->token = LE;
+//   }
+//   else if (strcmp(palavra, ">") == 0){
+//     lex->token = GT;
+//   }
+//   else if (strcmp(palavra, ">=") == 0){
+//     lex->token = GE;
+//   }
+//   else if (strcmp(palavra, "==") == 0){
+//     lex->token = EQ;
+//   }
+//   else if (strcmp(palavra, "!=") == 0){
+//     lex->token = NE;
+//   }
+//   else if (strcmp(palavra, "=") == 0){
+//     lex->token = ASSIGN;
+//   }
+//   else if (strcmp(palavra, ";") == 0){
+//     lex->token = SEMI;
+//   }
+//   else if (strcmp(palavra, ",") == 0){
+//     lex->token = COMMA;
+//   }
+//   else if (strcmp(palavra, "(") == 0){
+//     lex->token = LPAREN;
+//   }
+//   else if (strcmp(palavra, ")") == 0){
+//     lex->token = RPAREN;
+//   }
+//   else if (strcmp(palavra, "[") == 0){
+//     lex->token = LBRACKET;
+//   }
+//   else if (strcmp(palavra, "]") == 0){
+//     lex->token = RBRACKET;
+//   }
+//   else if (strcmp(palavra, "{") == 0){
+//     lex->token = LBRACE;
+//   }
+//   else if (strcmp(palavra, "}") == 0){
+//     lex->token = RBRACE;
+//   }
+//   else if (strcmp(palavra, "main") == 0){
+//     lex->token = MAIN;
+//   }
+//   else if (strcmp(palavra, "printf") == 0){
+//     lex->token = PRINTF;
+//   }
+//   else{
+//     lex->token = ID;
+//   }
+
+// }
+void Verifica_palavra_reservada(char *palavra, Lex *lex) {
+    int hash = 0;
+    int counter = 0; // add a counter variable
+    for (int i = 0; palavra[i] != '\0'; i++) {
+        hash = (hash * 31 + palavra[i]) % HASH_SIZE;
+    }
+    while (strcmp(tabela_hash[hash].palavra, "") != 0) {
+        if (strcmp(palavra, tabela_hash[hash].palavra) == 0) {
+            lex->token = tabela_hash[hash].token;
+            return;
+        }
+        hash = (hash + 1) % HASH_SIZE;
+        counter++; // increment the counter
+        if (counter > HASH_SIZE) { // break out of the loop if the counter exceeds HASH_SIZE
+            break;
+        }
+    }
     lex->token = ID;
-  }
-
 }
  
 char* Pega_ID(int valor_letra, Lex *lex){
