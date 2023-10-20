@@ -175,7 +175,7 @@ int pega_valor_para_matriz(char letra){
 int Tabela_DFA(Lex *lex, char letra, Buffer *buffer) {
     int estado;
     int valor;
-    int isSpecialChar = 0; // Flag to track if the character is a special character
+    int isSpecialChar = 0; // flag para verificar se o caracter é especial, para não armazenar no buffer
     //lex->aux = 0;
 
     if (lex->estado != 17 && lex->estado != 18) {
@@ -191,131 +191,39 @@ int Tabela_DFA(Lex *lex, char letra, Buffer *buffer) {
     }
     
 
-    if (lex->estado == 17) { // If the state is 16, the lexeme is a symbol (acceptance state)
+    if (lex->estado == 17) { // Aceita o estado 17, que é o estado final
         isSpecialChar = 1;
     }
 
-    if (lex->estado == 18) {//se o estado for 17, o lexema é um erro
+    if (lex->estado == 18) {//se o estado for 18, o lexema é um erro
         lex->aux = 1;
         return 1;
     }
 
     if (!isSpecialChar) {// se não for um caracter especial, armazena no buffer
-        buffer->data[buffer->pos - 1] = letra; // Store the last letter in the buffer if it's not a special character
+        buffer->data[buffer->pos - 1] = letra; // Armazena o caracter no buffer, na posição atual
     } else {
-        buffer->pos--; // Move back one position in the buffer to include the special character in the next lexeme
+        buffer->pos--; // Move o ponteiro do buffer para a posição anterior, para não armazenar o caracter especial
     }
 
     return isSpecialChar;
 }
 
-
-
-// void Verifica_palavra_reservada(char *palavra, Lex *lex){
-
-//   if (strcmp(palavra, "if") == 0){
-//     lex->token = IF;
-//   }
-//   else if (strcmp(palavra, "else") == 0){ 
-//     lex->token = ELSE;
-//   }
-//   else if (strcmp(palavra, "int") == 0){
-//     lex->token = INT;
-//   }
-//   else if (strcmp(palavra, "return") == 0){
-//     lex->token = RETURN;
-//   }
-//   else if (strcmp(palavra, "void") == 0){
-//     lex->token = VOID;
-//   }
-//   else if (strcmp(palavra, "while") == 0){
-//     lex->token = WHILE;
-//   }
-//   else if (strcmp(palavra, "num") == 0){
-//     lex->token = NUM;
-//   }
-//   else if (strcmp(palavra, "-") == 0){
-//     lex->token = MINUS;
-//   }
-//   else if (strcmp(palavra, "+") == 0){
-//     lex->token = PLUS;
-//   }
-//   else if (strcmp(palavra, "*") == 0){
-//     lex->token = TIMES;
-//   }
-//   else if (strcmp(palavra, "/") == 0){
-//     lex->token = OVER;
-//   }
-//   else if (strcmp(palavra, "<") == 0){
-//     lex->token = LT;
-//   }
-//   else if (strcmp(palavra, "<=") == 0){
-//     lex->token = LE;
-//   }
-//   else if (strcmp(palavra, ">") == 0){
-//     lex->token = GT;
-//   }
-//   else if (strcmp(palavra, ">=") == 0){
-//     lex->token = GE;
-//   }
-//   else if (strcmp(palavra, "==") == 0){
-//     lex->token = EQ;
-//   }
-//   else if (strcmp(palavra, "!=") == 0){
-//     lex->token = NE;
-//   }
-//   else if (strcmp(palavra, "=") == 0){
-//     lex->token = ASSIGN;
-//   }
-//   else if (strcmp(palavra, ";") == 0){
-//     lex->token = SEMI;
-//   }
-//   else if (strcmp(palavra, ",") == 0){
-//     lex->token = COMMA;
-//   }
-//   else if (strcmp(palavra, "(") == 0){
-//     lex->token = LPAREN;
-//   }
-//   else if (strcmp(palavra, ")") == 0){
-//     lex->token = RPAREN;
-//   }
-//   else if (strcmp(palavra, "[") == 0){
-//     lex->token = LBRACKET;
-//   }
-//   else if (strcmp(palavra, "]") == 0){
-//     lex->token = RBRACKET;
-//   }
-//   else if (strcmp(palavra, "{") == 0){
-//     lex->token = LBRACE;
-//   }
-//   else if (strcmp(palavra, "}") == 0){
-//     lex->token = RBRACE;
-//   }
-//   else if (strcmp(palavra, "main") == 0){
-//     lex->token = MAIN;
-//   }
-//   else if (strcmp(palavra, "printf") == 0){
-//     lex->token = PRINTF;
-//   }
-//   else{
-//     lex->token = ID;
-//   }
-
-// }
 void Verifica_palavra_reservada(char *palavra, Lex *lex) {
     int hash = 0;
-    int counter = 0; // add a counter variable
-    for (int i = 0; palavra[i] != '\0'; i++) {
-        hash = (hash * 31 + palavra[i]) % HASH_SIZE;
+    int counter = 0; // contador para verificar se o loop esta em loop infinito
+
+    for (int i = 0; palavra[i] != '\0'; i++) {//pega o tamanho da palavra
+        hash = (hash * 31 + palavra[i]) % HASH_SIZE;//faz o hash da palavra, para saber em qual posição da tabela hash ela esta
     }
-    while (strcmp(tabela_hash[hash].palavra, "") != 0) {
-        if (strcmp(palavra, tabela_hash[hash].palavra) == 0) {
+    while (strcmp(tabela_hash[hash].palavra, "") != 0) {//verifica se a palavra é igual a palavra da tabela hash
+        if (strcmp(palavra, tabela_hash[hash].palavra) == 0) {//se for igual, armazena o token
             lex->token = tabela_hash[hash].token;
-            return;
+            return;//retorna para a main, para nao continuar o loop
         }
-        hash = (hash + 1) % HASH_SIZE;
-        counter++; // increment the counter
-        if (counter > HASH_SIZE) { // break out of the loop if the counter exceeds HASH_SIZE
+        hash = (hash + 1) % HASH_SIZE;//se não for igual, incrementa o hash para verificar a proxima palavra
+        counter++; // incrementa o contador
+        if (counter > HASH_SIZE) { // se o contador for maior que o tamanho da tabela hash, sai do loop
             break;
         }
     }
