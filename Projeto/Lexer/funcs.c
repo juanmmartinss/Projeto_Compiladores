@@ -39,8 +39,8 @@ PalavraReservada tabela_hash[HASH_SIZE] = {
 int matriz_dfa[16][21] = {
                          {2, 3, 16, 16, 16, 16, 16, 16, 16, 16, 16, 4, 12, 8, 10, 9, 16, 16, 16, 1, 18},
                          {2, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 18},
-                         {17, 3, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 18, 18},
-                         {17, 17, 5, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 4, 18},
+                         {17, 3, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 18},
+                         {17, 17, 5, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 17, 18},
                          {5, 5, 6, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5},
                          {5, 5, 6, 5, 5, 5, 5, 5, 5, 5, 5, 7, 5, 5, 5, 5, 5, 5, 5, 5, 5},
                          {17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 18},
@@ -189,6 +189,8 @@ int Tabela_DFA(Lex *lex, char letra, Buffer *buffer) {
 
         lex->estado = matriz_dfa[estado][valor];
     }
+
+    //printf("matriz[%d][%d] = %d\n", estado, valor, lex->estado);
     
 
     if (lex->estado == 17) { // Aceita o estado 17, que é o estado final
@@ -214,6 +216,7 @@ void Verifica_palavra_reservada(char *palavra, Lex *lex) {
     int counter = 0; // contador para verificar se o loop esta em loop infinito
 
     for (int i = 0; palavra[i] != '\0'; i++) {//pega o tamanho da palavra
+        //printf("palavra[%d] = %c\n", i, palavra[i]);
         hash = (hash * 31 + palavra[i]) % HASH_SIZE;//faz o hash da palavra, para saber em qual posição da tabela hash ela esta
     }
     while (strcmp(tabela_hash[hash].palavra, "") != 0) {//verifica se a palavra é igual a palavra da tabela hash
@@ -352,3 +355,5 @@ char* Pega_ID(int valor_letra, Lex *lex){
   }
 
 }
+
+/* /* aabc ******asva      */
