@@ -5,36 +5,6 @@
 #include <ctype.h>
 #include <stdbool.h>
 
-PalavraReservada tabela_hash[HASH_SIZE] = {
-  {"if", IF},
-  {"else", ELSE},
-  {"int", INT},
-  {"return", RETURN},
-  {"void", VOID},
-  {"while", WHILE},
-  {"num", NUM},
-  {"+", PLUS},
-  {"-", MINUS},
-  {"*", TIMES},
-  {"/", OVER},
-  {"<", LT},
-  {"<=", LE},
-  {">", GT},
-  {">=", GE},
-  {"==", EQ},
-  {"!=", NE},
-  {"=", ASSIGN},
-  {";", SEMI},
-  {",", COMMA},
-  {"(", LPAREN},
-  {")", RPAREN},
-  {"[", LBRACKET},
-  {"]", RBRACKET},
-  {"{", LBRACE},
-  {"}", RBRACE},
-  {"main", MAIN},
-  {"printf", PRINTF}
-};
 
 int matriz_dfa[16][21] = {
                          {2, 3, 16, 16, 16, 16, 16, 16, 16, 16, 16, 4, 12, 8, 10, 9, 16, 16, 16, 1, 18},
@@ -211,26 +181,112 @@ int Tabela_DFA(Lex *lex, char letra, Buffer *buffer) {
     return isSpecialChar;
 }
 
-void Verifica_palavra_reservada(char *palavra, Lex *lex) {
-    int hash = 0;
-    int counter = 0; // contador para verificar se o loop esta em loop infinito
+No* novo_no(char *palavra, TokenType token) {
+    No *novo = (No*) malloc(sizeof(No));
+    novo->palavra = palavra;
+    novo->token = token;
+    novo->esquerda = NULL;
+    novo->direita = NULL;
+    return novo;
+}
 
-    for (int i = 0; palavra[i] != '\0'; i++) {//pega o tamanho da palavra
-        //printf("palavra[%d] = %c\n", i, palavra[i]);
-        hash = (hash * 31 + palavra[i]) % HASH_SIZE;//faz o hash da palavra, para saber em qual posição da tabela hash ela esta
+No* insere_no(No *raiz, char *palavra, TokenType token) {
+    if (raiz == NULL) {
+        return novo_no(palavra, token);
     }
-    while (strcmp(tabela_hash[hash].palavra, "") != 0) {//verifica se a palavra é igual a palavra da tabela hash
-        if (strcmp(palavra, tabela_hash[hash].palavra) == 0) {//se for igual, armazena o token
-            lex->token = tabela_hash[hash].token;
-            return;//retorna para a main, para nao continuar o loop
-        }
-        hash = (hash + 1) % HASH_SIZE;//se não for igual, incrementa o hash para verificar a proxima palavra
-        counter++; // incrementa o contador
-        if (counter > HASH_SIZE) { // se o contador for maior que o tamanho da tabela hash, sai do loop
-            break;
-        }
+    int cmp = strcmp(palavra, raiz->palavra);
+    if (cmp < 0) {
+        raiz->esquerda = insere_no(raiz->esquerda, palavra, token);
+    } else if (cmp > 0) {
+        raiz->direita = insere_no(raiz->direita, palavra, token);
+    } else {
+        // A palavra já existe na árvore
+        free(palavra);
     }
-    lex->token = ID;
+    return raiz;
+}
+
+No* busca_no(No *raiz, char *palavra) {
+    if (raiz == NULL || strcmp(palavra, raiz->palavra) == 0) {
+        return raiz;
+    }
+    if (strcmp(palavra, raiz->palavra) < 0) {
+        return busca_no(raiz->esquerda, palavra);
+    } else {
+        return busca_no(raiz->direita, palavra);
+    }
+}
+
+void libera_arvore(No *raiz) {
+    if (raiz != NULL) {
+        libera_arvore(raiz->esquerda);
+        libera_arvore(raiz->direita);
+        free(raiz->palavra);
+        free(raiz);
+    }
+}
+
+void Verifica_palavra_reservada(char *palavra, Lex *lex) {
+    static No *raiz = NULL; // Árvore binária de busca balanceada
+    if (raiz == NULL) {
+        raiz = novo_no("else", ELSE);
+        // Inicializa a árvore binária de busca com as palavras reservadas
+        raiz = insere_no(raiz, "if", IF);
+        raiz = insere_no(raiz, "int", INT);
+        raiz = insere_no(raiz, "return", RETURN);
+        raiz = insere_no(raiz, "void", VOID);
+        raiz = insere_no(raiz, "while", WHILE);
+        raiz = insere_no(raiz, "num", NUM);
+        //plus
+        raiz = insere_no(raiz, "+", PLUS);
+        //minus
+        raiz = insere_no(raiz, "-", MINUS);
+        //times
+        raiz = insere_no(raiz, "*", TIMES);
+        //over
+        raiz = insere_no(raiz, "/", OVER);
+        //lt
+        raiz = insere_no(raiz, "<", LT);
+        //le
+        raiz = insere_no(raiz, "<=", LE);
+        //gt
+        raiz = insere_no(raiz, ">", GT);
+        //ge
+        raiz = insere_no(raiz, ">=", GE);
+        //eq
+        raiz = insere_no(raiz, "==", EQ);
+        //ne
+        raiz = insere_no(raiz, "!=", NE);
+        //assign
+        raiz = insere_no(raiz, "=", ASSIGN);
+        //semi
+        raiz = insere_no(raiz, ";", SEMI);
+        //comma
+        raiz = insere_no(raiz, ",", COMMA);
+        //lparen
+        raiz = insere_no(raiz, "(", LPAREN);
+        //rparen
+        raiz = insere_no(raiz, ")", RPAREN);
+        //lbracket
+        raiz = insere_no(raiz, "[", LBRACKET);
+        //rbracket
+        raiz = insere_no(raiz, "]", RBRACKET);
+        //lbrace
+        raiz = insere_no(raiz, "{", LBRACE);
+        //rbrace
+        raiz = insere_no(raiz, "}", RBRACE);
+        
+        raiz = insere_no(raiz, "main", MAIN);
+        raiz = insere_no(raiz, "printf", PRINTF);
+
+        
+    }
+    No *no = busca_no(raiz, palavra);
+    if (no != NULL) {
+        lex->token = no->token;
+    } else {
+        lex->token = ID;
+    }
 }
  
 char* Pega_ID(int valor_letra, Lex *lex){

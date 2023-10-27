@@ -35,6 +35,12 @@ typedef struct hash{
     struct hash *prox;
 }PalavraReservada;
 
+typedef struct No {
+    char *palavra;
+    TokenType token;
+    struct No *esquerda;
+    struct No *direita;
+} No;
 
 Buffer *allocate_buffer(int size);// aloca a memoria do buffer
 void deallocate_buffer(Buffer *buffer);//desaloca a memoria do buffer
