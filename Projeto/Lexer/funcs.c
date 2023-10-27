@@ -226,6 +226,20 @@ void libera_arvore(No *raiz) {
     }
 }
 
+// void imprimir_arvore(No *raiz, int tab)
+// {
+//     if (raiz != NULL)
+//     {
+//         imprimir_arvore(raiz->esquerda, tab + 1);
+//         for (int i = 0; i < tab; i++)
+//         {
+//             printf("\t");
+//         }
+//         printf("%s\n", raiz->palavra);
+//         imprimir_arvore(raiz->direita, tab + 1);
+//     }
+// }
+
 void Verifica_palavra_reservada(char *palavra, Lex *lex) {
     static No *raiz = NULL; // Árvore binária de busca balanceada
     if (raiz == NULL) {
@@ -281,13 +295,19 @@ void Verifica_palavra_reservada(char *palavra, Lex *lex) {
 
         
     }
+
+
+
     No *no = busca_no(raiz, palavra);
     if (no != NULL) {
         lex->token = no->token;
     } else {
         lex->token = ID;
     }
+
+    imprimir_arvore(raiz, 1);
 }
+
  
 char* Pega_ID(int valor_letra, Lex *lex){
 
