@@ -120,6 +120,8 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    free(pega_carac);
+
     deallocate_buffer(buffer);
     free(lex); // Libere a memória alocada para lex
     fclose(input_file);
