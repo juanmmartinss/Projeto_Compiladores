@@ -50,4 +50,8 @@ int pega_valor_para_matriz(char letra);
 void Verifica_palavra_reservada(char *palavra, Lex *lex);
 char* Pega_ID(int valor_letra, Lex *lex);
 int Tabela_DFA(Lex *lex, char letra, Buffer *buffer);
+No* novo_no(char *palavra, TokenType token);
+No* insere_no(No *raiz, char *palavra, TokenType token);
+No* busca_no(No *raiz, char *palavra);
+void libera_arvore(No *raiz);
 
