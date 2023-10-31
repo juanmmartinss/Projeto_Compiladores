@@ -282,8 +282,6 @@ void Verifica_palavra_reservada(char *palavra, Lex *lex) {
         
     }
 
-
-
     No *no = busca_no(raiz, palavra);
     if (no != NULL) {
         lex->token = no->token;
