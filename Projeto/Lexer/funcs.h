@@ -35,7 +35,7 @@ typedef struct hash{
     struct hash *prox;
 }PalavraReservada;
 
-typedef struct no {
+typedef struct No {
     char *palavra;
     TokenType token;
     struct No *esquerda;
