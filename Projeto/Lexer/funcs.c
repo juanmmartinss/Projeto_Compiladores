@@ -7,6 +7,8 @@
 
 
 int matriz_dfa[16][21] = {
+
+
                          {2, 3, 16, 16, 16, 16, 16, 16, 16, 16, 16, 4, 12, 8, 10, 9, 16, 16, 16, 1, 18},
                          {2, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 18},
                          {17, 3, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 18},
@@ -25,6 +27,27 @@ int matriz_dfa[16][21] = {
                          {17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17},
                          };
 
+void printa_arvore(No *raiz, int nivel) {
+    if (raiz != NULL) {
+        printa_arvore(raiz->esquerda, nivel + 1);
+        for (int i = 0; i < nivel; i++) {
+            printf("  ");
+        }
+        printf("%s\n", raiz->palavra);
+        printa_arvore(raiz->direita, nivel + 1);
+    }
+    // else {
+    //   printf("Arvore vazia\n");
+    // }
+}
+
+void chama_printa(){
+  printa_arvore(raiz, 0);
+}
+
+void chama_desaloca_arvore(){
+  libera_arvore(raiz);
+}
 
 Buffer *allocate_buffer(int size) {
     Buffer *buffer = (Buffer*)malloc(sizeof(Buffer));
@@ -51,7 +74,6 @@ char* enche_buffer(Buffer *buffer, FILE *arq) {
     return str;
 }
 
-
 char get_next_char(Buffer *buffer, FILE *arq, Lex *lex) {
     if (buffer->pos >= buffer->size) {
         if (enche_buffer(buffer, arq) == NULL) {
@@ -70,7 +92,6 @@ char get_next_char(Buffer *buffer, FILE *arq, Lex *lex) {
     return buffer->data[buffer->pos++];
 
 }
-
 
 int pega_valor_para_matriz(char letra){
   int valor;
@@ -190,7 +211,7 @@ No* novo_no(char *palavra, TokenType token) {
     return novo;
 }
 
-No* insere_no(No *raiz, char *palavra, TokenType token) {
+No* insere_no(No *raiz, char *palavra, TokenType token) {//insere na arvore
     if (raiz == NULL) {
         return novo_no(palavra, token);
     }
@@ -206,7 +227,7 @@ No* insere_no(No *raiz, char *palavra, TokenType token) {
     return raiz;
 }
 
-No* busca_no(No *raiz, char *palavra) {
+No* busca_no(No *raiz, char *palavra) {//busca na arvore se a palavra é uma palavra reservada
     if (raiz == NULL || strcmp(palavra, raiz->palavra) == 0) {
         return raiz;
     }
@@ -227,7 +248,7 @@ void libera_arvore(No *raiz) {
 }
 
 void Verifica_palavra_reservada(char *palavra, Lex *lex) {
-    static No *raiz = NULL; // Árvore binária de busca balanceada
+    //static No *raiz = NULL; // Árvore binária de busca balanceada
     if (raiz == NULL) {
         raiz = novo_no("else", ELSE);
         // Inicializa a árvore binária de busca com as palavras reservadas
@@ -289,8 +310,9 @@ void Verifica_palavra_reservada(char *palavra, Lex *lex) {
         lex->token = ID;
     }
 
-}
+    //printa_arvore(raiz, 1);
 
+}
  
 char* Pega_ID(int valor_letra, Lex *lex){
 
@@ -414,5 +436,3 @@ char* Pega_ID(int valor_letra, Lex *lex){
   }
 
 }
-
-/* /* aabc ******asva      */

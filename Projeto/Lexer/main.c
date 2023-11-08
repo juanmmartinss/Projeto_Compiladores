@@ -4,6 +4,8 @@
 #include <string.h>
 #include <ctype.h>
 
+//raiz = NULL;
+
 int main(int argc, char *argv[]) {
     
 
@@ -118,10 +120,25 @@ int main(int argc, char *argv[]) {
             controle = 0;
 
         }
+
+        //chama_printa();
     }
+
+    //printa_arvore(raiz);
+    //chama_printa();
+    //chama_desaloca_arvore();
+
+    
     
     deallocate_buffer(buffer);
     free(lex); // Libere a memória alocada para lex
+    //free(pega_carac);
+    //printa buffer
+    //printf("buffer->data: %s\n", buffer->data);
+    //pega_carac = NULL;
+    //libera_arvore(raiz);
+
+
     fclose(input_file);
 
 

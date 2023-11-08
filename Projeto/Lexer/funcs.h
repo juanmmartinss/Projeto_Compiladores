@@ -4,6 +4,8 @@
 
 #define HASH_SIZE 28
 
+
+
 typedef enum token{
     ELSE, IF, INT, RETURN, VOID, WHILE, ID, NUM, PLUS, MINUS, TIMES, OVER, LT, LE, GT, GE, EQ, NE, ASSIGN, SEMI,
      COMMA, LPAREN, RPAREN, LBRACKET, RBRACKET, LBRACE, RBRACE, MAIN, PRINTF, ERROR
@@ -35,12 +37,15 @@ typedef struct hash{
     struct hash *prox;
 }PalavraReservada;
 
-typedef struct No {
+typedef struct no {
     char *palavra;
     TokenType token;
-    struct No *esquerda;
-    struct No *direita;
+    struct no *esquerda;
+    struct no *direita;
 } No;
+
+static No *raiz = NULL; // Árvore binária de busca balanceada
+
 
 Buffer *allocate_buffer(int size);// aloca a memoria do buffer
 void deallocate_buffer(Buffer *buffer);//desaloca a memoria do buffer
@@ -54,4 +59,8 @@ No* novo_no(char *palavra, TokenType token);
 No* insere_no(No *raiz, char *palavra, TokenType token);
 No* busca_no(No *raiz, char *palavra);
 void libera_arvore(No *raiz);
+void chama_printa();
+void chama_desaloca_arvore();
+
+void printa_arvore(No *raiz, int nivel);
 
