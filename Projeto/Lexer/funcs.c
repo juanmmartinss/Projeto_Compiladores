@@ -68,6 +68,7 @@ void deallocate_buffer(Buffer *buffer) {
         printf("buffer->data: |%s|\n", buffer->data);
         free(buffer->data);
         free(buffer);// Liberar o buffer
+        buffer = NULL;
     }
     else{
         printf("buffer nulo");
