@@ -80,8 +80,15 @@ char* enche_buffer(Buffer *buffer, FILE *arq) {
     memset(buffer->data, '\0', buffer->size);
     char *str = fgets(buffer->data, buffer->size, arq);
 
+    // Adiciona um caractere de nova linha fictício ao final do arquivo se necessário
+    if (str != NULL && !strchr(buffer->data, '\n') && feof(arq)) {
+        buffer->data[strlen(buffer->data)] = '\n';
+        str = buffer->data;
+    }
+
     return str;
 }
+
 
 char get_next_char(Buffer *buffer, FILE *arq, Lex *lex) {
     if (buffer->pos >= buffer->size) {
