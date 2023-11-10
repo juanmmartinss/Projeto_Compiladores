@@ -60,7 +60,6 @@ Buffer *allocate_buffer(int size) {
     return buffer;
 }
 
-
 void deallocate_buffer(Buffer *buffer) {
     if (buffer != NULL) { // Verificar se o buffer não é nulo antes de liberar
 
@@ -84,20 +83,21 @@ char* enche_buffer(Buffer *buffer, FILE *arq) {
 }
 
 char get_next_char(Buffer *buffer, FILE *arq, Lex *lex) {
-    if (buffer->pos >= buffer->size) {
+    if (buffer->pos >= buffer->size) {//verifica se o buffer esta cheio
         if (enche_buffer(buffer, arq) == NULL) {
             return '\0';
         }
         buffer->pos = 0;
     }
-    else if(buffer->data[buffer->pos] == '\0'){
-        if (enche_buffer(buffer, arq) == NULL) {
+    else if(buffer->data[buffer->pos] == '\0'){//verifica se o buffer esta vazio
+        if (enche_buffer(buffer, arq) == NULL) {//verifica se o buffer esta vazio
             return '\0';
         }
         lex->linha++;
         buffer->pos = 0;
     }
     
+
     return buffer->data[buffer->pos++];
 
 }
@@ -190,9 +190,8 @@ int Tabela_DFA(Lex *lex, char letra, Buffer *buffer) {
         lex->estado = matriz_dfa[estado][valor];
     }
 
-    //printf("matriz[%d][%d] = %d\n", estado, valor, lex->estado);
+    isSpecialChar = 0;
     
-
     if (lex->estado == 17) { // Aceita o estado 17, que é o estado final
         isSpecialChar = 1;
     }
@@ -322,7 +321,6 @@ void Verifica_palavra_reservada(char *palavra, Lex *lex) {
     //printa_arvore(raiz, 1);
 
 }
-
 
 char* Pega_ID(int valor_letra, Lex *lex) {
   static char pega_carac[64]; // Use 'static' to make the array persist across function calls
