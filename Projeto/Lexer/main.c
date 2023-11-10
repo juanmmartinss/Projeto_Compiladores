@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
     }
 
 
-    char* pega_carac = (char*)malloc(sizeof(char)*128);
+    char pega_carac[64];
     char letra;
     char c;
     int controle = 0;
@@ -94,9 +94,16 @@ int main(int argc, char *argv[]) {
 
                     if (aux[0] != '\0') { // Verifica se a string não está vazia.
 
-                        pega_carac = Pega_ID(lex->token, lex);//pega o token e o lexema e retorna o token em string 
+                        char* resultado = Pega_ID(lex->token, lex);
+        
+                        // Copia o conteúdo retornado pela função para pega_carac
+                        strcpy(pega_carac, resultado);
+
+                        //pega_carac = Pega_ID(lex->token, lex);//pega o token e o lexema e retorna o token em string 
 
                         printf("Token: %s, Linha: %d, Lexema: |%s| \n",pega_carac, lex->linha, aux);
+
+                        //free(pega_carac);
                     }
                 }
             }
@@ -120,7 +127,6 @@ int main(int argc, char *argv[]) {
             controle = 0;
 
         }
-
         //chama_printa();
     }
 
@@ -130,14 +136,19 @@ int main(int argc, char *argv[]) {
 
     
     
-    deallocate_buffer(buffer);
-    free(lex); // Libere a memória alocada para lex
+    //deallocate_buffer(buffer);
+    //free(lex); // Libere a memória alocada para lex
     //free(pega_carac);
     //printa buffer
     //printf("buffer->data: %s\n", buffer->data);
     //pega_carac = NULL;
     //libera_arvore(raiz);
 
+
+    //fclose(input_file);
+    deallocate_buffer(buffer);
+    free(lex); // Libere a memória alocada para lex
+    //free(pega_carac);
 
     fclose(input_file);
 

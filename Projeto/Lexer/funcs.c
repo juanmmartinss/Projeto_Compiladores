@@ -60,10 +60,18 @@ Buffer *allocate_buffer(int size) {
     return buffer;
 }
 
+
 void deallocate_buffer(Buffer *buffer) {
     if (buffer != NULL) { // Verificar se o buffer não é nulo antes de liberar
+
+        printf("entra no libera buffer\n");
+        printf("buffer->data: |%s|\n", buffer->data);
         free(buffer->data);
         free(buffer);// Liberar o buffer
+    }
+    else{
+        printf("buffer nulo");
+    
     }
 }
 
@@ -313,126 +321,70 @@ void Verifica_palavra_reservada(char *palavra, Lex *lex) {
     //printa_arvore(raiz, 1);
 
 }
- 
-char* Pega_ID(int valor_letra, Lex *lex){
 
-  char *pega_carac = (char*)malloc(sizeof(char)*64);
 
-  if (valor_letra == 0){
-    pega_carac = "ELSE";
-    return pega_carac;
-  }
-  else if (valor_letra == 1){
-    pega_carac = "IF";
-    return pega_carac;
-  }
-  else if (valor_letra == 2){
-    pega_carac = "INT";
-    return pega_carac;
-  }
-  else if (valor_letra == 3){
-    pega_carac = "RETURN";
-    return pega_carac;
-  }
-  else if (valor_letra == 4){
-    pega_carac = "VOID";
-    return pega_carac;
-  }
-  else if (valor_letra == 5){
-    pega_carac = "WHILE";
-    return pega_carac;
-  }
-  else if (valor_letra == 7){
-    pega_carac = "NUM";
-    return pega_carac;
-  }
-  else if (valor_letra == 8){
-    pega_carac = "PLUS";
-    return pega_carac;
-  }
-  else if (valor_letra == 9){
-    pega_carac = "MINUS";
-    return pega_carac;
-  }
-  else if (valor_letra == 10){
-    pega_carac = "TIMES";
-    return pega_carac;
-  }
-  else if (valor_letra == 11){
-    pega_carac = "OVER";
-    return pega_carac;
-  }
-  else if (valor_letra == 12){
-    pega_carac = "LT";
-    return pega_carac;
-  }
-  else if (valor_letra == 13){
-    pega_carac = "LE";
-    return pega_carac;
-  }
-  else if (valor_letra == 14){
-    pega_carac = "GT";
-    return pega_carac;
-  }
-  else if (valor_letra == 15){
-    pega_carac = "GE";
-    return pega_carac;
-  }
-  else if (valor_letra == 16){
-    pega_carac = "EQ";
-    return pega_carac;
-  }
-  else if (valor_letra == 17){
-    pega_carac = "NE";
-    return pega_carac;
-  }
-  else if (valor_letra == 18){
-    pega_carac = "ASSIGN";
-    return pega_carac;
-  }
-  else if (valor_letra == 19){
-    pega_carac = "SEMI";
-    return pega_carac;
-  }
-  else if (valor_letra == 20){
-    pega_carac = "COMMA";
-    return pega_carac;
-  }
-  else if (valor_letra == 21){
-    pega_carac = "LPAREN";
-    return pega_carac;
-  }
-  else if (valor_letra == 22){
-    pega_carac = "RPAREN";
-    return pega_carac;
-  }
-  else if (valor_letra == 23){
-    pega_carac = "LBRACKET";
-    return pega_carac;
-  }
-  else if (valor_letra == 24){
-    pega_carac = "RBRACKET";
-    return pega_carac;
-  }
-  else if (valor_letra == 25){
-    pega_carac = "LBRACE";
-    return pega_carac;
-  }
-  else if (valor_letra == 26){
-    pega_carac = "RBRACE";
-    return pega_carac;
-  }
-  else if (valor_letra == 27){
-    pega_carac = "MAIN";
-    return pega_carac;
-  }
-  else if (valor_letra == 28){
-    pega_carac = "PRINTF";
-    return pega_carac;
-  }
-  else {
-    pega_carac = "ID";
-    return pega_carac;
+char* Pega_ID(int valor_letra, Lex *lex) {
+  static char pega_carac[64]; // Use 'static' to make the array persist across function calls
+
+  if (valor_letra == 0) {
+    strcpy(pega_carac, "ELSE");
+  } else if (valor_letra == 1) {
+    strcpy(pega_carac, "IF");
+  } else if (valor_letra == 2) {
+    strcpy(pega_carac, "INT");
+  } else if (valor_letra == 3) {
+    strcpy(pega_carac, "RETURN");
+  } else if (valor_letra == 4) {
+    strcpy(pega_carac, "VOID");
+  } else if (valor_letra == 5) {
+    strcpy(pega_carac, "WHILE");
+  } else if (valor_letra == 7) {
+    strcpy(pega_carac, "NUM");
+  } else if (valor_letra == 8) {
+    strcpy(pega_carac, "PLUS");
+  } else if (valor_letra == 9) {
+    strcpy(pega_carac, "MINUS");
+  } else if (valor_letra == 10) {
+    strcpy(pega_carac, "TIMES");
+  } else if (valor_letra == 11) {
+    strcpy(pega_carac, "OVER");
+  } else if (valor_letra == 12) {
+    strcpy(pega_carac, "LT");
+  } else if (valor_letra == 13) {
+    strcpy(pega_carac, "LE");
+  } else if (valor_letra == 14) {
+    strcpy(pega_carac, "GT");
+  } else if (valor_letra == 15) {
+    strcpy(pega_carac, "GE");
+  } else if (valor_letra == 16) {
+    strcpy(pega_carac, "EQ");
+  } else if (valor_letra == 17) {
+    strcpy(pega_carac, "NE");
+  } else if (valor_letra == 18) {
+    strcpy(pega_carac, "ASSIGN");
+  } else if (valor_letra == 19) {
+    strcpy(pega_carac, "SEMI");
+  } else if (valor_letra == 20) {
+    strcpy(pega_carac, "COMMA");
+  } else if (valor_letra == 21) {
+    strcpy(pega_carac, "LPAREN");
+  } else if (valor_letra == 22) {
+    strcpy(pega_carac, "RPAREN");
+  } else if (valor_letra == 23) {
+    strcpy(pega_carac, "LBRACKET");
+  } else if (valor_letra == 24) {
+    strcpy(pega_carac, "RBRACKET");
+  } else if (valor_letra == 25) {
+    strcpy(pega_carac, "LBRACE");
+  } else if (valor_letra == 26) {
+    strcpy(pega_carac, "RBRACE");
+  } else if (valor_letra == 27) {
+    strcpy(pega_carac, "MAIN");
+  } else if (valor_letra == 28) {
+    strcpy(pega_carac, "PRINTF");
+  } else {
+    strcpy(pega_carac, "ID");
   }
 
+  return pega_carac;
 }
