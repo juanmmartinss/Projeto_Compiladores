@@ -28,7 +28,7 @@ typedef struct lex{
     int estado;
     char lexema[64];
     int aux;
-    int jaleu;
+    int teste;
 }Lex;
 
 typedef struct hash{

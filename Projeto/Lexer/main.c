@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
     }
 
 
-    char pega_carac[64];
+    char* pega_carac = (char*)malloc(sizeof(char)*128);
     char letra;
     char c;
     int controle = 0;
@@ -94,26 +94,20 @@ int main(int argc, char *argv[]) {
 
                     if (aux[0] != '\0') { // Verifica se a string não está vazia.
 
-                        char* resultado = Pega_ID(lex->token, lex);
-        
-                        // Copia o conteúdo retornado pela função para pega_carac
-                        strcpy(pega_carac, resultado);
-
-                        //pega_carac = Pega_ID(lex->token, lex);//pega o token e o lexema e retorna o token em string 
+                        pega_carac = Pega_ID(lex->token, lex);//pega o token e o lexema e retorna o token em string 
 
                         printf("Token: %s, Linha: %d, Lexema: |%s| \n",pega_carac, lex->linha, aux);
-
-                        //free(pega_carac);
                     }
+                    
                 }
             }
-            else{//se for um erro, printa a linha do erro
+            else if (lex->aux != 0){//se for um erro, printa a linha do erro
                 //printf("buffer->data dentro do else: %s\n", buffer->data);
                 if((linha_atual != lex->linha)){//logica para verificar se esta na mesma linha, se estiver printa apenas uma vez
                     if(buffer->data[0] != '\0'){//para nao printar o restando do buffer vazio
 
                         printf("---------------ERRO LEXICO-------------------\n");
-                        printf("-> %s\n", buffer->data);
+                        printf("-> |%s|\n", buffer->data);
                         printf("-> CARACTERE \"%c\" NAO RECONHECIDO\n", c);//mostrar letra que nao e aceita
                         printf("-> LINHA: %d\n", lex->linha);
                         printf("---------------------------------------------\n");
@@ -131,9 +125,9 @@ int main(int argc, char *argv[]) {
 
     deallocate_buffer(buffer);
     free(lex); // Libere a memória alocada para lex
-    //free(pega_carac);
-
     fclose(input_file);
+
+    
 
 
     return 0;
