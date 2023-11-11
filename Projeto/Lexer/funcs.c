@@ -8,9 +8,8 @@
 
 int matriz_dfa[16][21] = {
 
-
-                         {2, 3, 16, 16, 16, 16, 16, 16, 16, 16, 16, 4, 12, 8, 10, 9, 16, 16, 16, 1, 18},
-                         {2, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 18},
+            /*inicio*/   {2, 3, 16, 16, 16, 16, 16, 16, 16, 16, 16, 4, 12, 8, 10, 9, 16, 16, 16, 1, 18},
+            /*letras*/   {2, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 18},
                          {17, 3, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 18},
                          {17, 17, 5, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 17, 18},
                          {5, 5, 6, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5},
@@ -27,19 +26,19 @@ int matriz_dfa[16][21] = {
                          {17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17},
                          };
 
-void printa_arvore(No *raiz, int nivel) {
-    if (raiz != NULL) {
-        printa_arvore(raiz->esquerda, nivel + 1);
-        for (int i = 0; i < nivel; i++) {
-            printf("  ");
-        }
-        printf("%s\n", raiz->palavra);
-        printa_arvore(raiz->direita, nivel + 1);
-    }
-    // else {
-    //   printf("Arvore vazia\n");
-    // }
-}
+// void printa_arvore(No *raiz, int nivel) {
+//     if (raiz != NULL) {
+//         printa_arvore(raiz->esquerda, nivel + 1);
+//         for (int i = 0; i < nivel; i++) {
+//             printf("  ");
+//         }
+//         printf("%s\n", raiz->palavra);
+//         printa_arvore(raiz->direita, nivel + 1);
+//     }
+//     // else {
+//     //   printf("Arvore vazia\n");
+//     // }
+// }
 
 void chama_printa(){
   printa_arvore(raiz, 0);
@@ -48,6 +47,7 @@ void chama_printa(){
 void chama_desaloca_arvore(){
   libera_arvore(raiz);
 }
+
 
 Buffer *allocate_buffer(int size) {
     Buffer *buffer = (Buffer*)malloc(sizeof(Buffer));
@@ -63,8 +63,6 @@ Buffer *allocate_buffer(int size) {
 void deallocate_buffer(Buffer *buffer) {
     if (buffer != NULL) { // Verificar se o buffer não é nulo antes de liberar
 
-        printf("entra no libera buffer\n");
-        printf("buffer->data: |%s|\n", buffer->data);
         free(buffer->data);
         free(buffer);// Liberar o buffer
         buffer = NULL;

@@ -28,7 +28,6 @@ typedef struct lex{
     int estado;
     char lexema[64];
     int aux;
-    int teste;
 }Lex;
 
 typedef struct hash{
@@ -59,8 +58,7 @@ No* novo_no(char *palavra, TokenType token);
 No* insere_no(No *raiz, char *palavra, TokenType token);
 No* busca_no(No *raiz, char *palavra);
 void libera_arvore(No *raiz);
-void chama_printa();
 void chama_desaloca_arvore();
 
-void printa_arvore(No *raiz, int nivel);
+// void printa_arvore(No *raiz, int nivel);
 

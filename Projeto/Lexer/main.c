@@ -53,6 +53,7 @@ int main(int argc, char *argv[]) {
 
     while ((letra = get_next_char(buffer, input_file, lex)) != '\0') {//pega a linha do arquivo e coloca no buffer
 
+
         buffer->pos = 0;
        //pega a linha do arquivo, e coloca no contador para armazenar em qual linha esta o lexema
 
@@ -106,8 +107,8 @@ int main(int argc, char *argv[]) {
                 if((linha_atual != lex->linha)){//logica para verificar se esta na mesma linha, se estiver printa apenas uma vez
                     if(buffer->data[0] != '\0'){//para nao printar o restando do buffer vazio
 
-                        printf("---------------ERRO LEXICO-------------------\n");
-                        printf("-> |%s|\n", buffer->data);
+                        printf("-----------------ERRO LEXICO-----------------\n");
+                        printf("-> %s", buffer->data);
                         printf("-> CARACTERE \"%c\" NAO RECONHECIDO\n", c);//mostrar letra que nao e aceita
                         printf("-> LINHA: %d\n", lex->linha);
                         printf("---------------------------------------------\n");
@@ -123,8 +124,11 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    deallocate_buffer(buffer);
+    deallocate_buffer(buffer->data);
+    libera_arvore(raiz);
+    //chama_desaloca_buffer(buffer);
     free(lex); // Libere a memória alocada para lex
+
     fclose(input_file);
 
     
