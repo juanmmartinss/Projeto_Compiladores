@@ -124,9 +124,8 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    deallocate_buffer(buffer->data);
+    deallocate_buffer(buffer);
     libera_arvore(raiz);
-    //chama_desaloca_buffer(buffer);
     free(lex); // Libere a memória alocada para lex
 
     fclose(input_file);

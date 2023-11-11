@@ -12,7 +12,7 @@ int matriz_dfa[16][21] = {
             /*letras*/   {2, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 18},
                          {17, 3, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 18},
                          {17, 17, 5, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 17, 18},
-                         {5, 5, 6, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5},
+                         {5, 5, 6, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5},//cometario, lexico ou sintatico?
                          {5, 5, 6, 5, 5, 5, 5, 5, 5, 5, 5, 7, 5, 5, 5, 5, 5, 5, 5, 5, 5},
                          {17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 18},
                          {17, 17, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 15, 18, 18, 18, 18, 18, 18, 17, 18},
@@ -40,13 +40,13 @@ int matriz_dfa[16][21] = {
 //     // }
 // }
 
-void chama_printa(){
-  printa_arvore(raiz, 0);
-}
+// void chama_printa(){
+//   printa_arvore(raiz, 0);
+// }
 
-void chama_desaloca_arvore(){
-  libera_arvore(raiz);
-}
+// void chama_desaloca_arvore(){
+//   libera_arvore(raiz);
+// }
 
 
 Buffer *allocate_buffer(int size) {
@@ -74,7 +74,7 @@ void deallocate_buffer(Buffer *buffer) {
 }
 
 char* enche_buffer(Buffer *buffer, FILE *arq) {
-    memset(buffer->data, '\0', buffer->size);
+    memset(buffer->data, '\0', buffer->size);//preenche o buffer com \0, para não ter lixo de memoria
     char *str = fgets(buffer->data, buffer->size, arq);
 
     // Adiciona um caractere de nova linha fictício ao final do arquivo se necessário
