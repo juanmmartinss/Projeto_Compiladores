@@ -7,6 +7,10 @@
 //raiz = NULL;
 
 int main(int argc, char *argv[]) {
+
+    FILE *input_file = NULL;
+    Buffer *buffer = NULL;
+    Lex *lex = NULL;
     
 
     if (argc != 2) {//verifica se o arquivo foi passado
@@ -14,7 +18,7 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
-    FILE *input_file = fopen(argv[1], "r");//abre o arquivo
+    input_file = fopen(argv[1], "r");//abre o arquivo
 
     if (input_file == NULL) {//verifica se o arquivo foi aberto
         fprintf(stderr, "Failed to open input file\n");
@@ -23,8 +27,11 @@ int main(int argc, char *argv[]) {
 
     int BUFFER_SIZE = 256;
 
-    Buffer *buffer = allocate_buffer(BUFFER_SIZE);//aloca o buffer
+    buffer = allocate_buffer(BUFFER_SIZE);//aloca o buffer
+    buffer->data = (char*) malloc(BUFFER_SIZE * sizeof(char));
+
     buffer->size = BUFFER_SIZE;
+    buffer->pos = 0;
 
     if (buffer == NULL) {//verifica se o buffer foi alocado
         fprintf(stderr, "Failed to allocate buffer\n");
@@ -32,7 +39,11 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
-    Lex *lex = (Lex *)malloc(sizeof(Lex)); // Aloque memória para lex
+    lex = (Lex *)malloc(sizeof(Lex)); // Aloque memória para lex
+
+    lex->linha = 0;
+    lex->estado = 0; 
+    lex->aux = 0; 
 
     if (lex == NULL) {
         fprintf(stderr, "Failed to allocate memory for lex\n");
@@ -41,9 +52,19 @@ int main(int argc, char *argv[]) {
     }
 
 
-    char* pega_carac = (char*)malloc(sizeof(char)*128);
-    char letra;
-    char c;
+    char* pega_carac = NULL;
+
+
+    pega_carac = (char*)malloc(sizeof(char)*128);
+
+    if (pega_carac == NULL) {
+        fprintf(stderr, "Failed to allocate memory for pega_carac\n");
+        fclose(input_file);
+        exit(1);
+    }
+
+    char letra = '\0';
+    char c = '\0';
     int controle = 0;
 
     lex->linha = 0;
@@ -55,6 +76,7 @@ int main(int argc, char *argv[]) {
 
 
         buffer->pos = 0;
+        memset(lex->lexema, 0, sizeof(lex->lexema));
        //pega a linha do arquivo, e coloca no contador para armazenar em qual linha esta o lexema
 
         for (int i = 0; i < (buffer->size); i++) {//percorre a linha do arquivo
@@ -95,7 +117,7 @@ int main(int argc, char *argv[]) {
 
                     if (aux[0] != '\0') { // Verifica se a string não está vazia.
 
-                        pega_carac = Pega_ID(lex->token, lex);//pega o token e o lexema e retorna o token em string 
+                        Pega_ID(lex->token, lex, pega_carac);//pega o token e o lexema e retorna o token em string 
 
                         printf("Token: %s, Linha: %d, Lexema: |%s| \n",pega_carac, lex->linha, aux);
                     }
@@ -127,6 +149,7 @@ int main(int argc, char *argv[]) {
     deallocate_buffer(buffer);
     libera_arvore(raiz);
     free(lex); // Libere a memória alocada para lex
+    free(pega_carac);
 
     fclose(input_file);
 

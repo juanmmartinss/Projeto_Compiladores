@@ -88,6 +88,7 @@ char* enche_buffer(Buffer *buffer, FILE *arq) {
 
 
 char get_next_char(Buffer *buffer, FILE *arq, Lex *lex) {
+  
     if (buffer->pos >= buffer->size) {//verifica se o buffer esta cheio
         if (enche_buffer(buffer, arq) == NULL) {
             return '\0';
@@ -106,6 +107,7 @@ char get_next_char(Buffer *buffer, FILE *arq, Lex *lex) {
     return buffer->data[buffer->pos++];
 
 }
+
 
 int pega_valor_para_matriz(char letra){
   int valor;
@@ -178,13 +180,12 @@ int pega_valor_para_matriz(char letra){
 }
 
 int Tabela_DFA(Lex *lex, char letra, Buffer *buffer) {
-    int estado;
-    int valor;
+    int estado = 0;
+    int valor = 0;
     int isSpecialChar = 0; // flag para verificar se o caracter é especial, para não armazenar no buffer
-    //lex->aux = 0;
 
     if (lex->estado != 17 && lex->estado != 18) {
-        if (lex->estado != 0) {//para se adequar a matriz, pois a martiz começa em 0 mas a logica esta para começar em 1
+        if (lex->estado != 0) {
             estado = lex->estado - 1;
         } else {
             estado = lex->estado;
@@ -197,19 +198,24 @@ int Tabela_DFA(Lex *lex, char letra, Buffer *buffer) {
 
     isSpecialChar = 0;
     
-    if (lex->estado == 17) { // Aceita o estado 17, que é o estado final
+    if (lex->estado == 17) {
         isSpecialChar = 1;
     }
 
-    if (lex->estado == 18) {//se o estado for 18, o lexema é um erro
+    if (lex->estado == 18) {
         lex->aux = 1;
         return 1;
     }
 
-    if (!isSpecialChar) {// se não for um caracter especial, armazena no buffer
-        buffer->data[buffer->pos - 1] = letra; // Armazena o caracter no buffer, na posição atual
+    if (!isSpecialChar) {
+        if (buffer->pos - 1 < buffer->size) { // Verifica se a posição é válida antes de escrever no buffer
+            buffer->data[buffer->pos - 1] = letra;
+        } else {
+            printf("Erro: Tentando escrever fora dos limites do buffer.\n");
+            return -1;
+        }
     } else {
-        buffer->pos--; // Move o ponteiro do buffer para a posição anterior, para não armazenar o caracter especial
+        buffer->pos--;
     }
 
     return isSpecialChar;
@@ -327,8 +333,7 @@ void Verifica_palavra_reservada(char *palavra, Lex *lex) {
 
 }
 
-char* Pega_ID(int valor_letra, Lex *lex) {
-  static char pega_carac[64]; // Use 'static' to make the array persist across function calls
+void Pega_ID(int valor_letra, Lex *lex, char *pega_carac) {
 
   if (valor_letra == 0) {
     strcpy(pega_carac, "ELSE");
@@ -390,5 +395,4 @@ char* Pega_ID(int valor_letra, Lex *lex) {
     strcpy(pega_carac, "ID");
   }
 
-  return pega_carac;
 }
