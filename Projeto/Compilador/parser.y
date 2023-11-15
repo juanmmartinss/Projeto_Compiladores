@@ -1,7 +1,9 @@
+
 %{
 /*Reconhecedor de bases numericas*/
 #include <stdio.h>
 #include <ctype.h>
+#include "funcs.h"
 
 %}
 
@@ -26,27 +28,29 @@ factor : NUMBER { $$ = $1; }
 
 %%
 
-main()
+int main()
 {
-    return yyparse();
+        return yyparse();
 }
 
 int yylex(void){
-    int c; 
-    while((c = getchar()) == ' ' || c == '\t');
+        int c; 
+        while((c = getchar()) == ' ' || c == '\t');
 
-    if(isdigit(c)){
-        ungetc(c, stdin);
-        scanf("%d", &yylval);
-        return NUMBER;
-    }
+        if(isdigit(c)){
+                ungetc(c, stdin);
+                scanf("%d", &yylval);
+                return NUMBER;
+        }
 
-    if (c == '\n')
+        if (c == '\n'){
+                return 0;
+        }
         return (c);
 
 }
 
 int yyerror(char *s){
-    fprintf(stderr, "%s\n", s);
-    return 0;
+        fprintf(stderr, "%s\n", s);
+        return 0;
 }
