@@ -4,6 +4,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdbool.h>
+#include "parser.tab.h"
 
 
 int matriz_dfa[16][21] = {

@@ -3,6 +3,7 @@
 #include "funcs.h"
 #include <string.h>
 #include <ctype.h>
+#include "parser.tab.h"
 
 //raiz = NULL;
 
@@ -120,6 +121,10 @@ int main(int argc, char *argv[]) {
                         Pega_ID(lex->token, lex, pega_carac);//pega o token e o lexema e retorna o token em string 
 
                         printf("Token: %s, Linha: %d, Lexema: |%s| \n",pega_carac, lex->linha, aux);
+
+                        //manda para o analisador sintatico para verificar se esta correto sintaticamente
+                        yyparse();
+                        
                     }
                     
                 }

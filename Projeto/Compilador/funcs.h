@@ -2,7 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define HASH_SIZE 28
+//#define HASH_SIZE 28
+#ifndef FUNCS_H
+#define FUNCS_H
+
 
 
 
@@ -61,4 +64,6 @@ void libera_arvore(No *raiz);
 void chama_desaloca_arvore();
 
 // void printa_arvore(No *raiz, int nivel);
+
+#endif // FUNCS_H
 
