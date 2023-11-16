@@ -6,13 +6,12 @@
 #ifndef FUNCS_H
 #define FUNCS_H
 
-
-
-
 typedef enum token{
     ELSE, IF, INT, RETURN, VOID, WHILE, ID, NUM, PLUS, MINUS, TIMES, OVER, LT, LE, GT, GE, EQ, NE, ASSIGN, SEMI,
      COMMA, LPAREN, RPAREN, LBRACKET, RBRACKET, LBRACE, RBRACE, MAIN, PRINTF, ERROR
 }TokenType;
+
+
 
 // typedef enum estado{
 //     INICIO, INCOMENT, INNUM, INID, INATRIB, MENOR, MAIOR, DIFERENTE,
@@ -48,7 +47,6 @@ typedef struct no {
 
 static No *raiz = NULL; // Árvore binária de busca balanceada
 
-
 Buffer *allocate_buffer(int size);// aloca a memoria do buffer
 void deallocate_buffer(Buffer *buffer);//desaloca a memoria do buffer
 char get_next_char(Buffer *buffer, FILE *arq, Lex *lex);//pega o proximo char do buffer
@@ -66,4 +64,3 @@ void chama_desaloca_arvore();
 // void printa_arvore(No *raiz, int nivel);
 
 #endif // FUNCS_H
-

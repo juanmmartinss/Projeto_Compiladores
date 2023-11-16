@@ -123,7 +123,7 @@ int main(int argc, char *argv[]) {
                         printf("Token: %s, Linha: %d, Lexema: |%s| \n",pega_carac, lex->linha, aux);
 
                         //manda para o analisador sintatico para verificar se esta correto sintaticamente
-                        yyparse();
+                        //yyparse();
                         
                     }
                     
