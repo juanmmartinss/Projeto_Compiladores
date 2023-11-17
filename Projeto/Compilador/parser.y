@@ -155,7 +155,7 @@ expressao: var ASSIGN expressao {$$ = cria_arvore(25, $1, $3);}
          ;
 
 var: ID {$$ = cria_arvore(26, cria_arvore(27, $1, NULL), NULL);}
-   | ID TK_LBRACKET expressao TK_RBRACKET {$$ = cria_arvore(26, cria_arvore(27, $1, $3), NULL);}
+   | ID LBRACKET expressao RBRACKET {$$ = cria_arvore(26, cria_arvore(27, $1, $3), NULL);}
    ;
 
 simples_expressao: soma_expressao relacional soma_expressao {$$ = cria_arvore(28, $1, cria_arvore(29, $2, $3));}
