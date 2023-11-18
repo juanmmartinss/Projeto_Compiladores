@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "funcs.h"
+#include "global.h"
 
 int yylex();
 int yyparse();
@@ -13,9 +14,8 @@ typedef struct Arvore {
     struct Arvore *dir;
 } Arvore;
 
-Arvore *cria_arvore(int info, Arvore *esq, Arvore *dir) {
+Arvore *cria_arvore( Arvore *esq, Arvore *dir) {
     Arvore *No = (Arvore *)malloc(sizeof(Arvore));
-    No->info = info;
     No->esq = esq;
     No->dir = dir;
     return No;
@@ -84,65 +84,75 @@ void imprime_arvore(Arvore *No) {
 
 //regras implementadas seguindo o arquivo disponibilizado no classroom
 
-programa: lista_declaracoes {$$ = cria_arvore(1, $1, NULL);}
+programa: lista_declaracoes {$$ = cria_arvore(1, $1);} //cria a raiz da árvore
         ;
 
 lista_declaracoes: lista_declaracoes declaracao {$$ = cria_arvore(2, $1, $2);}
-                 | declaracao {$$ = cria_arvore(3, $1, NULL);}
+                 | declaracao {$$ = cria_arvore(2, $1, NULL);}
                  ;
 
 declaracao: declaracao_var {$$ = $1;}
-          | declaracao_fun {$$ = $1;}
-          ;
 
-declaracao_var: tipo_especificador TK_ID TK_SEMI {$$ = cria_arvore(4, $1, cria_arvore(5, $2, NULL));}
-              | tipo_especificador TK_ID TK_LBRACKET TK_NUM TK_RBRACKET TK_SEMI {$$ = cria_arvore(4, $1, cria_arvore(5, $2, cria_arvore(6, $4, NULL)));}
+            | declaracao_fun {$$ = $1;}
+            ;
+
+declaracao_var: tipo_especificador TK_ID TK_SEMI {$$ = cria_arvore(3, $1, cria_arvore(4, $2, NULL));}
+              | tipo_especificador TK_ID TK_LBRACKET TK_NUM TK_RBRACKET TK_SEMI {$$ = cria_arvore(3, $1, cria_arvore(4, $2, cria_arvore(5, NULL, cria_arvore(6, NULL, NULL))));}
               ;
 
 tipo_especificador: TK_INT {$$ = cria_arvore(7, NULL, NULL);}
                   | TK_VOID {$$ = cria_arvore(8, NULL, NULL);}
                   ;
 
-declaracao_fun: tipo_especificador TK_ID TK_LPAREN params TK_RPAREN composto_decl {$$ = cria_arvore(9, cria_arvore(10, $1, cria_arvore(11, $2, NULL)), cria_arvore(12, $4, $6));}
-              ;
+
+declaracao_fun: tipo_especificador TK_ID TK_LPAREN params TK_RPAREN composto_decl {$$ = cria_arvore(9, $1, cria_arvore(10, cria_arvore(11, $2, NULL), cria_arvore(12, $4, $6)));}
+                | TK_VOID TK_MAIN TK_LPAREN TK_RPAREN composto_decl {$$ = cria_arvore(9, cria_arvore(8, NULL, NULL), cria_arvore(10, cria_arvore(11, cria_arvore(13, NULL, NULL), NULL), cria_arvore(12, NULL, $5)));}
+                ;
 
 params: lista_params {$$ = $1;}
-      | TK_VOID {$$ = cria_arvore(13, NULL, NULL);}
-      ;
+
+        | TK_VOID {$$ = cria_arvore(13, NULL, NULL);}
+        ;
+
+
 
 lista_params: lista_params TK_COMMA param {$$ = cria_arvore(14, $1, $3);}
-            | param {$$ = cria_arvore(14, $1, NULL);}
+            | param {$$ = cria_arvore(14, NULL, $1);}
             ;
 
-param: tipo_especificador TK_ID {$$ = cria_arvore(15, $1, cria_arvore(16, $2, NULL));}
-     | tipo_especificador TK_ID TK_LBRACKET TK_RBRACKET {$$ = cria_arvore(15, $1, cria_arvore(16, $2, NULL));}
-     ;
 
-composto_decl: TK_LBRACE local_declaracoes lista_comando TK_RBRACE {$$ = cria_arvore(17, $2, $3);}
+param: tipo_especificador TK_ID {$$ = cria_arvore(15, $1, cria_arvore(4, $2, NULL));}  
+        | tipo_especificador TK_ID TK_LBRACKET TK_RBRACKET {$$ = cria_arvore(15, $1, cria_arvore(4, $2, cria_arvore(5, NULL, cria_arvore(6, NULL, NULL))));}
+        ;
+
+composto_decl: TK_LBRACE local_declaracoes lista_comando TK_RBRACE {$$ = cria_arvore(16, $2, $3);}
+             | TK_LBRACE lista_comando TK_RBRACE {$$ = cria_arvore(16, NULL, $2);}
              ;
 
-local_declaracoes: local_declaracoes declaracao_var {$$ = cria_arvore(18, $1, $2);}
+local_declaracoes: local_declaracoes declaracao_var {$$ = cria_arvore(17, $1, $2);}
                  | /* vazio */ {$$ = NULL;}
                  ;
 
-lista_comando: lista_comando comando {$$ = cria_arvore(19, $1, $2);}
-             | /* vazio */ {$$ = NULL;}
-             ;
+lista_comando: lista_comando comando {$$ = cria_arvore(18, $1, $2);}
+                | /* vazio */ {$$ = NULL;}
+                ;
 
 comando: expressao_decl {$$ = $1;}
-       | composto_decl {$$ = $1;}
-       | selecao_decl {$$ = $1;}
-       | iteracao_decl {$$ = $1;}
-       | retorno_decl {$$ = $1;}
-       ;
+        | composto_decl {$$ = $1;}
+        | selecao_decl {$$ = $1;}
+        | iteracao_decl {$$ = $1;}
+        | retorno_decl {$$ = $1;}
+        | TK_PRINTF TK_LPAREN TK_ID TK_RPAREN TK_SEMI {$$ = cria_arvore(19, cria_arvore(47, $3, NULL), NULL);}
+        ;
 
 expressao_decl: expressao TK_SEMI {$$ = $1;}
               | TK_SEMI {$$ = NULL;}
               ;
 
 selecao_decl: TK_IF TK_LPAREN expressao TK_RPAREN comando {$$ = cria_arvore(20, $3, $5);}
-            | TK_IF TK_LPAREN expressao TK_RPAREN comando TK_ELSE comando {$$ = cria_arvore(21, $3, cria_arvore(22, $5, $7));}
+            | TK_IF TK_LPAREN expressao TK_RPAREN comando TK_ELSE comando {$$ = cria_arvore(20, $3, cria_arvore(21, $5, $7));}
             ;
+            
 
 iteracao_decl: TK_WHILE TK_LPAREN expressao TK_RPAREN comando {$$ = cria_arvore(23, $3, $5);}
              ;
@@ -211,11 +221,11 @@ int main() {
 }
 
 int yylex(void){
-    return getToken();
+    return getToken();//retorna o token lido, para o erro sintático
 }
 
 //yylex() é a função que retorna o token lido
 int yyerror(char *s) {
-    fprintf(stderr, "ERRO SINTÁTICO: %s LINHA: %d\n", s, lex->linha);
+    fprintf(stderr, "ERRO SINTÁTICO: %s LINHA: %d\n", s, linhaatual);
     return 0;
 }

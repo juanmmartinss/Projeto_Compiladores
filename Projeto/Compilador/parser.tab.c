@@ -72,8 +72,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "funcs.h"
+#include "global.h"
 
 int yylex();
+int yyparse();
+int yyerror(char *s);
 
 typedef struct Arvore {
     int info;
@@ -102,7 +105,7 @@ void imprime_arvore(Arvore *No) {
 }
 
 
-#line 106 "parser.tab.c"
+#line 109 "parser.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -580,13 +583,13 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    85,    85,    88,    89,    92,    93,    96,    97,   100,
-     101,   104,   107,   108,   111,   112,   115,   116,   119,   122,
-     123,   126,   127,   130,   131,   132,   133,   134,   137,   138,
-     141,   142,   145,   148,   149,   152,   153,   156,   157,   160,
-     161,   164,   165,   166,   167,   168,   169,   172,   173,   176,
-     177,   180,   181,   184,   185,   188,   189,   190,   191,   194,
-     197,   198,   201,   202
+       0,    88,    88,    91,    92,    95,    96,    99,   100,   103,
+     104,   107,   110,   111,   114,   115,   118,   119,   122,   125,
+     126,   129,   130,   133,   134,   135,   136,   137,   140,   141,
+     144,   145,   148,   151,   152,   155,   156,   159,   160,   163,
+     164,   167,   168,   169,   170,   171,   172,   175,   176,   179,
+     180,   183,   184,   187,   188,   191,   192,   193,   194,   197,
+     200,   201,   204,   205
 };
 #endif
 
@@ -1218,379 +1221,379 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* programa: lista_declaracoes  */
-#line 85 "parser.y"
+#line 88 "parser.y"
                             {(yyval.arvore) = cria_arvore(1, (yyvsp[0].arvore), NULL);}
-#line 1224 "parser.tab.c"
+#line 1227 "parser.tab.c"
     break;
 
   case 3: /* lista_declaracoes: lista_declaracoes declaracao  */
-#line 88 "parser.y"
+#line 91 "parser.y"
                                                 {(yyval.arvore) = cria_arvore(2, (yyvsp[-1].arvore), (yyvsp[0].arvore));}
-#line 1230 "parser.tab.c"
+#line 1233 "parser.tab.c"
     break;
 
   case 4: /* lista_declaracoes: declaracao  */
-#line 89 "parser.y"
+#line 92 "parser.y"
                               {(yyval.arvore) = cria_arvore(3, (yyvsp[0].arvore), NULL);}
-#line 1236 "parser.tab.c"
+#line 1239 "parser.tab.c"
     break;
 
   case 5: /* declaracao: declaracao_var  */
-#line 92 "parser.y"
+#line 95 "parser.y"
                            {(yyval.arvore) = (yyvsp[0].arvore);}
-#line 1242 "parser.tab.c"
+#line 1245 "parser.tab.c"
     break;
 
   case 6: /* declaracao: declaracao_fun  */
-#line 93 "parser.y"
+#line 96 "parser.y"
                            {(yyval.arvore) = (yyvsp[0].arvore);}
-#line 1248 "parser.tab.c"
+#line 1251 "parser.tab.c"
     break;
 
   case 7: /* declaracao_var: tipo_especificador TK_ID TK_SEMI  */
-#line 96 "parser.y"
+#line 99 "parser.y"
                                                  {(yyval.arvore) = cria_arvore(4, (yyvsp[-2].arvore), cria_arvore(5, (yyvsp[-1].strval), NULL));}
-#line 1254 "parser.tab.c"
+#line 1257 "parser.tab.c"
     break;
 
   case 8: /* declaracao_var: tipo_especificador TK_ID TK_LBRACKET TK_NUM TK_RBRACKET TK_SEMI  */
-#line 97 "parser.y"
+#line 100 "parser.y"
                                                                                 {(yyval.arvore) = cria_arvore(4, (yyvsp[-5].arvore), cria_arvore(5, (yyvsp[-4].strval), cria_arvore(6, (yyvsp[-2].intval), NULL)));}
-#line 1260 "parser.tab.c"
+#line 1263 "parser.tab.c"
     break;
 
   case 9: /* tipo_especificador: TK_INT  */
-#line 100 "parser.y"
+#line 103 "parser.y"
                            {(yyval.arvore) = cria_arvore(7, NULL, NULL);}
-#line 1266 "parser.tab.c"
+#line 1269 "parser.tab.c"
     break;
 
   case 10: /* tipo_especificador: TK_VOID  */
-#line 101 "parser.y"
+#line 104 "parser.y"
                             {(yyval.arvore) = cria_arvore(8, NULL, NULL);}
-#line 1272 "parser.tab.c"
+#line 1275 "parser.tab.c"
     break;
 
   case 11: /* declaracao_fun: tipo_especificador TK_ID TK_LPAREN params TK_RPAREN composto_decl  */
-#line 104 "parser.y"
+#line 107 "parser.y"
                                                                                   {(yyval.arvore) = cria_arvore(9, cria_arvore(10, (yyvsp[-5].arvore), cria_arvore(11, (yyvsp[-4].strval), NULL)), cria_arvore(12, (yyvsp[-2].arvore), (yyvsp[0].arvore)));}
-#line 1278 "parser.tab.c"
+#line 1281 "parser.tab.c"
     break;
 
   case 12: /* params: lista_params  */
-#line 107 "parser.y"
+#line 110 "parser.y"
                      {(yyval.arvore) = (yyvsp[0].arvore);}
-#line 1284 "parser.tab.c"
+#line 1287 "parser.tab.c"
     break;
 
   case 13: /* params: TK_VOID  */
-#line 108 "parser.y"
+#line 111 "parser.y"
                 {(yyval.arvore) = cria_arvore(13, NULL, NULL);}
-#line 1290 "parser.tab.c"
+#line 1293 "parser.tab.c"
     break;
 
   case 14: /* lista_params: lista_params TK_COMMA param  */
-#line 111 "parser.y"
+#line 114 "parser.y"
                                           {(yyval.arvore) = cria_arvore(14, (yyvsp[-2].arvore), (yyvsp[0].arvore));}
-#line 1296 "parser.tab.c"
+#line 1299 "parser.tab.c"
     break;
 
   case 15: /* lista_params: param  */
-#line 112 "parser.y"
+#line 115 "parser.y"
                     {(yyval.arvore) = cria_arvore(14, (yyvsp[0].arvore), NULL);}
-#line 1302 "parser.tab.c"
+#line 1305 "parser.tab.c"
     break;
 
   case 16: /* param: tipo_especificador TK_ID  */
-#line 115 "parser.y"
+#line 118 "parser.y"
                                 {(yyval.arvore) = cria_arvore(15, (yyvsp[-1].arvore), cria_arvore(16, (yyvsp[0].strval), NULL));}
-#line 1308 "parser.tab.c"
+#line 1311 "parser.tab.c"
     break;
 
   case 17: /* param: tipo_especificador TK_ID TK_LBRACKET TK_RBRACKET  */
-#line 116 "parser.y"
+#line 119 "parser.y"
                                                         {(yyval.arvore) = cria_arvore(15, (yyvsp[-3].arvore), cria_arvore(16, (yyvsp[-2].strval), NULL));}
-#line 1314 "parser.tab.c"
+#line 1317 "parser.tab.c"
     break;
 
   case 18: /* composto_decl: TK_LBRACE local_declaracoes lista_comando TK_RBRACE  */
-#line 119 "parser.y"
+#line 122 "parser.y"
                                                                    {(yyval.arvore) = cria_arvore(17, (yyvsp[-2].arvore), (yyvsp[-1].arvore));}
-#line 1320 "parser.tab.c"
+#line 1323 "parser.tab.c"
     break;
 
   case 19: /* local_declaracoes: local_declaracoes declaracao_var  */
-#line 122 "parser.y"
+#line 125 "parser.y"
                                                     {(yyval.arvore) = cria_arvore(18, (yyvsp[-1].arvore), (yyvsp[0].arvore));}
-#line 1326 "parser.tab.c"
+#line 1329 "parser.tab.c"
     break;
 
   case 20: /* local_declaracoes: %empty  */
-#line 123 "parser.y"
+#line 126 "parser.y"
                                {(yyval.arvore) = NULL;}
-#line 1332 "parser.tab.c"
+#line 1335 "parser.tab.c"
     break;
 
   case 21: /* lista_comando: lista_comando comando  */
-#line 126 "parser.y"
+#line 129 "parser.y"
                                      {(yyval.arvore) = cria_arvore(19, (yyvsp[-1].arvore), (yyvsp[0].arvore));}
-#line 1338 "parser.tab.c"
+#line 1341 "parser.tab.c"
     break;
 
   case 22: /* lista_comando: %empty  */
-#line 127 "parser.y"
+#line 130 "parser.y"
                            {(yyval.arvore) = NULL;}
-#line 1344 "parser.tab.c"
+#line 1347 "parser.tab.c"
     break;
 
   case 23: /* comando: expressao_decl  */
-#line 130 "parser.y"
+#line 133 "parser.y"
                         {(yyval.arvore) = (yyvsp[0].arvore);}
-#line 1350 "parser.tab.c"
+#line 1353 "parser.tab.c"
     break;
 
   case 24: /* comando: composto_decl  */
-#line 131 "parser.y"
+#line 134 "parser.y"
                        {(yyval.arvore) = (yyvsp[0].arvore);}
-#line 1356 "parser.tab.c"
+#line 1359 "parser.tab.c"
     break;
 
   case 25: /* comando: selecao_decl  */
-#line 132 "parser.y"
+#line 135 "parser.y"
                       {(yyval.arvore) = (yyvsp[0].arvore);}
-#line 1362 "parser.tab.c"
+#line 1365 "parser.tab.c"
     break;
 
   case 26: /* comando: iteracao_decl  */
-#line 133 "parser.y"
+#line 136 "parser.y"
                        {(yyval.arvore) = (yyvsp[0].arvore);}
-#line 1368 "parser.tab.c"
+#line 1371 "parser.tab.c"
     break;
 
   case 27: /* comando: retorno_decl  */
-#line 134 "parser.y"
+#line 137 "parser.y"
                       {(yyval.arvore) = (yyvsp[0].arvore);}
-#line 1374 "parser.tab.c"
+#line 1377 "parser.tab.c"
     break;
 
   case 28: /* expressao_decl: expressao TK_SEMI  */
-#line 137 "parser.y"
+#line 140 "parser.y"
                                   {(yyval.arvore) = (yyvsp[-1].arvore);}
-#line 1380 "parser.tab.c"
+#line 1383 "parser.tab.c"
     break;
 
   case 29: /* expressao_decl: TK_SEMI  */
-#line 138 "parser.y"
+#line 141 "parser.y"
                         {(yyval.arvore) = NULL;}
-#line 1386 "parser.tab.c"
+#line 1389 "parser.tab.c"
     break;
 
   case 30: /* selecao_decl: TK_IF TK_LPAREN expressao TK_RPAREN comando  */
-#line 141 "parser.y"
+#line 144 "parser.y"
                                                           {(yyval.arvore) = cria_arvore(20, (yyvsp[-2].arvore), (yyvsp[0].arvore));}
-#line 1392 "parser.tab.c"
+#line 1395 "parser.tab.c"
     break;
 
   case 31: /* selecao_decl: TK_IF TK_LPAREN expressao TK_RPAREN comando TK_ELSE comando  */
-#line 142 "parser.y"
+#line 145 "parser.y"
                                                                           {(yyval.arvore) = cria_arvore(21, (yyvsp[-4].arvore), cria_arvore(22, (yyvsp[-2].arvore), (yyvsp[0].arvore)));}
-#line 1398 "parser.tab.c"
+#line 1401 "parser.tab.c"
     break;
 
   case 32: /* iteracao_decl: TK_WHILE TK_LPAREN expressao TK_RPAREN comando  */
-#line 145 "parser.y"
+#line 148 "parser.y"
                                                               {(yyval.arvore) = cria_arvore(23, (yyvsp[-2].arvore), (yyvsp[0].arvore));}
-#line 1404 "parser.tab.c"
+#line 1407 "parser.tab.c"
     break;
 
   case 33: /* retorno_decl: TK_RETURN TK_SEMI  */
-#line 148 "parser.y"
+#line 151 "parser.y"
                                 {(yyval.arvore) = cria_arvore(24, NULL, NULL);}
-#line 1410 "parser.tab.c"
+#line 1413 "parser.tab.c"
     break;
 
   case 34: /* retorno_decl: TK_RETURN expressao TK_SEMI  */
-#line 149 "parser.y"
+#line 152 "parser.y"
                                           {(yyval.arvore) = cria_arvore(24, (yyvsp[-1].arvore), NULL);}
-#line 1416 "parser.tab.c"
+#line 1419 "parser.tab.c"
     break;
 
   case 35: /* expressao: var TK_ASSIGN expressao  */
-#line 152 "parser.y"
+#line 155 "parser.y"
                                    {(yyval.arvore) = cria_arvore(25, (yyvsp[-2].arvore), (yyvsp[0].arvore));}
-#line 1422 "parser.tab.c"
+#line 1425 "parser.tab.c"
     break;
 
   case 36: /* expressao: simples_expressao  */
-#line 153 "parser.y"
+#line 156 "parser.y"
                              {(yyval.arvore) = (yyvsp[0].arvore);}
-#line 1428 "parser.tab.c"
+#line 1431 "parser.tab.c"
     break;
 
   case 37: /* var: TK_ID  */
-#line 156 "parser.y"
+#line 159 "parser.y"
            {(yyval.arvore) = cria_arvore(26, cria_arvore(27, (yyvsp[0].strval), NULL), NULL);}
-#line 1434 "parser.tab.c"
+#line 1437 "parser.tab.c"
     break;
 
   case 38: /* var: TK_ID TK_LBRACKET expressao TK_RBRACKET  */
-#line 157 "parser.y"
+#line 160 "parser.y"
                                              {(yyval.arvore) = cria_arvore(26, cria_arvore(27, (yyvsp[-3].strval), (yyvsp[-1].arvore)), NULL);}
-#line 1440 "parser.tab.c"
+#line 1443 "parser.tab.c"
     break;
 
   case 39: /* simples_expressao: soma_expressao relacional soma_expressao  */
-#line 160 "parser.y"
+#line 163 "parser.y"
                                                             {(yyval.arvore) = cria_arvore(28, (yyvsp[-2].arvore), cria_arvore(29, (yyvsp[-1].arvore), (yyvsp[0].arvore)));}
-#line 1446 "parser.tab.c"
+#line 1449 "parser.tab.c"
     break;
 
   case 40: /* simples_expressao: soma_expressao  */
-#line 161 "parser.y"
+#line 164 "parser.y"
                                   {(yyval.arvore) = (yyvsp[0].arvore);}
-#line 1452 "parser.tab.c"
+#line 1455 "parser.tab.c"
     break;
 
   case 41: /* relacional: TK_LT  */
-#line 164 "parser.y"
+#line 167 "parser.y"
                   {(yyval.arvore) = cria_arvore(30, NULL, NULL);}
-#line 1458 "parser.tab.c"
+#line 1461 "parser.tab.c"
     break;
 
   case 42: /* relacional: TK_LE  */
-#line 165 "parser.y"
+#line 168 "parser.y"
                   {(yyval.arvore) = cria_arvore(31, NULL, NULL);}
-#line 1464 "parser.tab.c"
+#line 1467 "parser.tab.c"
     break;
 
   case 43: /* relacional: TK_GT  */
-#line 166 "parser.y"
+#line 169 "parser.y"
                   {(yyval.arvore) = cria_arvore(32, NULL, NULL);}
-#line 1470 "parser.tab.c"
+#line 1473 "parser.tab.c"
     break;
 
   case 44: /* relacional: TK_GE  */
-#line 167 "parser.y"
+#line 170 "parser.y"
                   {(yyval.arvore) = cria_arvore(33, NULL, NULL);}
-#line 1476 "parser.tab.c"
+#line 1479 "parser.tab.c"
     break;
 
   case 45: /* relacional: TK_EQ  */
-#line 168 "parser.y"
+#line 171 "parser.y"
                   {(yyval.arvore) = cria_arvore(34, NULL, NULL);}
-#line 1482 "parser.tab.c"
+#line 1485 "parser.tab.c"
     break;
 
   case 46: /* relacional: TK_NE  */
-#line 169 "parser.y"
+#line 172 "parser.y"
                   {(yyval.arvore) = cria_arvore(35, NULL, NULL);}
-#line 1488 "parser.tab.c"
+#line 1491 "parser.tab.c"
     break;
 
   case 47: /* soma_expressao: soma_expressao soma termo  */
-#line 172 "parser.y"
+#line 175 "parser.y"
                                           {(yyval.arvore) = cria_arvore(36, (yyvsp[-2].arvore), cria_arvore(37, (yyvsp[-1].arvore), (yyvsp[0].arvore)));}
-#line 1494 "parser.tab.c"
+#line 1497 "parser.tab.c"
     break;
 
   case 48: /* soma_expressao: termo  */
-#line 173 "parser.y"
+#line 176 "parser.y"
                       {(yyval.arvore) = (yyvsp[0].arvore);}
-#line 1500 "parser.tab.c"
+#line 1503 "parser.tab.c"
     break;
 
   case 49: /* soma: TK_PLUS  */
-#line 176 "parser.y"
+#line 179 "parser.y"
               {(yyval.arvore) = cria_arvore(38, NULL, NULL);}
-#line 1506 "parser.tab.c"
+#line 1509 "parser.tab.c"
     break;
 
   case 50: /* soma: TK_MINUS  */
-#line 177 "parser.y"
+#line 180 "parser.y"
                {(yyval.arvore) = cria_arvore(39, NULL, NULL);}
-#line 1512 "parser.tab.c"
+#line 1515 "parser.tab.c"
     break;
 
   case 51: /* termo: termo mult fator  */
-#line 180 "parser.y"
+#line 183 "parser.y"
                         {(yyval.arvore) = cria_arvore(40, (yyvsp[-2].arvore), cria_arvore(41, (yyvsp[-1].arvore), (yyvsp[0].arvore)));}
-#line 1518 "parser.tab.c"
+#line 1521 "parser.tab.c"
     break;
 
   case 52: /* termo: fator  */
-#line 181 "parser.y"
+#line 184 "parser.y"
              {(yyval.arvore) = (yyvsp[0].arvore);}
-#line 1524 "parser.tab.c"
+#line 1527 "parser.tab.c"
     break;
 
   case 53: /* mult: TK_TIMES  */
-#line 184 "parser.y"
+#line 187 "parser.y"
                {(yyval.arvore) = cria_arvore(42, NULL, NULL);}
-#line 1530 "parser.tab.c"
+#line 1533 "parser.tab.c"
     break;
 
   case 54: /* mult: TK_OVER  */
-#line 185 "parser.y"
+#line 188 "parser.y"
               {(yyval.arvore) = cria_arvore(43, NULL, NULL);}
-#line 1536 "parser.tab.c"
+#line 1539 "parser.tab.c"
     break;
 
   case 55: /* fator: TK_LPAREN expressao TK_RPAREN  */
-#line 188 "parser.y"
+#line 191 "parser.y"
                                      {(yyval.arvore) = (yyvsp[-1].arvore);}
-#line 1542 "parser.tab.c"
+#line 1545 "parser.tab.c"
     break;
 
   case 56: /* fator: var  */
-#line 189 "parser.y"
+#line 192 "parser.y"
            {(yyval.arvore) = (yyvsp[0].arvore);}
-#line 1548 "parser.tab.c"
+#line 1551 "parser.tab.c"
     break;
 
   case 57: /* fator: chamada  */
-#line 190 "parser.y"
+#line 193 "parser.y"
                {(yyval.arvore) = (yyvsp[0].arvore);}
-#line 1554 "parser.tab.c"
+#line 1557 "parser.tab.c"
     break;
 
   case 58: /* fator: TK_NUM  */
-#line 191 "parser.y"
+#line 194 "parser.y"
               {(yyval.arvore) = cria_arvore(44, NULL, cria_arvore(45, NULL, NULL));}
-#line 1560 "parser.tab.c"
+#line 1563 "parser.tab.c"
     break;
 
   case 59: /* chamada: TK_ID TK_LPAREN args TK_RPAREN  */
-#line 194 "parser.y"
+#line 197 "parser.y"
                                         {(yyval.arvore) = cria_arvore(46, cria_arvore(47, (yyvsp[-3].strval), NULL), (yyvsp[-1].arvore));}
-#line 1566 "parser.tab.c"
+#line 1569 "parser.tab.c"
     break;
 
   case 60: /* args: arg_lista  */
-#line 197 "parser.y"
+#line 200 "parser.y"
                 {(yyval.arvore) = (yyvsp[0].arvore);}
-#line 1572 "parser.tab.c"
+#line 1575 "parser.tab.c"
     break;
 
   case 61: /* args: %empty  */
-#line 198 "parser.y"
+#line 201 "parser.y"
                   {(yyval.arvore) = NULL;}
-#line 1578 "parser.tab.c"
+#line 1581 "parser.tab.c"
     break;
 
   case 62: /* arg_lista: arg_lista TK_COMMA expressao  */
-#line 201 "parser.y"
+#line 204 "parser.y"
                                         {(yyval.arvore) = cria_arvore(48, (yyvsp[-2].arvore), (yyvsp[0].arvore));}
-#line 1584 "parser.tab.c"
+#line 1587 "parser.tab.c"
     break;
 
   case 63: /* arg_lista: expressao  */
-#line 202 "parser.y"
+#line 205 "parser.y"
                      {(yyval.arvore) = cria_arvore(48, NULL, (yyvsp[0].arvore));}
-#line 1590 "parser.tab.c"
+#line 1593 "parser.tab.c"
     break;
 
 
-#line 1594 "parser.tab.c"
+#line 1597 "parser.tab.c"
 
       default: break;
     }
@@ -1783,7 +1786,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 205 "parser.y"
+#line 208 "parser.y"
 
 
 int main() {
@@ -1791,11 +1794,11 @@ int main() {
 }
 
 int yylex(void){
-    return getToken();
+    return getToken();//retorna o token lido, para o erro sintático
 }
 
 //yylex() é a função que retorna o token lido
 int yyerror(char *s) {
-    fprintf(stderr, "ERRO SINTÁTICO: %s LINHA: %d\n", s, lex->linha);
+    fprintf(stderr, "ERRO SINTÁTICO: %s LINHA: %d\n", s, linhaatual);
     return 0;
 }
