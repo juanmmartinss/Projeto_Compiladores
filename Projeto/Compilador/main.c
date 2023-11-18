@@ -3,7 +3,7 @@
 #include "funcs.h"
 #include <string.h>
 #include <ctype.h>
-#include "parser.tab.h"
+//#include "parser.tab.h"
 
 //raiz = NULL;
 
@@ -154,7 +154,7 @@ int main(int argc, char *argv[]) {
     deallocate_buffer(buffer);
     libera_arvore(raiz);
     free(lex); // Libere a memória alocada para lex
-    free(pega_carac);
+    //free(pega_carac);
 
     fclose(input_file);
 
