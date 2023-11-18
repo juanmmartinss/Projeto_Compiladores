@@ -59,4 +59,6 @@ No* busca_no(No *raiz, char *palavra);
 void libera_arvore(No *raiz);
 void chama_desaloca_arvore();
 
+TokenType getToken(int argc, char *argv[]);
+
 // void printa_arvore(No *raiz, int nivel);
