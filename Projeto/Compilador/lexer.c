@@ -125,7 +125,8 @@ TokenType getToken(int argc, char *argv[]) {
 
                         //manda para o analisador sintatico para verificar se esta correto sintaticamente
                         //yyparse();
-                        //linhaatual = lex->linha;//armazena a linha atual para mandar para o analisador sintatico
+                        linhaatual = lex->linha;//armazena a linha atual para mandar para o analisador sintatico
+                        return lex->token;
 
 
                         
