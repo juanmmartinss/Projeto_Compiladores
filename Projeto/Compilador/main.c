@@ -3,11 +3,12 @@
 #include "funcs.h"
 #include <string.h>
 #include <ctype.h>
+#include "global.h"
 //#include "parser.tab.h"
 
 //raiz = NULL;
 
-int main(int argc, char *argv[]) {
+TokenType getToken(int argc, char *argv[]) {
 
     FILE *input_file = NULL;
     Buffer *buffer = NULL;
@@ -124,6 +125,9 @@ int main(int argc, char *argv[]) {
 
                         //manda para o analisador sintatico para verificar se esta correto sintaticamente
                         //yyparse();
+                        //linhaatual = lex->linha;//armazena a linha atual para mandar para o analisador sintatico
+
+
                         
                     }
                     
@@ -161,5 +165,5 @@ int main(int argc, char *argv[]) {
     
 
 
-    return 0;
+    //return 0;
 }
