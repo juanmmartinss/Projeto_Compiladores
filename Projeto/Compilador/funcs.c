@@ -54,13 +54,14 @@ void get_lexema(Lex *lex, char *pega_carac, Buffer *buffer, FILE *input_file, ch
   
     //for(int n = 0; n < 5; n++) {//pega a linha do arquivo e coloca no buffer
       
-        letra = get_next_char(buffer, input_file, lex);
+        //letra = get_next_char(buffer, input_file, lex);
 
         buffer->pos = 0;
         memset(lex->lexema, 0, sizeof(lex->lexema));
        //pega a linha do arquivo, e coloca no contador para armazenar em qual linha esta o lexema
 
-        for (int i = 0; i < (buffer->size); i++) {//percorre a linha do arquivo
+        for (int i = 0; i < 5; i++) {//percorre a linha do arquivo
+            //printf("buffer->size: %d", buffer->size);
 
             for (int k = 0; k < 128; k++) { // Zera o vetor lexema
                     lex->lexema[k] = '\0';
