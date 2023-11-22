@@ -45,6 +45,8 @@ typedef struct no {
 
 static No *raiz = NULL; // Árvore binária de busca balanceada
 
+void get_lexema(Lex *lex, char *pega_carac, Buffer *buffer, FILE *input_file, char letra, char c, int linha_atual, int controle);
+
 Buffer *allocate_buffer(int size);// aloca a memoria do buffer
 void deallocate_buffer(Buffer *buffer);//desaloca a memoria do buffer
 char get_next_char(Buffer *buffer, FILE *arq, Lex *lex);//pega o proximo char do buffer

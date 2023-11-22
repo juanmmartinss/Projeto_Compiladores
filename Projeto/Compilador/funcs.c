@@ -49,6 +49,93 @@ int matriz_dfa[16][21] = {
 //   libera_arvore(raiz);
 // }
 
+void get_lexema(Lex *lex, char *pega_carac, Buffer *buffer, FILE *input_file, char letra, char c, int linha_atual, int controle){
+
+    
+
+    while ((letra = get_next_char(buffer, input_file, lex)) != '\0') {//pega a linha do arquivo e coloca no buffer
+
+
+        buffer->pos = 0;
+        memset(lex->lexema, 0, sizeof(lex->lexema));
+       //pega a linha do arquivo, e coloca no contador para armazenar em qual linha esta o lexema
+
+        for (int i = 0; i < (buffer->size); i++) {//percorre a linha do arquivo
+
+            for (int k = 0; k < 128; k++) { // Zera o vetor lexema
+                    lex->lexema[k] = '\0';
+            }
+
+            for (int j = 0; j < 128; j++) {//percorre o lexema da linha
+
+                c = get_next_char(buffer, input_file, lex);
+
+                controle = Tabela_DFA(lex, c, buffer);//verifica se o char é um simbolo
+
+                if(controle == 0){
+                    lex->lexema[j] = c;
+                }
+                else {
+                    break;
+                }
+            }
+            
+            if(lex->aux == 0){//verifica se o lexema é um erro, se for 1 é um erro e nao printa, apenas mostra a msg de erro
+                //printf("buffer->data detro do if: %s\n", buffer->data);
+                if(linha_atual != lex->linha){//verifica se a linha atual é diferente da linha do lexema, para nao mostrar o erro da mesma linha mais de uma vez
+                    //tira espacos em branco do inicio do lexema
+                    char *aux;
+
+                    //monta novo vetor sem espacos no comeco
+                    for (int l = 0; l < strlen(lex->lexema); l++) {
+                        if (isspace(lex->lexema[l]) == 0) {
+                            aux = &lex->lexema[l];
+                            break;
+                        }
+                    }
+
+                    Verifica_palavra_reservada(aux, lex);//verifica se o lexema é uma palavra reservada
+
+                    if (aux[0] != '\0') { // Verifica se a string não está vazia.
+
+                        Pega_ID(lex->token, lex, pega_carac);//pega o token e o lexema e retorna o token em string 
+
+                        printf("Token: %s, Linha: %d, Lexema: |%s| \n",pega_carac, lex->linha, aux);
+
+                        //manda para o analisador sintatico para verificar se esta correto sintaticamente
+                        //yyparse();
+                        // linhaatual = lex->linha;//armazena a linha atual para mandar para o analisador sintatico
+                        // return lex->token;
+
+
+                        
+                    }
+                    
+                }
+            }
+            else if (lex->aux != 0){//se for um erro, printa a linha do erro
+                //printf("buffer->data dentro do else: %s\n", buffer->data);
+                if((linha_atual != lex->linha)){//logica para verificar se esta na mesma linha, se estiver printa apenas uma vez
+                    if(buffer->data[0] != '\0'){//para nao printar o restando do buffer vazio
+
+                        printf("-----------------ERRO LEXICO-----------------\n");
+                        printf("-> %s", buffer->data);
+                        printf("-> CARACTERE \"%c\" NAO RECONHECIDO\n", c);//mostrar letra que nao e aceita
+                        printf("-> LINHA: %d\n", lex->linha);
+                        printf("---------------------------------------------\n");
+
+                        linha_atual = lex->linha;
+                    }
+                }
+            }
+
+            lex->estado = 0;
+            controle = 0;
+
+        }
+    }
+}
+
 
 Buffer *allocate_buffer(int size) {
     Buffer *buffer = (Buffer*)malloc(sizeof(Buffer));
