@@ -8,7 +8,7 @@
 
 //raiz = NULL;
 
-TokenType getToken(int argc, char *argv[]) {
+int main(int argc, char *argv[]) {
 
     FILE *input_file = NULL;
     Buffer *buffer = NULL;

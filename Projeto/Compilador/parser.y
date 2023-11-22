@@ -3,35 +3,15 @@
 #include <stdlib.h>
 #include "funcs.h"
 #include "global.h"
+#include "parser.h"
+
+extern int linhaatual;
 
 int yylex();
 int yyparse();
 int yyerror(char *s);
 
-typedef struct Arvore {
-    int info;
-    struct Arvore *esq;
-    struct Arvore *dir;
-} Arvore;
-
-Arvore *cria_arvore( Arvore *esq, Arvore *dir) {
-    Arvore *No = (Arvore *)malloc(sizeof(Arvore));
-    No->esq = esq;
-    No->dir = dir;
-    return No;
-}
-
-void imprime_arvore(Arvore *No) {
-    if (No != NULL) {
-        printf("<");
-        imprime_arvore(No->esq);
-        printf("%d", No->info);
-        imprime_arvore(No->dir);
-        printf(">");
-    } else {
-        printf("<>");
-    }
-}
+TokenType getToken(int argc, char *argv[]);
 
 %}
 
@@ -82,149 +62,18 @@ void imprime_arvore(Arvore *No) {
 
 %%
 
-//regras implementadas seguindo o arquivo disponibilizado no classroom
-
-programa: lista_declaracoes {$$ = cria_arvore(1, $1);} //cria a raiz da árvore
-        ;
-
-lista_declaracoes: lista_declaracoes declaracao {$$ = cria_arvore(2, $1, $2);}
-                 | declaracao {$$ = cria_arvore(2, $1, NULL);}
-                 ;
-
-declaracao: declaracao_var {$$ = $1;}
-
-            | declaracao_fun {$$ = $1;}
-            ;
-
-declaracao_var: tipo_especificador TK_ID TK_SEMI {$$ = cria_arvore(3, $1, cria_arvore(4, $2, NULL));}
-              | tipo_especificador TK_ID TK_LBRACKET TK_NUM TK_RBRACKET TK_SEMI {$$ = cria_arvore(3, $1, cria_arvore(4, $2, cria_arvore(5, NULL, cria_arvore(6, NULL, NULL))));}
-              ;
-
-tipo_especificador: TK_INT {$$ = cria_arvore(7, NULL, NULL);}
-                  | TK_VOID {$$ = cria_arvore(8, NULL, NULL);}
-                  ;
-
-
-declaracao_fun: tipo_especificador TK_ID TK_LPAREN params TK_RPAREN composto_decl {$$ = cria_arvore(9, $1, cria_arvore(10, cria_arvore(11, $2, NULL), cria_arvore(12, $4, $6)));}
-                | TK_VOID TK_MAIN TK_LPAREN TK_RPAREN composto_decl {$$ = cria_arvore(9, cria_arvore(8, NULL, NULL), cria_arvore(10, cria_arvore(11, cria_arvore(13, NULL, NULL), NULL), cria_arvore(12, NULL, $5)));}
-                ;
-
-params: lista_params {$$ = $1;}
-
-        | TK_VOID {$$ = cria_arvore(13, NULL, NULL);}
-        ;
 
 
 
-lista_params: lista_params TK_COMMA param {$$ = cria_arvore(14, $1, $3);}
-            | param {$$ = cria_arvore(14, NULL, $1);}
-            ;
-
-
-param: tipo_especificador TK_ID {$$ = cria_arvore(15, $1, cria_arvore(4, $2, NULL));}  
-        | tipo_especificador TK_ID TK_LBRACKET TK_RBRACKET {$$ = cria_arvore(15, $1, cria_arvore(4, $2, cria_arvore(5, NULL, cria_arvore(6, NULL, NULL))));}
-        ;
-
-composto_decl: TK_LBRACE local_declaracoes lista_comando TK_RBRACE {$$ = cria_arvore(16, $2, $3);}
-             | TK_LBRACE lista_comando TK_RBRACE {$$ = cria_arvore(16, NULL, $2);}
-             ;
-
-local_declaracoes: local_declaracoes declaracao_var {$$ = cria_arvore(17, $1, $2);}
-                 | /* vazio */ {$$ = NULL;}
-                 ;
-
-lista_comando: lista_comando comando {$$ = cria_arvore(18, $1, $2);}
-                | /* vazio */ {$$ = NULL;}
-                ;
-
-comando: expressao_decl {$$ = $1;}
-        | composto_decl {$$ = $1;}
-        | selecao_decl {$$ = $1;}
-        | iteracao_decl {$$ = $1;}
-        | retorno_decl {$$ = $1;}
-        | TK_PRINTF TK_LPAREN TK_ID TK_RPAREN TK_SEMI {$$ = cria_arvore(19, cria_arvore(47, $3, NULL), NULL);}
-        ;
-
-expressao_decl: expressao TK_SEMI {$$ = $1;}
-              | TK_SEMI {$$ = NULL;}
-              ;
-
-selecao_decl: TK_IF TK_LPAREN expressao TK_RPAREN comando {$$ = cria_arvore(20, $3, $5);}
-            | TK_IF TK_LPAREN expressao TK_RPAREN comando TK_ELSE comando {$$ = cria_arvore(20, $3, cria_arvore(21, $5, $7));}
-            ;
-            
-
-iteracao_decl: TK_WHILE TK_LPAREN expressao TK_RPAREN comando {$$ = cria_arvore(23, $3, $5);}
-             ;
-
-retorno_decl: TK_RETURN TK_SEMI {$$ = cria_arvore(24, NULL, NULL);}
-            | TK_RETURN expressao TK_SEMI {$$ = cria_arvore(24, $2, NULL);}
-            ;
-
-expressao: var TK_ASSIGN expressao {$$ = cria_arvore(25, $1, $3);}
-         | simples_expressao {$$ = $1;}
-         ;
-
-var: TK_ID {$$ = cria_arvore(26, cria_arvore(27, $1, NULL), NULL);}
-   | TK_ID TK_LBRACKET expressao TK_RBRACKET {$$ = cria_arvore(26, cria_arvore(27, $1, $3), NULL);}
-   ;
-
-simples_expressao: soma_expressao relacional soma_expressao {$$ = cria_arvore(28, $1, cria_arvore(29, $2, $3));}
-                 | soma_expressao {$$ = $1;}
-                 ;
-
-relacional: TK_LT {$$ = cria_arvore(30, NULL, NULL);}
-          | TK_LE {$$ = cria_arvore(31, NULL, NULL);}
-          | TK_GT {$$ = cria_arvore(32, NULL, NULL);}
-          | TK_GE {$$ = cria_arvore(33, NULL, NULL);}
-          | TK_EQ {$$ = cria_arvore(34, NULL, NULL);}
-          | TK_NE {$$ = cria_arvore(35, NULL, NULL);}
-          ;
-
-soma_expressao: soma_expressao soma termo {$$ = cria_arvore(36, $1, cria_arvore(37, $2, $3));}
-              | termo {$$ = $1;}
-              ;
-
-soma: TK_PLUS {$$ = cria_arvore(38, NULL, NULL);}
-    | TK_MINUS {$$ = cria_arvore(39, NULL, NULL);}
-    ;
-
-termo: termo mult fator {$$ = cria_arvore(40, $1, cria_arvore(41, $2, $3));}
-     | fator {$$ = $1;}
-     ;
-
-mult: TK_TIMES {$$ = cria_arvore(42, NULL, NULL);}
-    | TK_OVER {$$ = cria_arvore(43, NULL, NULL);}
-    ;
-
-fator: TK_LPAREN expressao TK_RPAREN {$$ = $2;}
-     | var {$$ = $1;}
-     | chamada {$$ = $1;}
-     | TK_NUM {$$ = cria_arvore(44, NULL, cria_arvore(45, NULL, NULL));}
-     ;
-
-chamada: TK_ID TK_LPAREN args TK_RPAREN {$$ = cria_arvore(46, cria_arvore(47, $1, NULL), $3);}
-       ;
-
-args: arg_lista {$$ = $1;}
-    | /* vazio */ {$$ = NULL;}
-    ;
-
-arg_lista: arg_lista TK_COMMA expressao {$$ = cria_arvore(48, $1, $3);}
-         | expressao {$$ = cria_arvore(48, NULL, $1);}
-         ;
-
-%%
 
 int main() {
     return yyparse();
 }
 
 int yylex(void){
-    return getToken();//retorna o token lido, para o erro sintático
+    return getToken();
 }
 
-//yylex() é a função que retorna o token lido
 int yyerror(char *s) {
     fprintf(stderr, "ERRO SINTÁTICO: %s LINHA: %d\n", s, linhaatual);
     return 0;
