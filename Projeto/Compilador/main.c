@@ -4,6 +4,8 @@
 #include <string.h>
 #include <ctype.h>
 #include "global.h"
+#include "parser.h"
+#include 
 //#include "parser.tab.h"
 
 //raiz = NULL;
@@ -75,9 +77,12 @@ int main(int argc, char *argv[]) {
     buffer->pos = 0;
 
 
-    get_lexema(lex, pega_carac, buffer, input_file, letra, c, linha_atual, controle);
-
-
+    // for (int i = 0; i < buffer->size; i++) {
+    //     get_lexema(lex, pega_carac, buffer, input_file, letra, c, linha_atual, controle);
+    //     printf("token: %d\n", lex->token);
+    // }
+    parse(lex, pega_carac, buffer, input_file, letra, c, linha_atual, controle);
+    
     deallocate_buffer(buffer);
     libera_arvore(raiz);
     free(lex); // Libere a memória alocada para lex

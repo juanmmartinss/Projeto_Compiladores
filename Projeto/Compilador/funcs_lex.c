@@ -27,40 +27,14 @@ int matriz_dfa[16][21] = {
                          {17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17},
                          };
 
-// void printa_arvore(No *raiz, int nivel) {
-//     if (raiz != NULL) {
-//         printa_arvore(raiz->esquerda, nivel + 1);
-//         for (int i = 0; i < nivel; i++) {
-//             printf("  ");
-//         }
-//         printf("%s\n", raiz->palavra);
-//         printa_arvore(raiz->direita, nivel + 1);
-//     }
-//     // else {
-//     //   printf("Arvore vazia\n");
-//     // }
-// }
-
-// void chama_printa(){
-//   printa_arvore(raiz, 0);
-// }
-
-// void chama_desaloca_arvore(){
-//   libera_arvore(raiz);
-// }
 
 void get_lexema(Lex *lex, char *pega_carac, Buffer *buffer, FILE *input_file, char letra, char c, int linha_atual, int controle){
 
-  
-    //for(int n = 0; n < 5; n++) {//pega a linha do arquivo e coloca no buffer
-      
-        //letra = get_next_char(buffer, input_file, lex);
-
-        buffer->pos = 0;
-        memset(lex->lexema, 0, sizeof(lex->lexema));
+        // buffer->pos = 0;
+        // memset(lex->lexema, 0, sizeof(lex->lexema));
        //pega a linha do arquivo, e coloca no contador para armazenar em qual linha esta o lexema
 
-        for (int i = 0; i < 5; i++) {//percorre a linha do arquivo
+        //for (int i = 0; i < 5; i++) {//percorre a linha do arquivo
             //printf("buffer->size: %d", buffer->size);
 
             for (int k = 0; k < 128; k++) { // Zera o vetor lexema
@@ -133,8 +107,7 @@ void get_lexema(Lex *lex, char *pega_carac, Buffer *buffer, FILE *input_file, ch
             lex->estado = 0;
             controle = 0;
 
-        }
-    //}
+        //}
 }
 
 

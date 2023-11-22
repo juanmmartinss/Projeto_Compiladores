@@ -9,13 +9,6 @@ typedef enum token{
      COMMA, LPAREN, RPAREN, LBRACKET, RBRACKET, LBRACE, RBRACE, MAIN, PRINTF, ERROR
 }TokenType;
 
-
-
-// typedef enum estado{
-//     INICIO, INCOMENT, INNUM, INID, INATRIB, MENOR, MAIOR, DIFERENTE,
-//     COMPARACAO, MAIORIGUAL, MENORIGUAL, WNC, WNC2, FIM, ERRO
-// }DfaType;
-
 typedef struct buffer{
     char *data;
     int size;
@@ -62,5 +55,7 @@ void libera_arvore(No *raiz);
 void chama_desaloca_arvore();
 
 TokenType getToken(int argc, char *argv[]);
+
+void teste(Lex *lex, char *pega_carac, Buffer *buffer, FILE *input_file, char letra, char c, int linha_atual, int controle);
 
 // void printa_arvore(No *raiz, int nivel);

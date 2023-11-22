@@ -7,19 +7,17 @@
 
 extern int linhaatual;
 
+#define YYSTYPE pont_arv;
+
 int yylex();
 int yyparse();
 int yyerror(char *s);
 
-TokenType getToken(int argc, char *argv[]);
+pont_arv raiz;
 
 %}
 
-%union {
-    int intval;
-    char* strval;
-    Arvore* arvore;
-}
+%expect 1
 
 %token TK_ELSE
 %token TK_IF
@@ -51,27 +49,141 @@ TokenType getToken(int argc, char *argv[]);
 %token TK_MAIN
 %token TK_PRINTF
 
-%type <intval> TK_NUM
-%type <strval> TK_ID
-%type <arvore> programa lista_declaracoes declaracao declaracao_var tipo_especificador
-            declaracao_fun params lista_params param composto_decl local_declaracoes
-            lista_comando comando expressao_decl selecao_decl iteracao_decl retorno_decl
-            expressao var simples_expressao relacional soma_expressao soma termo
-            mult fator chamada args arg_lista
+%%
 
+programa: lista_declaracoes
+;
+
+lista_declaracoes: lista_declaracoes declaracao
+                 | declaracao
+;
+
+declaracao: declaracao_var
+          | declaracao_fun
+;
+
+declaracao_var: tipo_especificador TK_ID TK_SEMI
+              | tipo_especificador TK_ID TK_LBRACKET TK_NUM TK_RBRACKET TK_SEMI
+
+;
+
+tipo_especificador: TK_INT
+                  | TK_VOID
+;
+
+declaracao_fun: tipo_especificador TK_ID TK_LPAREN params TK_RPAREN composto_decl
+;
+
+params: lista_params
+      | TK_VOID
+;
+
+lista_params: lista_params TK_COMMA param
+            | param
+;
+
+param: tipo_especificador TK_ID
+     | tipo_especificador TK_ID TK_LBRACKET TK_RBRACKET
+;
+
+composto_decl: TK_LBRACE local_declaracoes lista_comando TK_RBRACE
+;
+
+local_declaracoes: local_declaracoes declaracao_var
+                 | declaracao_var
+;
+
+lista_comando: lista_comando comando
+             | comando
+;
+
+comando: TK_LBRACE lista_comando TK_RBRACE
+       | expressao_decl
+       | selecao_decl
+       | iteracao_decl
+       | retorno_decl
+;
+
+expressao_decl: expressao TK_SEMI
+              | TK_SEMI
+;
+
+selecao_decl: TK_IF TK_LPAREN expressao TK_RPAREN comando
+            | TK_IF TK_LPAREN expressao TK_RPAREN comando TK_ELSE comando
+;
+
+iteracao_decl: TK_WHILE TK_LPAREN expressao TK_RPAREN comando
+;
+
+retorno_decl: TK_RETURN TK_SEMI
+            | TK_RETURN expressao TK_SEMI
+;
+
+expressao: var TK_ASSIGN expressao
+         | simples_expressao
+;
+
+var: TK_ID
+   | TK_ID TK_LBRACKET expressao TK_RBRACKET
+;
+
+simples_expressao: soma_expressao
+                 | soma_expressao relacional soma_expressao
+;
+
+relacional: TK_LT
+          | TK_LE
+          | TK_GT
+          | TK_GE
+          | TK_EQ
+          | TK_NE
+;
+
+soma_expressao: soma_expressao soma termo
+              | termo
+;
+
+soma: TK_PLUS
+    | TK_MINUS
+;
+
+termo: termo mult fator
+     | fator
+;
+
+mult: TK_TIMES
+    | TK_OVER
+;
+
+fator: TK_LPAREN expressao TK_RPAREN
+     | var
+     | TK_NUM
+     | chamada
+;
+
+chamada: TK_ID TK_LPAREN args TK_RPAREN
+;
+
+args: arg_lista
+    | TK_VOID
+;
+
+arg_lista: arg_lista TK_COMMA expressao
+         | expressao
+;
 
 %%
 
-
-
-
-
-int main() {
+int parse() {
     return yyparse();
 }
 
 int yylex(void){
-    return getToken();
+    //return
+    get_lexema(lex, pega_carac, buffer, input_file, letra, c, linha_atual, controle);
+    get_lexema(lex, pega_carac, buffer, input_file, letra, c, linha_atual, controle);
+    get_lexema(lex, pega_carac, buffer, input_file, letra, c, linha_atual, controle);
+    get_lexema(lex, pega_carac, buffer, input_file, letra, c, linha_atual, controle);
 }
 
 int yyerror(char *s) {
