@@ -77,7 +77,6 @@ int main(int argc, char *argv[]) {
 
     get_lexema(lex, pega_carac, buffer, input_file, letra, c, linha_atual, controle);
 
-    
 
     deallocate_buffer(buffer);
     libera_arvore(raiz);

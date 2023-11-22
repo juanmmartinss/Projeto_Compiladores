@@ -51,10 +51,10 @@ int matriz_dfa[16][21] = {
 
 void get_lexema(Lex *lex, char *pega_carac, Buffer *buffer, FILE *input_file, char letra, char c, int linha_atual, int controle){
 
-    
-
-    while ((letra = get_next_char(buffer, input_file, lex)) != '\0') {//pega a linha do arquivo e coloca no buffer
-
+  
+    //for(int n = 0; n < 5; n++) {//pega a linha do arquivo e coloca no buffer
+      
+        letra = get_next_char(buffer, input_file, lex);
 
         buffer->pos = 0;
         memset(lex->lexema, 0, sizeof(lex->lexema));
@@ -133,7 +133,7 @@ void get_lexema(Lex *lex, char *pega_carac, Buffer *buffer, FILE *input_file, ch
             controle = 0;
 
         }
-    }
+    //}
 }
 
 
