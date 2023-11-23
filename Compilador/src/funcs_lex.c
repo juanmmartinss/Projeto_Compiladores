@@ -4,6 +4,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdbool.h>
+#include "global.h"
 //#include "parser.tab.h"
 
 
@@ -28,7 +29,7 @@ int matriz_dfa[16][21] = {
                          };
 
 
-void get_lexema(Lex *lex, char *pega_carac, Buffer *buffer, FILE *input_file, char letra, char c, int linha_atual, int controle){
+void get_lexema(){
 
         // buffer->pos = 0;
         int token_atual = 0;
@@ -78,7 +79,7 @@ void get_lexema(Lex *lex, char *pega_carac, Buffer *buffer, FILE *input_file, ch
 
                         printf("Token: %s, Linha: %d, Lexema: |%s| \n",pega_carac, lex->linha, aux);
 
-                        // token_atual = yylex();//manda para o analisador sintatico para verificar se esta correto sintaticamente
+                        // token_atual = lex->token;//manda para o analisador sintatico para verificar se esta correto sintaticamente
 
                         // //manda para o analisador sintatico para verificar se esta correto sintaticamente
                         // return token_atual;

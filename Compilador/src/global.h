@@ -1,3 +1,6 @@
+#ifndef GLOBAL_H
+#define GLOBAL_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -14,15 +17,17 @@ typedef struct arvore {
 } Arvore;
 
 
-Buffer *buffer = NULL;
-Lex *lex = NULL;
-FILE *input_file = NULL;
+extern Buffer *buffer;
+extern Lex *lex;
+extern FILE *input_file;
 
-char* pega_carac = NULL;
+extern char* pega_carac;
 
 
-char letra = '\0';
-char c = '\0';
-int linha_atual = 0;
-int controle = 0;
+extern char letra;
+extern char c ;
+extern int linha_atual;
+extern int controle;
+
+#endif
     

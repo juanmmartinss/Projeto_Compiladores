@@ -3,17 +3,19 @@
 #include <stdlib.h>
 #include "funcs.h"
 #include "global.h"
-#include "parser.h"
+//#include "parser.h"
 
-extern int linhaatual;
+int linhaatual;
 
-#define YYSTYPE pont_arv;
+
+
+//#define YYSTYPE pont_arv;
 
 int yylex();
 int yyparse();
 int yyerror(char *s);
 
-pont_arv raiz;
+//pont_arv raiz;
 
 %}
 
@@ -174,15 +176,15 @@ arg_lista: arg_lista TK_COMMA expressao
 
 %%
 
-pont_arv parse(void) {
+int parse(void) {
     //return yyparse();
     yyparse();
-    return NULL;
+    return 0;
 }
 
 int yylex(void){
     //return
-    return ;
+    return get_lexema(lex, pega_carac, buffer, input_file, letra, c, linha_atual, controle);
 }
 
 int yyerror(char *s) {

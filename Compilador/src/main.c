@@ -7,14 +7,19 @@
 //#include "parser.h"
 //#include "parser.tab.h"
 
+FILE *input_file = NULL;
+Buffer *buffer = NULL;
+Lex *lex = NULL;
+
+char letra = '\0';
+char c = '\0';
+int linha_atual = 0;
+int controle = 0;
+char* pega_carac = NULL;
+
 //raiz = NULL;
 
 int main(int argc, char *argv[]) {
-
-    // FILE *input_file = NULL;
-    // Buffer *buffer = NULL;
-    // Lex *lex = NULL;
-    
 
     if (argc != 2) {//verifica se o arquivo foi passado
         fprintf(stderr, "Usage: %s <input file>\n", argv[0]);
@@ -55,9 +60,6 @@ int main(int argc, char *argv[]) {
     }
 
 
-    // char* pega_carac = NULL;
-
-
     pega_carac = (char*)malloc(sizeof(char)*128);
 
     if (pega_carac == NULL) {
@@ -67,20 +69,14 @@ int main(int argc, char *argv[]) {
     }
 
 
-    // char letra = '\0';
-    // char c = '\0';
-    // int linha_atual = 0;
-    // int controle = 0;
-
     lex->linha = 0;
     buffer->pos = 0;
 
 
     for (int i = 0; i < buffer->size; i++) {
-        get_lexema(lex, pega_carac, buffer, input_file, letra, c, linha_atual, controle);
-        //printf("token: %d\n", lex->token);
+        get_lexema();
     }
-    //parse();
+    parse();
     
     deallocate_buffer(buffer);
     libera_arvore(raiz);

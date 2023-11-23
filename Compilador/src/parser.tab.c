@@ -73,20 +73,22 @@
 #include <stdlib.h>
 #include "funcs.h"
 #include "global.h"
-#include "parser.h"
+//#include "parser.h"
 
-extern int linhaatual;
+int linhaatual;
 
-#define YYSTYPE pont_arv;
+
+
+//#define YYSTYPE pont_arv;
 
 int yylex();
 int yyparse();
 int yyerror(char *s);
 
-pont_arv raiz;
+//pont_arv raiz;
 
 
-#line 90 "parser.tab.c"
+#line 92 "parser.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -109,7 +111,72 @@ pont_arv raiz;
 #  endif
 # endif
 
-#include "parser.tab.h"
+
+/* Debug traces.  */
+#ifndef YYDEBUG
+# define YYDEBUG 0
+#endif
+#if YYDEBUG
+extern int yydebug;
+#endif
+
+/* Token kinds.  */
+#ifndef YYTOKENTYPE
+# define YYTOKENTYPE
+  enum yytokentype
+  {
+    YYEMPTY = -2,
+    YYEOF = 0,                     /* "end of file"  */
+    YYerror = 256,                 /* error  */
+    YYUNDEF = 257,                 /* "invalid token"  */
+    TK_ELSE = 258,                 /* TK_ELSE  */
+    TK_IF = 259,                   /* TK_IF  */
+    TK_INT = 260,                  /* TK_INT  */
+    TK_RETURN = 261,               /* TK_RETURN  */
+    TK_VOID = 262,                 /* TK_VOID  */
+    TK_WHILE = 263,                /* TK_WHILE  */
+    TK_ID = 264,                   /* TK_ID  */
+    TK_NUM = 265,                  /* TK_NUM  */
+    TK_PLUS = 266,                 /* TK_PLUS  */
+    TK_MINUS = 267,                /* TK_MINUS  */
+    TK_TIMES = 268,                /* TK_TIMES  */
+    TK_OVER = 269,                 /* TK_OVER  */
+    TK_LT = 270,                   /* TK_LT  */
+    TK_LE = 271,                   /* TK_LE  */
+    TK_GT = 272,                   /* TK_GT  */
+    TK_GE = 273,                   /* TK_GE  */
+    TK_EQ = 274,                   /* TK_EQ  */
+    TK_NE = 275,                   /* TK_NE  */
+    TK_ASSIGN = 276,               /* TK_ASSIGN  */
+    TK_SEMI = 277,                 /* TK_SEMI  */
+    TK_COMMA = 278,                /* TK_COMMA  */
+    TK_LPAREN = 279,               /* TK_LPAREN  */
+    TK_RPAREN = 280,               /* TK_RPAREN  */
+    TK_LBRACKET = 281,             /* TK_LBRACKET  */
+    TK_RBRACKET = 282,             /* TK_RBRACKET  */
+    TK_LBRACE = 283,               /* TK_LBRACE  */
+    TK_RBRACE = 284,               /* TK_RBRACE  */
+    TK_MAIN = 285,                 /* TK_MAIN  */
+    TK_PRINTF = 286                /* TK_PRINTF  */
+  };
+  typedef enum yytokentype yytoken_kind_t;
+#endif
+
+/* Value type.  */
+#if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
+typedef int YYSTYPE;
+# define YYSTYPE_IS_TRIVIAL 1
+# define YYSTYPE_IS_DECLARED 1
+#endif
+
+
+extern YYSTYPE yylval;
+
+
+int yyparse (void);
+
+
+
 /* Symbol kind.  */
 enum yysymbol_kind_t
 {
@@ -564,13 +631,13 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    54,    54,    57,    58,    61,    62,    65,    66,    70,
-      71,    74,    77,    78,    81,    82,    85,    86,    89,    92,
-      93,    96,    97,   100,   101,   102,   103,   104,   107,   108,
-     111,   112,   115,   118,   119,   122,   123,   126,   127,   130,
-     131,   134,   135,   136,   137,   138,   139,   142,   143,   146,
-     147,   150,   151,   154,   155,   158,   159,   160,   161,   164,
-     167,   168,   171,   172
+       0,    56,    56,    59,    60,    63,    64,    67,    68,    72,
+      73,    76,    79,    80,    83,    84,    87,    88,    91,    94,
+      95,    98,    99,   102,   103,   104,   105,   106,   109,   110,
+     113,   114,   117,   120,   121,   124,   125,   128,   129,   132,
+     133,   136,   137,   138,   139,   140,   141,   144,   145,   148,
+     149,   152,   153,   156,   157,   160,   161,   162,   163,   166,
+     169,   170,   173,   174
 };
 #endif
 
@@ -1208,7 +1275,7 @@ yyreduce:
   switch (yyn)
     {
 
-#line 1212 "parser.tab.c"
+#line 1279 "parser.tab.c"
 
       default: break;
     }
@@ -1401,19 +1468,18 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 175 "parser.y"
+#line 177 "parser.y"
 
 
-int parse() {
-    return yyparse();
+int parse(void) {
+    //return yyparse();
+    yyparse();
+    return 0;
 }
 
 int yylex(void){
     //return
-    get_lexema(lex, pega_carac, buffer, input_file, letra, c, linha_atual, controle);
-    get_lexema(lex, pega_carac, buffer, input_file, letra, c, linha_atual, controle);
-    get_lexema(lex, pega_carac, buffer, input_file, letra, c, linha_atual, controle);
-    get_lexema(lex, pega_carac, buffer, input_file, letra, c, linha_atual, controle);
+    return get_lexema(lex, pega_carac, buffer, input_file, letra, c, linha_atual, controle);
 }
 
 int yyerror(char *s) {
