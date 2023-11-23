@@ -38,7 +38,7 @@ typedef struct no {
 
 static No *raiz = NULL; // Árvore binária de busca balanceada
 
-void get_lexema();
+int get_lexema();
 
 Buffer *allocate_buffer(int size);// aloca a memoria do buffer
 void deallocate_buffer(Buffer *buffer);//desaloca a memoria do buffer

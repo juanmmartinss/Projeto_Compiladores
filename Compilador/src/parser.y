@@ -7,10 +7,8 @@
 
 int linhaatual;
 
-
-
 //#define YYSTYPE pont_arv;
-
+int parse(void);
 int yylex();
 int yyparse();
 int yyerror(char *s);
@@ -183,8 +181,16 @@ int parse(void) {
 }
 
 int yylex(void){
+
+    int valor_token;
+    valor_token = get_lexema();
+    
+    //mudar o valor do token para o valor que esta no parser
+
+    if
+    printf("lexema: %d\n", valor_token);
     //return
-    return get_lexema();
+    return valor_token;
 }
 
 int yyerror(char *s) {

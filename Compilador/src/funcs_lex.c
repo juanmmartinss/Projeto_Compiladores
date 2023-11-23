@@ -29,7 +29,7 @@ int matriz_dfa[16][21] = {
                          };
 
 
-void get_lexema(){
+int get_lexema(){
 
         // buffer->pos = 0;
         int token_atual = 0;
@@ -77,12 +77,14 @@ void get_lexema(){
 
                         Pega_ID(lex->token, lex, pega_carac);//pega o token e o lexema e retorna o token em string 
 
-                        printf("Token: %s, Linha: %d, Lexema: |%s| \n",pega_carac, lex->linha, aux);
+                        //printf("Token: %s, Linha: %d, Lexema: |%s| \n",pega_carac, lex->linha, aux);
 
-                        // token_atual = lex->token;//manda para o analisador sintatico para verificar se esta correto sintaticamente
+                        token_atual = lex->token;//manda para o analisador sintatico para verificar se esta correto sintaticamente
 
-                        // //manda para o analisador sintatico para verificar se esta correto sintaticamente
-                        // return token_atual;
+                        printf("Token_atual: %d\n", token_atual);
+
+                        //manda para o analisador sintatico para verificar se esta correto sintaticamente
+                        return token_atual;
                         //yyparse();
                         // linhaatual = lex->linha;//armazena a linha atual para mandar para o analisador sintatico
                         // return lex->token;

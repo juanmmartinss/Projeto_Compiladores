@@ -77,10 +77,8 @@
 
 int linhaatual;
 
-
-
 //#define YYSTYPE pont_arv;
-
+int parse(void);
 int yylex();
 int yyparse();
 int yyerror(char *s);
@@ -88,7 +86,7 @@ int yyerror(char *s);
 //pont_arv raiz;
 
 
-#line 92 "parser.tab.c"
+#line 90 "parser.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -631,13 +629,13 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    56,    56,    59,    60,    63,    64,    67,    68,    72,
-      73,    76,    79,    80,    83,    84,    87,    88,    91,    94,
-      95,    98,    99,   102,   103,   104,   105,   106,   109,   110,
-     113,   114,   117,   120,   121,   124,   125,   128,   129,   132,
-     133,   136,   137,   138,   139,   140,   141,   144,   145,   148,
-     149,   152,   153,   156,   157,   160,   161,   162,   163,   166,
-     169,   170,   173,   174
+       0,    54,    54,    57,    58,    61,    62,    65,    66,    70,
+      71,    74,    77,    78,    81,    82,    85,    86,    89,    92,
+      93,    96,    97,   100,   101,   102,   103,   104,   107,   108,
+     111,   112,   115,   118,   119,   122,   123,   126,   127,   130,
+     131,   134,   135,   136,   137,   138,   139,   142,   143,   146,
+     147,   150,   151,   154,   155,   158,   159,   160,   161,   164,
+     167,   168,   171,   172
 };
 #endif
 
@@ -1275,7 +1273,7 @@ yyreduce:
   switch (yyn)
     {
 
-#line 1279 "parser.tab.c"
+#line 1277 "parser.tab.c"
 
       default: break;
     }
@@ -1468,7 +1466,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 177 "parser.y"
+#line 175 "parser.y"
 
 
 int parse(void) {
@@ -1478,8 +1476,12 @@ int parse(void) {
 }
 
 int yylex(void){
+
+    int valor_token;
+    valor_token = get_lexema();
+    printf("lexema: %d\n", valor_token);
     //return
-    return get_lexema();
+    return valor_token;
 }
 
 int yyerror(char *s) {

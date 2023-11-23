@@ -9,7 +9,7 @@ CFLAGS = -Wall -Iincludes
 
 # Diretórios dos arquivos fonte, objetos e cabeçalhos
 SRCDIR = src
-INCDIR = include
+INCDIR = includes
 OBJDIR = obj
 
 # Lista de todos os arquivos fonte
