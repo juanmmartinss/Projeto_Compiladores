@@ -77,7 +77,7 @@ int get_lexema(){
 
                         Pega_ID(lex->token, lex, pega_carac);//pega o token e o lexema e retorna o token em string 
 
-                        //printf("Token: %s, Linha: %d, Lexema: |%s| \n",pega_carac, lex->linha, aux);
+                        printf("Token: %s, Linha: %d, Lexema: |%s| \n",pega_carac, lex->linha, aux);
 
                         token_atual = lex->token;//manda para o analisador sintatico para verificar se esta correto sintaticamente
 

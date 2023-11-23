@@ -306,8 +306,7 @@ int yylex(void){
     } else if (valor_token == 26) {
         valor_convertido = TK_RBRACE;
     }
-    //return
-    //printf("VALOR TOKEN: %d\n", valor_convertido);
+    
     return valor_convertido;
 }
 
