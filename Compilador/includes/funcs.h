@@ -36,7 +36,7 @@ typedef struct no {
     struct no *direita;
 } No;
 
-static No *raiz = NULL; // Árvore binária de busca balanceada
+//static No *raiz = NULL; // Árvore binária de busca balanceada
 
 int get_lexema();
 

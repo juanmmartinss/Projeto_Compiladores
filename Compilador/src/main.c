@@ -79,7 +79,7 @@ int main(int argc, char *argv[]) {
     parse();
     
     deallocate_buffer(buffer);
-    libera_arvore(raiz);
+    //libera_arvore(raiz);
     free(lex); // Libere a memória alocada para lex
     //free(pega_carac);
 

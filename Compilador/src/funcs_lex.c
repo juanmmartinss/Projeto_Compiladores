@@ -81,7 +81,7 @@ int get_lexema(){
 
                         token_atual = lex->token;//manda para o analisador sintatico para verificar se esta correto sintaticamente
 
-                        printf("Token_atual: %d\n", token_atual);
+                        printf("token_atual: %d\n", token_atual);
 
                         //manda para o analisador sintatico para verificar se esta correto sintaticamente
                         return token_atual;
@@ -336,7 +336,7 @@ void libera_arvore(No *raiz) {
 }
 
 void Verifica_palavra_reservada(char *palavra, Lex *lex) {
-    //static No *raiz = NULL; // Árvore binária de busca balanceada
+    static No *raiz = NULL; // Árvore binária de busca balanceada
     if (raiz == NULL) {
         raiz = novo_no("else", ELSE);
         // Inicializa a árvore binária de busca com as palavras reservadas
