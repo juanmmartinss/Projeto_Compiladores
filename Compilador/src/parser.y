@@ -67,6 +67,7 @@ declaracao: declaracao_var
         {printf("DECLARACAO RECONHECIDA\n");}
 ;
 
+
 declaracao_var: tipo_especificador TK_ID TK_SEMI
         {printf("DECLARACAO VAR RECONHECIDA\n");}
               | tipo_especificador TK_ID TK_LBRACKET TK_NUM TK_RBRACKET TK_SEMI
@@ -306,7 +307,7 @@ int yylex(void){
     } else if (valor_token == 26) {
         valor_convertido = TK_RBRACE;
     }
-    
+
     return valor_convertido;
 }
 
