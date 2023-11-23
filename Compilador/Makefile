@@ -1,5 +1,5 @@
 # Nome do seu projeto
-TARGET = meu_programa
+TARGET = exec
 
 # Compilador
 CC = gcc
