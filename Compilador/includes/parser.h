@@ -9,7 +9,6 @@ typedef struct Arvore{
     int numero_linha;
 }Arvore;
 
-
 typedef Arvore *pont_arv;
 
 

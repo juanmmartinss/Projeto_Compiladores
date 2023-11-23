@@ -73,10 +73,10 @@ int main(int argc, char *argv[]) {
     buffer->pos = 0;
 
 
-    // for (int i = 0; i < buffer->size; i++) {
-    //     get_lexema();
-    // }
-    parse();
+    for (int i = 0; i < buffer->size; i++) {
+        get_lexema();
+    }
+    //parse();
     
     deallocate_buffer(buffer);
     libera_arvore(raiz);
