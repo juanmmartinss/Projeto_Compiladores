@@ -100,14 +100,14 @@ void get_lexema(Lex *lex, char *pega_carac, Buffer *buffer, FILE *input_file, ch
                         printf("---------------------------------------------\n");
 
                         linha_atual = lex->linha;
+
+                        exit(EXIT_FAILURE);//
                     }
                 }
             }
 
             lex->estado = 0;
             controle = 0;
-
-        //}
 }
 
 

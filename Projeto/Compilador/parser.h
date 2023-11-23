@@ -1,3 +1,7 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 typedef struct Arvore{
     struct Arvore *filho;
     struct Arvore *irmao;
