@@ -30,14 +30,11 @@ int matriz_dfa[16][21] = {
 
 
 int get_lexema(){
-
+        //printf("achar lexema\n");
         // buffer->pos = 0;
         int token_atual = 0;
-        // memset(lex->lexema, 0, sizeof(lex->lexema));
-       //pega a linha do arquivo, e coloca no contador para armazenar em qual linha esta o lexema
+        char *aux;
 
-        //for (int i = 0; i < 5; i++) {//percorre a linha do arquivo
-            //printf("buffer->size: %d", buffer->size);
 
             for (int k = 0; k < 128; k++) { // Zera o vetor lexema
                     lex->lexema[k] = '\0';
@@ -46,6 +43,8 @@ int get_lexema(){
             for (int j = 0; j < 128; j++) {//percorre o lexema da linha
 
                 c = get_next_char(buffer, input_file, lex);
+
+                //printf("c: %c\n", c);
 
                 controle = Tabela_DFA(lex, c, buffer);//verifica se o char é um simbolo
 
@@ -61,15 +60,17 @@ int get_lexema(){
                 //printf("buffer->data detro do if: %s\n", buffer->data);
                 if(linha_atual != lex->linha){//verifica se a linha atual é diferente da linha do lexema, para nao mostrar o erro da mesma linha mais de uma vez
                     //tira espacos em branco do inicio do lexema
-                    char *aux;
+
+                    //printf("lexema----: %s\n", lex->lexema);
 
                     //monta novo vetor sem espacos no comeco
                     for (int l = 0; l < strlen(lex->lexema); l++) {
                         if (isspace(lex->lexema[l]) == 0) {
-                            aux = &lex->lexema[l];
+                            aux = &lex->lexema[l];//pega o endereco do primeiro caractere que nao é espaco
                             break;
                         }
                     }
+                    //printf("aux: %s\n", aux);
 
                     Verifica_palavra_reservada(aux, lex);//verifica se o lexema é uma palavra reservada
 
@@ -77,14 +78,14 @@ int get_lexema(){
 
                         Pega_ID(lex->token, lex, pega_carac);//pega o token e o lexema e retorna o token em string 
 
-                        //printf("Token: %s, Linha: %d, Lexema: |%s| \n",pega_carac, lex->linha, aux);
+                        printf("Token: %s, Linha: %d, Lexema: |%s| \n",pega_carac, lex->linha, aux);
 
                         token_atual = lex->token;//manda para o analisador sintatico para verificar se esta correto sintaticamente
 
-                        printf("token_atual: %d\n", token_atual);
+                        //printf("token_atual: %d\n", token_atual);
 
+                        //printf("lexema do token %s\n", aux);
                         //manda para o analisador sintatico para verificar se esta correto sintaticamente
-                        return token_atual;
                         //yyparse();
                         // linhaatual = lex->linha;//armazena a linha atual para mandar para o analisador sintatico
                         // return lex->token;
@@ -115,6 +116,8 @@ int get_lexema(){
 
             lex->estado = 0;
             controle = 0;
+
+            return token_atual;
 }
 
 
@@ -184,7 +187,7 @@ int pega_valor_para_matriz(char letra){
   if (isdigit(letra) != 0){
     valor = 1;
   }
-  else if (isalpha(letra) != 0){
+  else if (isalpha(letra) != 0){//verifica se é uma letra
     valor = 0;
   }
   else if (letra == '*'){
@@ -337,7 +340,6 @@ void libera_arvore(No *raiz) {
 
 void Verifica_palavra_reservada(char *palavra, Lex *lex) {
     static No *raiz = NULL; // Árvore binária de busca balanceada
-    if (raiz == NULL) {
         raiz = novo_no("else", ELSE);
         // Inicializa a árvore binária de busca com as palavras reservadas
         raiz = insere_no(raiz, "if", IF);
@@ -345,7 +347,6 @@ void Verifica_palavra_reservada(char *palavra, Lex *lex) {
         raiz = insere_no(raiz, "return", RETURN);
         raiz = insere_no(raiz, "void", VOID);
         raiz = insere_no(raiz, "while", WHILE);
-        raiz = insere_no(raiz, "num", NUM);
         //plus
         raiz = insere_no(raiz, "+", PLUS);
         //minus
@@ -389,13 +390,15 @@ void Verifica_palavra_reservada(char *palavra, Lex *lex) {
         raiz = insere_no(raiz, "printf", PRINTF);
 
         
-    }
 
     No *no = busca_no(raiz, palavra);
-    if (no != NULL) {
+    if(isdigit(palavra[0]) != 0){
+        lex->token = NUM;
+    }
+    else if (no != NULL) {
         lex->token = no->token;
     } else {
-        lex->token = ID;
+        lex->token = ID;//se nao for uma palavra reservada, é um ID
     }
 
     //printa_arvore(raiz, 1);

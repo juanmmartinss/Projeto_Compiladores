@@ -1843,8 +1843,8 @@ int parse(void) {
 
 int yylex(void){
 
-    int valor_token;
-    int valor_convertido;
+    int valor_token = 0;
+    int valor_convertido = 0;
 
     valor_token = get_lexema();
     
