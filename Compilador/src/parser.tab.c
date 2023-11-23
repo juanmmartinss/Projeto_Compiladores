@@ -1479,7 +1479,7 @@ int parse(void) {
 
 int yylex(void){
     //return
-    return get_lexema(lex, pega_carac, buffer, input_file, letra, c, linha_atual, controle);
+    return get_lexema();
 }
 
 int yyerror(char *s) {
