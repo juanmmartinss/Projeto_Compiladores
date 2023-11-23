@@ -174,16 +174,15 @@ arg_lista: arg_lista TK_COMMA expressao
 
 %%
 
-int parse() {
-    return yyparse();
+pont_arv parse(void) {
+    //return yyparse();
+    yyparse();
+    return NULL;
 }
 
 int yylex(void){
     //return
-    get_lexema(lex, pega_carac, buffer, input_file, letra, c, linha_atual, controle);
-    get_lexema(lex, pega_carac, buffer, input_file, letra, c, linha_atual, controle);
-    get_lexema(lex, pega_carac, buffer, input_file, letra, c, linha_atual, controle);
-    get_lexema(lex, pega_carac, buffer, input_file, letra, c, linha_atual, controle);
+    return ;
 }
 
 int yyerror(char *s) {

@@ -31,6 +31,7 @@ int matriz_dfa[16][21] = {
 void get_lexema(Lex *lex, char *pega_carac, Buffer *buffer, FILE *input_file, char letra, char c, int linha_atual, int controle){
 
         // buffer->pos = 0;
+        int token_atual = 0;
         // memset(lex->lexema, 0, sizeof(lex->lexema));
        //pega a linha do arquivo, e coloca no contador para armazenar em qual linha esta o lexema
 
@@ -77,7 +78,10 @@ void get_lexema(Lex *lex, char *pega_carac, Buffer *buffer, FILE *input_file, ch
 
                         printf("Token: %s, Linha: %d, Lexema: |%s| \n",pega_carac, lex->linha, aux);
 
-                        //manda para o analisador sintatico para verificar se esta correto sintaticamente
+                        // token_atual = yylex();//manda para o analisador sintatico para verificar se esta correto sintaticamente
+
+                        // //manda para o analisador sintatico para verificar se esta correto sintaticamente
+                        // return token_atual;
                         //yyparse();
                         // linhaatual = lex->linha;//armazena a linha atual para mandar para o analisador sintatico
                         // return lex->token;
@@ -101,7 +105,7 @@ void get_lexema(Lex *lex, char *pega_carac, Buffer *buffer, FILE *input_file, ch
 
                         linha_atual = lex->linha;
 
-                        exit(EXIT_FAILURE);//
+                        exit(EXIT_FAILURE);//sai do programa, erro lexico
                     }
                 }
             }

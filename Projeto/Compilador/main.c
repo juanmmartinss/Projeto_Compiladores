@@ -11,9 +11,9 @@
 
 int main(int argc, char *argv[]) {
 
-    FILE *input_file = NULL;
-    Buffer *buffer = NULL;
-    Lex *lex = NULL;
+    // FILE *input_file = NULL;
+    // Buffer *buffer = NULL;
+    // Lex *lex = NULL;
     
 
     if (argc != 2) {//verifica se o arquivo foi passado
@@ -55,7 +55,7 @@ int main(int argc, char *argv[]) {
     }
 
 
-    char* pega_carac = NULL;
+    // char* pega_carac = NULL;
 
 
     pega_carac = (char*)malloc(sizeof(char)*128);
@@ -67,10 +67,10 @@ int main(int argc, char *argv[]) {
     }
 
 
-    char letra = '\0';
-    char c = '\0';
-    int linha_atual = 0;
-    int controle = 0;
+    // char letra = '\0';
+    // char c = '\0';
+    // int linha_atual = 0;
+    // int controle = 0;
 
     lex->linha = 0;
     buffer->pos = 0;
@@ -80,7 +80,7 @@ int main(int argc, char *argv[]) {
         get_lexema(lex, pega_carac, buffer, input_file, letra, c, linha_atual, controle);
         //printf("token: %d\n", lex->token);
     }
-    //parse(lex, pega_carac, buffer, input_file, letra, c, linha_atual, controle);
+    //parse();
     
     deallocate_buffer(buffer);
     libera_arvore(raiz);
