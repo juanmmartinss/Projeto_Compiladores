@@ -1466,37 +1466,37 @@ yyreduce:
 
   case 35: /* expressao: var TK_ASSIGN expressao  */
 #line 157 "parser.y"
-        {printf("EXPRESSAO RECONHECIDO\n");}
+        {printf("EXPRESSAO1 RECONHECIDO\n");}
 #line 1471 "parser.tab.c"
     break;
 
   case 36: /* expressao: simples_expressao  */
 #line 159 "parser.y"
-        {printf("EXPRESSAO RECONHECIDO\n");}
+        {printf("EXPRESSAO2 RECONHECIDO\n");}
 #line 1477 "parser.tab.c"
     break;
 
   case 37: /* var: TK_ID  */
 #line 163 "parser.y"
-        {printf("VAR RECONHECIDO\n");}
+        {printf("VAR1 RECONHECIDO\n");}
 #line 1483 "parser.tab.c"
     break;
 
   case 38: /* var: TK_ID TK_LBRACKET expressao TK_RBRACKET  */
 #line 165 "parser.y"
-        {printf("VAR RECONHECIDO\n");}
+        {printf("VAR2 RECONHECIDO\n");}
 #line 1489 "parser.tab.c"
     break;
 
   case 39: /* simples_expressao: soma_expressao relacional soma_expressao  */
 #line 169 "parser.y"
-        {printf("SIMPLES EXPRESSAO RECONHECIDO\n");}
+        {printf("SIMPLES EXPRESSAO1 RECONHECIDO\n");}
 #line 1495 "parser.tab.c"
     break;
 
   case 40: /* simples_expressao: soma_expressao  */
 #line 172 "parser.y"
-        {printf("SIMPLES EXPRESSAO RECONHECIDO\n");}
+        {printf("SIMPLES EXPRESSAO2 RECONHECIDO\n");}
 #line 1501 "parser.tab.c"
     break;
 
@@ -1538,13 +1538,13 @@ yyreduce:
 
   case 47: /* soma_expressao: soma_expressao soma termo  */
 #line 190 "parser.y"
-        {printf("SOMA EXPRESSAO RECONHECIDO\n");}
+        {printf("SOMA EXPRESSAO1 RECONHECIDO\n");}
 #line 1543 "parser.tab.c"
     break;
 
   case 48: /* soma_expressao: termo  */
 #line 192 "parser.y"
-        {printf("SOMA EXPRESSAO RECONHECIDO\n");}
+        {printf("SOMA EXPRESSAO2 RECONHECIDO\n");}
 #line 1549 "parser.tab.c"
     break;
 
@@ -1562,13 +1562,13 @@ yyreduce:
 
   case 51: /* termo: termo mult fator  */
 #line 202 "parser.y"
-        {printf("TERMO RECONHECIDO\n");}
+        {printf("TERMO1 RECONHECIDO\n");}
 #line 1567 "parser.tab.c"
     break;
 
   case 52: /* termo: fator  */
 #line 204 "parser.y"
-        {printf("TERMO RECONHECIDO\n");}
+        {printf("TERMO2 RECONHECIDO\n");}
 #line 1573 "parser.tab.c"
     break;
 
@@ -1586,25 +1586,25 @@ yyreduce:
 
   case 55: /* fator: TK_LPAREN expressao TK_RPAREN  */
 #line 214 "parser.y"
-        {printf("FATOR RECONHECIDO\n");}
+        {printf("FATOR1 RECONHECIDO\n");}
 #line 1591 "parser.tab.c"
     break;
 
   case 56: /* fator: var  */
 #line 216 "parser.y"
-        {printf("FATOR RECONHECIDO\n");}
+        {printf("FATOR2 RECONHECIDO\n");}
 #line 1597 "parser.tab.c"
     break;
 
   case 57: /* fator: TK_NUM  */
 #line 218 "parser.y"
-        {printf("FATOR RECONHECIDO\n");}
+        {printf("FATOR3 RECONHECIDO\n");}
 #line 1603 "parser.tab.c"
     break;
 
   case 58: /* fator: chamada  */
 #line 220 "parser.y"
-        {printf("FATOR RECONHECIDO\n");}
+        {printf("FATOR4 RECONHECIDO\n");}
 #line 1609 "parser.tab.c"
     break;
 
@@ -1909,6 +1909,7 @@ int yylex(void){
 }
 
 int yyerror(char *s) {
-    fprintf(stderr, "ERRO SINTÁTICO: %s LINHA: %d\n", s, linhaatual);
+    printf("-----------------ERRO SINTATICO-----------------\n");
+    fprintf(stderr, "ERRO SINTÁTICO: %s LINHA: %d\n", s, lex->linha);
     return 0;
 }

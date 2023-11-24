@@ -154,22 +154,22 @@ retorno_decl: TK_RETURN TK_SEMI
 ;
 
 expressao: var TK_ASSIGN expressao
-        {printf("EXPRESSAO RECONHECIDO\n");}
+        {printf("EXPRESSAO1 RECONHECIDO\n");}
          | simples_expressao
-        {printf("EXPRESSAO RECONHECIDO\n");}
+        {printf("EXPRESSAO2 RECONHECIDO\n");}
 ;
 
 var: TK_ID
-        {printf("VAR RECONHECIDO\n");}
+        {printf("VAR1 RECONHECIDO\n");}
    | TK_ID TK_LBRACKET expressao TK_RBRACKET
-        {printf("VAR RECONHECIDO\n");}
+        {printf("VAR2 RECONHECIDO\n");}
 ;
 
 simples_expressao: soma_expressao relacional soma_expressao
-        {printf("SIMPLES EXPRESSAO RECONHECIDO\n");}    
+        {printf("SIMPLES EXPRESSAO1 RECONHECIDO\n");}    
                  | soma_expressao
 
-        {printf("SIMPLES EXPRESSAO RECONHECIDO\n");}
+        {printf("SIMPLES EXPRESSAO2 RECONHECIDO\n");}
 ;
 
 relacional: TK_LT
@@ -187,9 +187,9 @@ relacional: TK_LT
 ;
 
 soma_expressao: soma_expressao soma termo
-        {printf("SOMA EXPRESSAO RECONHECIDO\n");}
+        {printf("SOMA EXPRESSAO1 RECONHECIDO\n");}
               | termo
-        {printf("SOMA EXPRESSAO RECONHECIDO\n");}
+        {printf("SOMA EXPRESSAO2 RECONHECIDO\n");}
 ;
 
 soma: TK_PLUS
@@ -199,9 +199,9 @@ soma: TK_PLUS
 ;
 
 termo: termo mult fator
-        {printf("TERMO RECONHECIDO\n");}
+        {printf("TERMO1 RECONHECIDO\n");}
      | fator
-        {printf("TERMO RECONHECIDO\n");}
+        {printf("TERMO2 RECONHECIDO\n");}
 ;
 
 mult: TK_TIMES
@@ -211,13 +211,13 @@ mult: TK_TIMES
 ;
 
 fator: TK_LPAREN expressao TK_RPAREN
-        {printf("FATOR RECONHECIDO\n");}
+        {printf("FATOR1 RECONHECIDO\n");}
      | var
-        {printf("FATOR RECONHECIDO\n");}    
+        {printf("FATOR2 RECONHECIDO\n");}    
      | TK_NUM
-        {printf("FATOR RECONHECIDO\n");}
+        {printf("FATOR3 RECONHECIDO\n");}
      | chamada
-        {printf("FATOR RECONHECIDO\n");}
+        {printf("FATOR4 RECONHECIDO\n");}
 ;
 
 chamada: TK_ID TK_LPAREN args TK_RPAREN
@@ -312,6 +312,7 @@ int yylex(void){
 }
 
 int yyerror(char *s) {
-    fprintf(stderr, "ERRO SINTÁTICO: %s LINHA: %d\n", s, linhaatual);
+    printf("-----------------ERRO SINTATICO-----------------\n");
+    fprintf(stderr, "ERRO SINTÁTICO: %s LINHA: %d\n", s, lex->linha);
     return 0;
 }

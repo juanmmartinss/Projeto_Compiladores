@@ -76,21 +76,23 @@ int get_lexema(){
 
                     if (aux[0] != '\0') { // Verifica se a string não está vazia.
 
-                        Pega_ID(lex->token, lex, pega_carac);//pega o token e o lexema e retorna o token em string 
+                        //se for comentario, nao classifica como token
+                        //if(aux[0]!='/' && aux[1]!='*'){
+                            
+                          Pega_ID(lex->token, lex, pega_carac);//pega o token e o lexema e retorna o token em string 
 
-                        printf("Token: %s, Linha: %d, Lexema: |%s| \n",pega_carac, lex->linha, aux);
+                          printf("Token: %s, Linha: %d, Lexema: |%s| \n",pega_carac, lex->linha, aux);
 
-                        token_atual = lex->token;//manda para o analisador sintatico para verificar se esta correto sintaticamente
+                          token_atual = lex->token;//manda para o analisador sintatico para verificar se esta correto sintaticamente
 
-                        //printf("token_atual: %d\n", token_atual);
+                          //printf("token_atual: %d\n", token_atual);
 
-                        //printf("lexema do token %s\n", aux);
-                        //manda para o analisador sintatico para verificar se esta correto sintaticamente
-                        //yyparse();
-                        // linhaatual = lex->linha;//armazena a linha atual para mandar para o analisador sintatico
-                        // return lex->token;
-
-
+                          //printf("lexema do token %s\n", aux);
+                          //manda para o analisador sintatico para verificar se esta correto sintaticamente
+                          //yyparse();
+                          // linhaatual = lex->linha;//armazena a linha atual para mandar para o analisador sintatico
+                          // return lex->token;
+                        //}
                         
                     }
                     
@@ -386,7 +388,7 @@ void Verifica_palavra_reservada(char *palavra, Lex *lex) {
         //rbrace
         raiz = insere_no(raiz, "}", RBRACE);
         
-        raiz = insere_no(raiz, "main", MAIN);
+        //raiz = insere_no(raiz, "main", MAIN);
         raiz = insere_no(raiz, "printf", PRINTF);
 
         
@@ -397,7 +399,7 @@ void Verifica_palavra_reservada(char *palavra, Lex *lex) {
     }
     else if (no != NULL) {
         lex->token = no->token;
-    } else {
+    } else if (palavra[0] != '/' && palavra[1] != '*') { // se nao for comentario, classifica como ID, ou seja ignora comentario
         lex->token = ID;//se nao for uma palavra reservada, é um ID
     }
 
