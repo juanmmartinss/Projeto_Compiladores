@@ -73,7 +73,7 @@
 #include <stdlib.h>
 #include "funcs.h"
 #include "global.h"
-//#include "parser.h"
+// #include "parser.h"
 
 int linhaatual;
 
@@ -83,7 +83,7 @@ int yylex();
 int yyparse();
 int yyerror(char *s);
 
-//pont_arv raiz;
+pont_arv raiz;
 
 
 #line 90 "parser.tab.c"
@@ -1910,6 +1910,7 @@ int yylex(void){
 
 int yyerror(char *s) {
     printf("-----------------ERRO SINTATICO-----------------\n");
+    printf("LINHA: %d\n",lex->linha);
     fprintf(stderr, "ERRO SINTÁTICO: %s LINHA: %d\n", s, lex->linha);
     return 0;
 }

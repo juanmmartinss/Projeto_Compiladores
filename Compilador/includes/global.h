@@ -9,12 +9,14 @@
 
 extern int linhaatual;
 
-// typedef struct arvore {
-//     char* tipo;
-//     char* valor;
-//     struct arvore* filho;
-//     struct arvore* irmao;
-// } Arvore;
+typedef struct arvore {
+    char* tipo;
+    char* valor;
+    struct arvore* filho;
+    struct arvore* irmao;
+} Arvore;
+
+typedef Arvore *pont_arv;
 
 
 extern Buffer *buffer;

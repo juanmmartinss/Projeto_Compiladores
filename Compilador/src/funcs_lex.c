@@ -14,9 +14,9 @@ int matriz_dfa[16][21] = {
             /*letras*/   {2, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 18},
                          {17, 3, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 18},
                          {17, 17, 5, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 17, 18},
-                         {5, 5, 6, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5},//cometario, lexico ou sintatico?
+                         {5, 5, 6, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5},
                          {5, 5, 6, 5, 5, 5, 5, 5, 5, 5, 5, 7, 5, 5, 5, 5, 5, 5, 5, 5, 5},
-                         {17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 18},
+                         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
                          {17, 17, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 15, 18, 18, 18, 18, 18, 18, 17, 18},
                          {18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 12, 18, 18, 18, 18, 18, 18, 18, 18},
                          {17, 17, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 14, 18, 18, 18, 18, 18, 18, 17, 18},
@@ -30,11 +30,8 @@ int matriz_dfa[16][21] = {
 
 
 int get_lexema(){
-        //printf("achar lexema\n");
-        // buffer->pos = 0;
         int token_atual = 0;
         char *aux;
-
 
             for (int k = 0; k < 128; k++) { // Zera o vetor lexema
                     lex->lexema[k] = '\0';
@@ -43,8 +40,6 @@ int get_lexema(){
             for (int j = 0; j < 128; j++) {//percorre o lexema da linha
 
                 c = get_next_char(buffer, input_file, lex);
-
-                //printf("c: %c\n", c);
 
                 controle = Tabela_DFA(lex, c, buffer);//verifica se o char é um simbolo
 
@@ -55,47 +50,28 @@ int get_lexema(){
                     break;
                 }
             }
-            
+
             if(lex->aux == 0){//verifica se o lexema é um erro, se for 1 é um erro e nao printa, apenas mostra a msg de erro
-                //printf("buffer->data detro do if: %s\n", buffer->data);
                 if(linha_atual != lex->linha){//verifica se a linha atual é diferente da linha do lexema, para nao mostrar o erro da mesma linha mais de uma vez
-                    //tira espacos em branco do inicio do lexema
 
-                    //printf("lexema----: %s\n", lex->lexema);
-
-                    //monta novo vetor sem espacos no comeco
                     for (int l = 0; l < strlen(lex->lexema); l++) {
                         if (isspace(lex->lexema[l]) == 0) {
                             aux = &lex->lexema[l];//pega o endereco do primeiro caractere que nao é espaco
                             break;
                         }
                     }
-                    //printf("aux: %s\n", aux);
 
                     Verifica_palavra_reservada(aux, lex);//verifica se o lexema é uma palavra reservada
 
                     if (aux[0] != '\0') { // Verifica se a string não está vazia.
-
-                        //se for comentario, nao classifica como token
-                        //if(aux[0]!='/' && aux[1]!='*'){
                             
                           Pega_ID(lex->token, lex, pega_carac);//pega o token e o lexema e retorna o token em string 
 
                           printf("Token: %s, Linha: %d, Lexema: |%s| \n",pega_carac, lex->linha, aux);
 
                           token_atual = lex->token;//manda para o analisador sintatico para verificar se esta correto sintaticamente
-
-                          //printf("token_atual: %d\n", token_atual);
-
-                          //printf("lexema do token %s\n", aux);
-                          //manda para o analisador sintatico para verificar se esta correto sintaticamente
-                          //yyparse();
-                          // linhaatual = lex->linha;//armazena a linha atual para mandar para o analisador sintatico
-                          // return lex->token;
-                        //}
                         
                     }
-                    
                 }
             }
             else if (lex->aux != 0){//se for um erro, printa a linha do erro
@@ -399,7 +375,8 @@ void Verifica_palavra_reservada(char *palavra, Lex *lex) {
     }
     else if (no != NULL) {
         lex->token = no->token;
-    } else if (palavra[0] != '/' && palavra[1] != '*') { // se nao for comentario, classifica como ID, ou seja ignora comentario
+    }
+    else { // se nao for comentario, classifica como ID, ou seja ignora comentario
         lex->token = ID;//se nao for uma palavra reservada, é um ID
     }
 
@@ -461,9 +438,10 @@ void Pega_ID(int valor_letra, Lex *lex, char *pega_carac) {
     strcpy(pega_carac, "LBRACE");
   } else if (valor_letra == 26) {
     strcpy(pega_carac, "RBRACE");
-  } else if (valor_letra == 27) {
-    strcpy(pega_carac, "MAIN");
-  } else if (valor_letra == 28) {
+  } //else if (valor_letra == 27) {
+    //strcpy(pega_carac, "MAIN");
+  //} 
+  else if (valor_letra == 28) {
     strcpy(pega_carac, "PRINTF");
   } else {
     strcpy(pega_carac, "ID");
