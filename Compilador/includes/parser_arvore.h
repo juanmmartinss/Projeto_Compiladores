@@ -14,7 +14,7 @@ typedef struct Arvore {
 
 typedef Arvore *pont_arv;
 
-pont_arv cria_arvore(char *palavra, int numero_linha);
+pont_arv cria_no(pont_arv no);
 pont_arv insere_irmao(pont_arv raiz, pont_arv no);
 pont_arv insere_filho(pont_arv raiz, pont_arv no);
 void imprime_arvore(pont_arv raiz, int nivel);

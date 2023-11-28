@@ -64,7 +64,7 @@ programa: lista_declaracoes
 lista_declaracoes: lista_declaracoes declaracao
         {   
             printf("LISTA DE DECLARACOES RECONHECIDA\n");
-            //$$ = insere_irmao($1, $2);
+            $$ = insere_irmao($1, $2);
         }
         | declaracao
         {
@@ -90,13 +90,18 @@ declaracao_var: tipo_especificador TK_ID TK_SEMI
         {
             printf("DECLARACAO VAR RECONHECIDA\n");
             $$ = $1;
-            //pont_arv aux = cria_no($2);
-            //$$ = insere_filho($$, aux);
+            pont_arv aux = cria_no($2);
+            $$ = insere_filho($$, aux);
+
         }
         | tipo_especificador TK_ID TK_LBRACKET TK_NUM TK_RBRACKET TK_SEMI
         {
             printf("DECLARACAO VAR RECONHECIDA\n");
             $$ = $1;
+            pont_arv aux = cria_no($2);
+            pont_arv aux2 = cria_no($4);
+            $$ = insere_filho($$, aux);
+            $$ = insere_filho($$, aux2);
 
         }
 
@@ -105,11 +110,13 @@ declaracao_var: tipo_especificador TK_ID TK_SEMI
 tipo_especificador: TK_INT
         {
             printf("TIPO ESPECIFICADOR RECONHECIDO\n");
+            $$ = cria_no($1);
 
         }
         | TK_VOID
         {
             printf("TIPO ESPECIFICADOR RECONHECIDO\n");
+            $$ = cria_no($1);
 
         }
 ;
@@ -117,260 +124,380 @@ tipo_especificador: TK_INT
 declaracao_fun: tipo_especificador TK_ID TK_LPAREN params TK_RPAREN composto_decl
         {
             printf("DECLARACAO FUN RECONHECIDA\n");
+            $$ = $1;
+            insere_filho($$, $4);
+            insere_filho($$, $2);
+            insere_filho($2, $6);
         }
 ;
 
 params: lista_params
         {
             printf("PARAMS RECONHECIDO\n");
+            $$ = $1;
+
         }
         | TK_VOID
         {
             printf("PARAMS RECONHECIDO\n");
+            $$ = cria_no($1);
+
         }
 ;
 
 lista_params: lista_params TK_COMMA param
         {
             printf("LISTA PARAMS RECONHECIDO\n");
+            $$ = $1;
+            insere_irmao($$, $3);
         }
         | param
         {
             printf("LISTA PARAMS RECONHECIDO\n");
+            $$ = $1;
         }
 ;
 
 param: tipo_especificador TK_ID
         {
             printf("PARAM RECONHECIDO\n");
+            $$ = $1;
+            pont_arv aux = cria_no($2);
+            $$ = insere_filho($$, aux);
         }
         | tipo_especificador TK_ID TK_LBRACKET TK_RBRACKET
         {
             printf("PARAM RECONHECIDO\n");
+            $$ = $1;
+            pont_arv aux = cria_no($2);
+            $$ = insere_filho($$, aux);
+
         }
 ;
 
 composto_decl: TK_LBRACE local_declaracoes lista_comando TK_RBRACE
         {
             printf("COMPOSTO DECL RECONHECIDO\n");
+            $$ = $2;
+            insere_irmao($$, $3);
+
+
         }
 ;
 
 local_declaracoes: local_declaracoes declaracao_var
         {
             printf("LOCAL DECLARACOES RECONHECIDO\n");
+            $$ = $1;
+            insere_irmao($$, $2);
         }
         | 
         {
             printf("LOCAL DECLARACOES RECONHECIDO\n");
+            $$ = NULL;
         }
 ;
 
 lista_comando: lista_comando comando
         {
             printf("LISTA COMANDO RECONHECIDO\n");
+            $$ = $1;
+            insere_irmao($$, $2);
         }
         | 
         {
             printf("LISTA COMANDO RECONHECIDO\n");
+            $$ = NULL;
         }
 ;
 
 comando: expressao_decl
         {
             printf("COMANDO RECONHECIDO\n");
+            $$ = $1;
         }
         | selecao_decl
         {
             printf("COMANDO RECONHECIDO\n");
+            $$ = $1;
         }
         | iteracao_decl
         {
             printf("COMANDO RECONHECIDO\n");
+            $$ = $1;
         }
         | retorno_decl
         {
             printf("COMANDO RECONHECIDO\n");
+            $$ = $1;
         }
         | composto_decl
         {
             printf("COMANDO RECONHECIDO\n");
+            $$ = $1;
         }
 ;
 
 expressao_decl: expressao TK_SEMI
         {
             printf("EXPRESSAO DECL RECONHECIDO\n");
+            $$ = $1;
         }
         | TK_SEMI
         {
             printf("EXPRESSAO DECL RECONHECIDO\n");
+            $$ = NULL;
         }
 ;
 
-selecao_decl: TK_IF TK_LPAREN expressao TK_RPAREN comando
+selecao_decl: TK_IF TK_LPAREN expressao TK_RPAREN comando 
         {
             printf("SELECAO DECL RECONHECIDO\n");
+            $$ = cria_no($1);
+            insere_filho($$, $3);
+            insere_filho($$, $5);
+            //insere_filho($$, $6);
         }
         | TK_IF TK_LPAREN expressao TK_RPAREN comando TK_ELSE comando
         {
             printf("SELECAO DECL RECONHECIDO\n");
+            $$ = cria_no($1);
+            insere_filho($$, $3);
+            insere_filho($$, $5);
+            insere_filho($$, $7);
+
         }
 ;
 
 iteracao_decl: TK_WHILE TK_LPAREN expressao TK_RPAREN comando
         {
             printf("ITERACAO DECL RECONHECIDO\n");
+            $$ = cria_no($1);
+            insere_filho($$, $3);
+            insere_filho($$, $5);
+
         }
 ;
 
 retorno_decl: TK_RETURN TK_SEMI
         {
             printf("RETORNO DECL RECONHECIDO\n");
+            $$ = cria_no($1);
         }
         | TK_RETURN expressao TK_SEMI
         {
             printf("RETORNO DECL RECONHECIDO\n");
+            $$ = cria_no($1);
+            insere_filho($$, $2);
+
         }
 ;
 
 expressao: var TK_ASSIGN expressao
         {
             printf("EXPRESSAO1 RECONHECIDO\n");
+            $$ = cria_no($2);
+            insere_filho($$, $1);
+            insere_filho($$, $3);
+
         }
         | simples_expressao
         {
             printf("EXPRESSAO2 RECONHECIDO\n");
+            $$ = $1;
         }
 ;
 
 var: TK_ID
         {
             printf("VAR1 RECONHECIDO\n");
+            $$ = cria_no($1);
+
         }
         | TK_ID TK_LBRACKET expressao TK_RBRACKET
         {
             printf("VAR2 RECONHECIDO\n");
+            $$ = cria_no($1);
+            insere_filho($$, $3);
+
         }
 ;
 
 simples_expressao: soma_expressao relacional soma_expressao
         {
             printf("SIMPLES EXPRESSAO1 RECONHECIDO\n");
+            $$ = $2;
+            insere_filho($$, $1);
+            insere_filho($$, $3);
+
         }    
         | soma_expressao
         {
             printf("SIMPLES EXPRESSAO2 RECONHECIDO\n");
+            $$ = $1;
+
         }
 ;
 
 relacional: TK_LT
         {
             printf("RELACIONAL RECONHECIDO\n");
+            $$ = cria_no($1);
+
         }
         | TK_LE
         {
             printf("RELACIONAL RECONHECIDO\n");
+            $$ = cria_no($1);
+
         }
         | TK_GT
         {
             printf("RELACIONAL RECONHECIDO\n");
+            $$ = cria_no($1);
+
         }
         | TK_GE
         {
             printf("RELACIONAL RECONHECIDO\n");
+            $$ = cria_no($1);
+
         }
         | TK_EQ
         {
             printf("RELACIONAL RECONHECIDO\n");
+            $$ = cria_no($1);
+
         }
         | TK_NE 
         {
             printf("RELACIONAL RECONHECIDO\n");
+            $$ = cria_no($1);
+
         }
 ;
 
 soma_expressao: soma_expressao soma termo
         {
             printf("SOMA EXPRESSAO1 RECONHECIDO\n");
+            $$ = $2;
+            insere_filho($$, $1);
+            insere_filho($$, $3);
+
         }
         | termo
         {
             printf("SOMA EXPRESSAO2 RECONHECIDO\n");
+            $$ = $1;
+        
         }
 ;
 
 soma: TK_PLUS
         {
             printf("SOMA RECONHECIDO\n");
+            $$ = cria_no($1);
+
         }
         | TK_MINUS
         {
             printf("SOMA RECONHECIDO\n");
+            $$ = cria_no($1);
+
         }
 ;
 
 termo: termo mult fator
         {
             printf("TERMO1 RECONHECIDO\n");
+            $$ = $2;
+            insere_filho($$, $1);
+            insere_filho($$, $3);
+
         }
         | fator
         {
             printf("TERMO2 RECONHECIDO\n");
+            $$ = $1;
+
         }
 ;
 
 mult: TK_TIMES
         {
             printf("MULT RECONHECIDO\n");
+            $$ = cria_no($1);
+
         }
         | TK_OVER
         {
             printf("MULT RECONHECIDO\n");
+            $$ = cria_no($1);
+
         }
 ;
 
 fator: TK_LPAREN expressao TK_RPAREN
         {
             printf("FATOR1 RECONHECIDO\n");
+            $$ = $2;
+
         }
         | var
         {
             printf("FATOR2 RECONHECIDO\n");
+            $$ = $1;
+
         }    
         | TK_NUM
         {
             printf("FATOR3 RECONHECIDO\n");
+            $$ = cria_no($1);
+
         }
         | chamada
         {
             printf("FATOR4 RECONHECIDO\n");
+            $$ = $1;
+
         }
 ;
 
 chamada: TK_ID TK_LPAREN args TK_RPAREN
         {
             printf("CHAMADA RECONHECIDO\n");
+            $$ = cria_no($1);
+            insere_filho($$, $3);
+
         }
 ;
 
 args: arg_lista
         {
             printf("ARGS RECONHECIDO\n");
+            $$ = $1;
+
         }
         |
         {
             printf("ARGS RECONHECIDO\n");
+            $$ = NULL;
+
         }
 ;
 
 arg_lista: arg_lista TK_COMMA expressao
         {
             printf("ARG LISTA RECONHECIDO\n");
+            $$ = $1;
+            insere_irmao($$, $3);
+
         }
         | expressao
         {
             printf("ARG LISTA RECONHECIDO\n");
+            $$ = $1;
+            
         }
 ;
 

@@ -6,13 +6,14 @@
 #include "parser_arvore.h"
 //#include "global.h"
 
-pont_arv cria_no(char *palavra){
-    pont_arv no = (pont_arv)malloc(sizeof(Arvore));
-    strcpy(no->lexema, palavra);
+pont_arv cria_no(pont_arv no){
+    no = (pont_arv)malloc(sizeof(Arvore));
     no->filho1 = NULL;
     no->filho2 = NULL;
     no->filho3 = NULL;
     no->irmao = NULL;
+    no->tipo = NULL;
+    no->valor = NULL;
     return no;
 }
 
