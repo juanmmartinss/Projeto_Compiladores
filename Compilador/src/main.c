@@ -4,7 +4,7 @@
 #include <string.h>
 #include <ctype.h>
 #include "global.h"
-//#include "parser.h"
+#include "parser_arvore.h"
 //#include "parser.tab.h"
 
 FILE *input_file = NULL;
@@ -16,6 +16,8 @@ char c = '\0';
 int linha_atual = 0;
 int controle = 0;
 char* pega_carac = NULL;
+
+int parse(void);
 
 //raiz = NULL;
 

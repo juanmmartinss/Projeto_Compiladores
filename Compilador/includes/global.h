@@ -20,6 +20,8 @@ extern int linhaatual;
 
 // typedef Arvore *pont_arv;
 
+//tipo de dado
+
 extern Buffer *buffer;
 extern Lex *lex;
 extern FILE *input_file;
