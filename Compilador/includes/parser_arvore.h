@@ -3,6 +3,8 @@
 #include <string.h>
 
 typedef struct Arvore {
+    char* tipodeclaracao;
+    char* tipoexpressao;
     char* tipo;
     char* valor;
     char lexema[25];
