@@ -73,7 +73,9 @@
 #include <stdlib.h>
 #include "funcs.h"
 #include "global.h"
-// #include "parser.h"
+#include "parser_arvore.h"
+
+#define YYSTYPE pont_arv
 
 int linhaatual;
 
@@ -86,7 +88,7 @@ int yyerror(char *s);
 pont_arv raiz;
 
 
-#line 90 "parser.tab.c"
+#line 92 "parser.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -627,15 +629,15 @@ static const yytype_int8 yytranslate[] =
 
 #if YYDEBUG
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-static const yytype_uint8 yyrline[] =
+static const yytype_int16 yyrline[] =
 {
-       0,    54,    54,    58,    60,    64,    66,    71,    73,    78,
-      80,    84,    88,    90,    94,    96,   100,   102,   106,   110,
-     113,   116,   119,   122,   124,   126,   128,   130,   134,   136,
-     140,   142,   146,   150,   152,   156,   158,   162,   164,   168,
-     170,   175,   177,   179,   181,   183,   185,   189,   191,   195,
-     197,   201,   203,   207,   209,   213,   215,   217,   219,   223,
-     227,   230,   233,   235
+       0,    56,    56,    64,    69,    76,    81,    89,    96,   105,
+     110,   117,   123,   127,   133,   137,   143,   147,   153,   159,
+     164,   169,   174,   179,   183,   187,   191,   195,   201,   205,
+     211,   215,   221,   227,   231,   237,   241,   247,   251,   257,
+     261,   267,   271,   275,   279,   283,   287,   293,   297,   303,
+     307,   313,   317,   323,   327,   333,   337,   341,   345,   351,
+     357,   362,   367,   371
 };
 #endif
 
@@ -1267,379 +1269,515 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* programa: lista_declaracoes  */
-#line 55 "parser.y"
-        {printf("PROGRAMA RECONHECIDO\n");}
-#line 1273 "parser.tab.c"
+#line 57 "parser.y"
+        {   
+            printf("PROGRAMA RECONHECIDO\n");
+            raiz = yyvsp[0];
+        }
+#line 1278 "parser.tab.c"
     break;
 
   case 3: /* lista_declaracoes: lista_declaracoes declaracao  */
-#line 59 "parser.y"
-        {printf("LISTA DE DECLARACOES RECONHECIDA\n");}
-#line 1279 "parser.tab.c"
+#line 65 "parser.y"
+        {   
+            printf("LISTA DE DECLARACOES RECONHECIDA\n");
+            //$$ = insere_irmao($1, $2);
+        }
+#line 1287 "parser.tab.c"
     break;
 
   case 4: /* lista_declaracoes: declaracao  */
-#line 61 "parser.y"
-        {printf("LISTA DE DECLARACOES RECONHECIDA\n");}
-#line 1285 "parser.tab.c"
+#line 70 "parser.y"
+        {
+            printf("LISTA DE DECLARACOES RECONHECIDA\n");
+            yyval = yyvsp[0];
+        }
+#line 1296 "parser.tab.c"
     break;
 
   case 5: /* declaracao: declaracao_var  */
-#line 65 "parser.y"
-        {printf("DECLARACAO RECONHECIDA\n");}
-#line 1291 "parser.tab.c"
+#line 77 "parser.y"
+        {   
+            printf("DECLARACAO RECONHECIDA\n");
+            yyval = yyvsp[0];
+        }
+#line 1305 "parser.tab.c"
     break;
 
   case 6: /* declaracao: declaracao_fun  */
-#line 67 "parser.y"
-        {printf("DECLARACAO RECONHECIDA\n");}
-#line 1297 "parser.tab.c"
+#line 82 "parser.y"
+        {   
+            printf("DECLARACAO RECONHECIDA\n");
+            yyval = yyvsp[0];
+        }
+#line 1314 "parser.tab.c"
     break;
 
   case 7: /* declaracao_var: tipo_especificador TK_ID TK_SEMI  */
-#line 72 "parser.y"
-        {printf("DECLARACAO VAR RECONHECIDA\n");}
-#line 1303 "parser.tab.c"
+#line 90 "parser.y"
+        {
+            printf("DECLARACAO VAR RECONHECIDA\n");
+            yyval = yyvsp[-2];
+            //pont_arv aux = cria_no($2);
+            //$$ = insere_filho($$, aux);
+        }
+#line 1325 "parser.tab.c"
     break;
 
   case 8: /* declaracao_var: tipo_especificador TK_ID TK_LBRACKET TK_NUM TK_RBRACKET TK_SEMI  */
-#line 74 "parser.y"
-        {printf("DECLARACAO VAR RECONHECIDA\n");}
-#line 1309 "parser.tab.c"
+#line 97 "parser.y"
+        {
+            printf("DECLARACAO VAR RECONHECIDA\n");
+            yyval = yyvsp[-5];
+
+        }
+#line 1335 "parser.tab.c"
     break;
 
   case 9: /* tipo_especificador: TK_INT  */
-#line 79 "parser.y"
-        {printf("TIPO ESPECIFICADOR RECONHECIDO\n");}
-#line 1315 "parser.tab.c"
+#line 106 "parser.y"
+        {
+            printf("TIPO ESPECIFICADOR RECONHECIDO\n");
+
+        }
+#line 1344 "parser.tab.c"
     break;
 
   case 10: /* tipo_especificador: TK_VOID  */
-#line 81 "parser.y"
-        {printf("TIPO ESPECIFICADOR RECONHECIDO\n");}
-#line 1321 "parser.tab.c"
+#line 111 "parser.y"
+        {
+            printf("TIPO ESPECIFICADOR RECONHECIDO\n");
+
+        }
+#line 1353 "parser.tab.c"
     break;
 
   case 11: /* declaracao_fun: tipo_especificador TK_ID TK_LPAREN params TK_RPAREN composto_decl  */
-#line 85 "parser.y"
-        {printf("DECLARACAO FUN RECONHECIDA\n");}
-#line 1327 "parser.tab.c"
+#line 118 "parser.y"
+        {
+            printf("DECLARACAO FUN RECONHECIDA\n");
+        }
+#line 1361 "parser.tab.c"
     break;
 
   case 12: /* params: lista_params  */
-#line 89 "parser.y"
-        {printf("PARAMS RECONHECIDO\n");}
-#line 1333 "parser.tab.c"
-    break;
-
-  case 13: /* params: TK_VOID  */
-#line 91 "parser.y"
-        {printf("PARAMS RECONHECIDO\n");}
-#line 1339 "parser.tab.c"
-    break;
-
-  case 14: /* lista_params: lista_params TK_COMMA param  */
-#line 95 "parser.y"
-        {printf("LISTA PARAMS RECONHECIDO\n");}
-#line 1345 "parser.tab.c"
-    break;
-
-  case 15: /* lista_params: param  */
-#line 97 "parser.y"
-        {printf("LISTA PARAMS RECONHECIDO\n");}
-#line 1351 "parser.tab.c"
-    break;
-
-  case 16: /* param: tipo_especificador TK_ID  */
-#line 101 "parser.y"
-        {printf("PARAM RECONHECIDO\n");}
-#line 1357 "parser.tab.c"
-    break;
-
-  case 17: /* param: tipo_especificador TK_ID TK_LBRACKET TK_RBRACKET  */
-#line 103 "parser.y"
-        {printf("PARAM RECONHECIDO\n");}
-#line 1363 "parser.tab.c"
-    break;
-
-  case 18: /* composto_decl: TK_LBRACE local_declaracoes lista_comando TK_RBRACE  */
-#line 107 "parser.y"
-        {printf("COMPOSTO DECL RECONHECIDO\n");}
+#line 124 "parser.y"
+        {
+            printf("PARAMS RECONHECIDO\n");
+        }
 #line 1369 "parser.tab.c"
     break;
 
-  case 19: /* local_declaracoes: local_declaracoes declaracao_var  */
-#line 111 "parser.y"
-        {printf("LOCAL DECLARACOES RECONHECIDO\n");}
-#line 1375 "parser.tab.c"
+  case 13: /* params: TK_VOID  */
+#line 128 "parser.y"
+        {
+            printf("PARAMS RECONHECIDO\n");
+        }
+#line 1377 "parser.tab.c"
     break;
 
-  case 20: /* local_declaracoes: %empty  */
-#line 113 "parser.y"
-        {printf("LOCAL DECLARACOES RECONHECIDO\n");}
-#line 1381 "parser.tab.c"
+  case 14: /* lista_params: lista_params TK_COMMA param  */
+#line 134 "parser.y"
+        {
+            printf("LISTA PARAMS RECONHECIDO\n");
+        }
+#line 1385 "parser.tab.c"
     break;
 
-  case 21: /* lista_comando: lista_comando comando  */
-#line 117 "parser.y"
-        {printf("LISTA COMANDO RECONHECIDO\n");}
-#line 1387 "parser.tab.c"
-    break;
-
-  case 22: /* lista_comando: %empty  */
-#line 119 "parser.y"
-        {printf("LISTA COMANDO RECONHECIDO\n");}
+  case 15: /* lista_params: param  */
+#line 138 "parser.y"
+        {
+            printf("LISTA PARAMS RECONHECIDO\n");
+        }
 #line 1393 "parser.tab.c"
     break;
 
-  case 23: /* comando: expressao_decl  */
-#line 123 "parser.y"
-        {printf("COMANDO RECONHECIDO\n");}
-#line 1399 "parser.tab.c"
+  case 16: /* param: tipo_especificador TK_ID  */
+#line 144 "parser.y"
+        {
+            printf("PARAM RECONHECIDO\n");
+        }
+#line 1401 "parser.tab.c"
     break;
 
-  case 24: /* comando: selecao_decl  */
-#line 125 "parser.y"
-        {printf("COMANDO RECONHECIDO\n");}
-#line 1405 "parser.tab.c"
+  case 17: /* param: tipo_especificador TK_ID TK_LBRACKET TK_RBRACKET  */
+#line 148 "parser.y"
+        {
+            printf("PARAM RECONHECIDO\n");
+        }
+#line 1409 "parser.tab.c"
     break;
 
-  case 25: /* comando: iteracao_decl  */
-#line 127 "parser.y"
-        {printf("COMANDO RECONHECIDO\n");}
-#line 1411 "parser.tab.c"
-    break;
-
-  case 26: /* comando: retorno_decl  */
-#line 129 "parser.y"
-        {printf("COMANDO RECONHECIDO\n");}
+  case 18: /* composto_decl: TK_LBRACE local_declaracoes lista_comando TK_RBRACE  */
+#line 154 "parser.y"
+        {
+            printf("COMPOSTO DECL RECONHECIDO\n");
+        }
 #line 1417 "parser.tab.c"
     break;
 
-  case 27: /* comando: composto_decl  */
-#line 131 "parser.y"
-        {printf("COMANDO RECONHECIDO\n");}
-#line 1423 "parser.tab.c"
+  case 19: /* local_declaracoes: local_declaracoes declaracao_var  */
+#line 160 "parser.y"
+        {
+            printf("LOCAL DECLARACOES RECONHECIDO\n");
+        }
+#line 1425 "parser.tab.c"
     break;
 
-  case 28: /* expressao_decl: expressao TK_SEMI  */
-#line 135 "parser.y"
-        {printf("EXPRESSAO DECL RECONHECIDO\n");}
-#line 1429 "parser.tab.c"
+  case 20: /* local_declaracoes: %empty  */
+#line 164 "parser.y"
+        {
+            printf("LOCAL DECLARACOES RECONHECIDO\n");
+        }
+#line 1433 "parser.tab.c"
     break;
 
-  case 29: /* expressao_decl: TK_SEMI  */
-#line 137 "parser.y"
-        {printf("EXPRESSAO DECL RECONHECIDO\n");}
-#line 1435 "parser.tab.c"
-    break;
-
-  case 30: /* selecao_decl: TK_IF TK_LPAREN expressao TK_RPAREN comando  */
-#line 141 "parser.y"
-        {printf("SELECAO DECL RECONHECIDO\n");}
+  case 21: /* lista_comando: lista_comando comando  */
+#line 170 "parser.y"
+        {
+            printf("LISTA COMANDO RECONHECIDO\n");
+        }
 #line 1441 "parser.tab.c"
     break;
 
-  case 31: /* selecao_decl: TK_IF TK_LPAREN expressao TK_RPAREN comando TK_ELSE comando  */
-#line 143 "parser.y"
-        {printf("SELECAO DECL RECONHECIDO\n");}
-#line 1447 "parser.tab.c"
+  case 22: /* lista_comando: %empty  */
+#line 174 "parser.y"
+        {
+            printf("LISTA COMANDO RECONHECIDO\n");
+        }
+#line 1449 "parser.tab.c"
     break;
 
-  case 32: /* iteracao_decl: TK_WHILE TK_LPAREN expressao TK_RPAREN comando  */
-#line 147 "parser.y"
-        {printf("ITERACAO DECL RECONHECIDO\n");}
-#line 1453 "parser.tab.c"
+  case 23: /* comando: expressao_decl  */
+#line 180 "parser.y"
+        {
+            printf("COMANDO RECONHECIDO\n");
+        }
+#line 1457 "parser.tab.c"
     break;
 
-  case 33: /* retorno_decl: TK_RETURN TK_SEMI  */
-#line 151 "parser.y"
-        {printf("RETORNO DECL RECONHECIDO\n");}
-#line 1459 "parser.tab.c"
-    break;
-
-  case 34: /* retorno_decl: TK_RETURN expressao TK_SEMI  */
-#line 153 "parser.y"
-        {printf("RETORNO DECL RECONHECIDO\n");}
+  case 24: /* comando: selecao_decl  */
+#line 184 "parser.y"
+        {
+            printf("COMANDO RECONHECIDO\n");
+        }
 #line 1465 "parser.tab.c"
     break;
 
-  case 35: /* expressao: var TK_ASSIGN expressao  */
-#line 157 "parser.y"
-        {printf("EXPRESSAO1 RECONHECIDO\n");}
-#line 1471 "parser.tab.c"
+  case 25: /* comando: iteracao_decl  */
+#line 188 "parser.y"
+        {
+            printf("COMANDO RECONHECIDO\n");
+        }
+#line 1473 "parser.tab.c"
     break;
 
-  case 36: /* expressao: simples_expressao  */
-#line 159 "parser.y"
-        {printf("EXPRESSAO2 RECONHECIDO\n");}
-#line 1477 "parser.tab.c"
+  case 26: /* comando: retorno_decl  */
+#line 192 "parser.y"
+        {
+            printf("COMANDO RECONHECIDO\n");
+        }
+#line 1481 "parser.tab.c"
     break;
 
-  case 37: /* var: TK_ID  */
-#line 163 "parser.y"
-        {printf("VAR1 RECONHECIDO\n");}
-#line 1483 "parser.tab.c"
-    break;
-
-  case 38: /* var: TK_ID TK_LBRACKET expressao TK_RBRACKET  */
-#line 165 "parser.y"
-        {printf("VAR2 RECONHECIDO\n");}
+  case 27: /* comando: composto_decl  */
+#line 196 "parser.y"
+        {
+            printf("COMANDO RECONHECIDO\n");
+        }
 #line 1489 "parser.tab.c"
     break;
 
-  case 39: /* simples_expressao: soma_expressao relacional soma_expressao  */
-#line 169 "parser.y"
-        {printf("SIMPLES EXPRESSAO1 RECONHECIDO\n");}
-#line 1495 "parser.tab.c"
+  case 28: /* expressao_decl: expressao TK_SEMI  */
+#line 202 "parser.y"
+        {
+            printf("EXPRESSAO DECL RECONHECIDO\n");
+        }
+#line 1497 "parser.tab.c"
     break;
 
-  case 40: /* simples_expressao: soma_expressao  */
-#line 172 "parser.y"
-        {printf("SIMPLES EXPRESSAO2 RECONHECIDO\n");}
-#line 1501 "parser.tab.c"
+  case 29: /* expressao_decl: TK_SEMI  */
+#line 206 "parser.y"
+        {
+            printf("EXPRESSAO DECL RECONHECIDO\n");
+        }
+#line 1505 "parser.tab.c"
     break;
 
-  case 41: /* relacional: TK_LT  */
-#line 176 "parser.y"
-        {printf("RELACIONAL RECONHECIDO\n");}
-#line 1507 "parser.tab.c"
-    break;
-
-  case 42: /* relacional: TK_LE  */
-#line 178 "parser.y"
-        {printf("RELACIONAL RECONHECIDO\n");}
+  case 30: /* selecao_decl: TK_IF TK_LPAREN expressao TK_RPAREN comando  */
+#line 212 "parser.y"
+        {
+            printf("SELECAO DECL RECONHECIDO\n");
+        }
 #line 1513 "parser.tab.c"
     break;
 
-  case 43: /* relacional: TK_GT  */
-#line 180 "parser.y"
-        {printf("RELACIONAL RECONHECIDO\n");}
-#line 1519 "parser.tab.c"
+  case 31: /* selecao_decl: TK_IF TK_LPAREN expressao TK_RPAREN comando TK_ELSE comando  */
+#line 216 "parser.y"
+        {
+            printf("SELECAO DECL RECONHECIDO\n");
+        }
+#line 1521 "parser.tab.c"
     break;
 
-  case 44: /* relacional: TK_GE  */
-#line 182 "parser.y"
-        {printf("RELACIONAL RECONHECIDO\n");}
-#line 1525 "parser.tab.c"
+  case 32: /* iteracao_decl: TK_WHILE TK_LPAREN expressao TK_RPAREN comando  */
+#line 222 "parser.y"
+        {
+            printf("ITERACAO DECL RECONHECIDO\n");
+        }
+#line 1529 "parser.tab.c"
     break;
 
-  case 45: /* relacional: TK_EQ  */
-#line 184 "parser.y"
-        {printf("RELACIONAL RECONHECIDO\n");}
-#line 1531 "parser.tab.c"
-    break;
-
-  case 46: /* relacional: TK_NE  */
-#line 186 "parser.y"
-        {printf("RELACIONAL RECONHECIDO\n");}
+  case 33: /* retorno_decl: TK_RETURN TK_SEMI  */
+#line 228 "parser.y"
+        {
+            printf("RETORNO DECL RECONHECIDO\n");
+        }
 #line 1537 "parser.tab.c"
     break;
 
-  case 47: /* soma_expressao: soma_expressao soma termo  */
-#line 190 "parser.y"
-        {printf("SOMA EXPRESSAO1 RECONHECIDO\n");}
-#line 1543 "parser.tab.c"
+  case 34: /* retorno_decl: TK_RETURN expressao TK_SEMI  */
+#line 232 "parser.y"
+        {
+            printf("RETORNO DECL RECONHECIDO\n");
+        }
+#line 1545 "parser.tab.c"
     break;
 
-  case 48: /* soma_expressao: termo  */
-#line 192 "parser.y"
-        {printf("SOMA EXPRESSAO2 RECONHECIDO\n");}
-#line 1549 "parser.tab.c"
+  case 35: /* expressao: var TK_ASSIGN expressao  */
+#line 238 "parser.y"
+        {
+            printf("EXPRESSAO1 RECONHECIDO\n");
+        }
+#line 1553 "parser.tab.c"
     break;
 
-  case 49: /* soma: TK_PLUS  */
-#line 196 "parser.y"
-        {printf("SOMA RECONHECIDO\n");}
-#line 1555 "parser.tab.c"
-    break;
-
-  case 50: /* soma: TK_MINUS  */
-#line 198 "parser.y"
-        {printf("SOMA RECONHECIDO\n");}
+  case 36: /* expressao: simples_expressao  */
+#line 242 "parser.y"
+        {
+            printf("EXPRESSAO2 RECONHECIDO\n");
+        }
 #line 1561 "parser.tab.c"
     break;
 
-  case 51: /* termo: termo mult fator  */
-#line 202 "parser.y"
-        {printf("TERMO1 RECONHECIDO\n");}
-#line 1567 "parser.tab.c"
+  case 37: /* var: TK_ID  */
+#line 248 "parser.y"
+        {
+            printf("VAR1 RECONHECIDO\n");
+        }
+#line 1569 "parser.tab.c"
     break;
 
-  case 52: /* termo: fator  */
-#line 204 "parser.y"
-        {printf("TERMO2 RECONHECIDO\n");}
-#line 1573 "parser.tab.c"
+  case 38: /* var: TK_ID TK_LBRACKET expressao TK_RBRACKET  */
+#line 252 "parser.y"
+        {
+            printf("VAR2 RECONHECIDO\n");
+        }
+#line 1577 "parser.tab.c"
     break;
 
-  case 53: /* mult: TK_TIMES  */
-#line 208 "parser.y"
-        {printf("MULT RECONHECIDO\n");}
-#line 1579 "parser.tab.c"
-    break;
-
-  case 54: /* mult: TK_OVER  */
-#line 210 "parser.y"
-        {printf("MULT RECONHECIDO\n");}
+  case 39: /* simples_expressao: soma_expressao relacional soma_expressao  */
+#line 258 "parser.y"
+        {
+            printf("SIMPLES EXPRESSAO1 RECONHECIDO\n");
+        }
 #line 1585 "parser.tab.c"
     break;
 
-  case 55: /* fator: TK_LPAREN expressao TK_RPAREN  */
-#line 214 "parser.y"
-        {printf("FATOR1 RECONHECIDO\n");}
-#line 1591 "parser.tab.c"
+  case 40: /* simples_expressao: soma_expressao  */
+#line 262 "parser.y"
+        {
+            printf("SIMPLES EXPRESSAO2 RECONHECIDO\n");
+        }
+#line 1593 "parser.tab.c"
     break;
 
-  case 56: /* fator: var  */
-#line 216 "parser.y"
-        {printf("FATOR2 RECONHECIDO\n");}
-#line 1597 "parser.tab.c"
+  case 41: /* relacional: TK_LT  */
+#line 268 "parser.y"
+        {
+            printf("RELACIONAL RECONHECIDO\n");
+        }
+#line 1601 "parser.tab.c"
     break;
 
-  case 57: /* fator: TK_NUM  */
-#line 218 "parser.y"
-        {printf("FATOR3 RECONHECIDO\n");}
-#line 1603 "parser.tab.c"
-    break;
-
-  case 58: /* fator: chamada  */
-#line 220 "parser.y"
-        {printf("FATOR4 RECONHECIDO\n");}
+  case 42: /* relacional: TK_LE  */
+#line 272 "parser.y"
+        {
+            printf("RELACIONAL RECONHECIDO\n");
+        }
 #line 1609 "parser.tab.c"
     break;
 
-  case 59: /* chamada: TK_ID TK_LPAREN args TK_RPAREN  */
-#line 224 "parser.y"
-        {printf("CHAMADA RECONHECIDO\n");}
-#line 1615 "parser.tab.c"
+  case 43: /* relacional: TK_GT  */
+#line 276 "parser.y"
+        {
+            printf("RELACIONAL RECONHECIDO\n");
+        }
+#line 1617 "parser.tab.c"
     break;
 
-  case 60: /* args: arg_lista  */
-#line 228 "parser.y"
-        {printf("ARGS RECONHECIDO\n");}
-#line 1621 "parser.tab.c"
+  case 44: /* relacional: TK_GE  */
+#line 280 "parser.y"
+        {
+            printf("RELACIONAL RECONHECIDO\n");
+        }
+#line 1625 "parser.tab.c"
     break;
 
-  case 61: /* args: %empty  */
-#line 230 "parser.y"
-        {printf("ARGS RECONHECIDO\n");}
-#line 1627 "parser.tab.c"
-    break;
-
-  case 62: /* arg_lista: arg_lista TK_COMMA expressao  */
-#line 234 "parser.y"
-        {printf("ARG LISTA RECONHECIDO\n");}
+  case 45: /* relacional: TK_EQ  */
+#line 284 "parser.y"
+        {
+            printf("RELACIONAL RECONHECIDO\n");
+        }
 #line 1633 "parser.tab.c"
     break;
 
+  case 46: /* relacional: TK_NE  */
+#line 288 "parser.y"
+        {
+            printf("RELACIONAL RECONHECIDO\n");
+        }
+#line 1641 "parser.tab.c"
+    break;
+
+  case 47: /* soma_expressao: soma_expressao soma termo  */
+#line 294 "parser.y"
+        {
+            printf("SOMA EXPRESSAO1 RECONHECIDO\n");
+        }
+#line 1649 "parser.tab.c"
+    break;
+
+  case 48: /* soma_expressao: termo  */
+#line 298 "parser.y"
+        {
+            printf("SOMA EXPRESSAO2 RECONHECIDO\n");
+        }
+#line 1657 "parser.tab.c"
+    break;
+
+  case 49: /* soma: TK_PLUS  */
+#line 304 "parser.y"
+        {
+            printf("SOMA RECONHECIDO\n");
+        }
+#line 1665 "parser.tab.c"
+    break;
+
+  case 50: /* soma: TK_MINUS  */
+#line 308 "parser.y"
+        {
+            printf("SOMA RECONHECIDO\n");
+        }
+#line 1673 "parser.tab.c"
+    break;
+
+  case 51: /* termo: termo mult fator  */
+#line 314 "parser.y"
+        {
+            printf("TERMO1 RECONHECIDO\n");
+        }
+#line 1681 "parser.tab.c"
+    break;
+
+  case 52: /* termo: fator  */
+#line 318 "parser.y"
+        {
+            printf("TERMO2 RECONHECIDO\n");
+        }
+#line 1689 "parser.tab.c"
+    break;
+
+  case 53: /* mult: TK_TIMES  */
+#line 324 "parser.y"
+        {
+            printf("MULT RECONHECIDO\n");
+        }
+#line 1697 "parser.tab.c"
+    break;
+
+  case 54: /* mult: TK_OVER  */
+#line 328 "parser.y"
+        {
+            printf("MULT RECONHECIDO\n");
+        }
+#line 1705 "parser.tab.c"
+    break;
+
+  case 55: /* fator: TK_LPAREN expressao TK_RPAREN  */
+#line 334 "parser.y"
+        {
+            printf("FATOR1 RECONHECIDO\n");
+        }
+#line 1713 "parser.tab.c"
+    break;
+
+  case 56: /* fator: var  */
+#line 338 "parser.y"
+        {
+            printf("FATOR2 RECONHECIDO\n");
+        }
+#line 1721 "parser.tab.c"
+    break;
+
+  case 57: /* fator: TK_NUM  */
+#line 342 "parser.y"
+        {
+            printf("FATOR3 RECONHECIDO\n");
+        }
+#line 1729 "parser.tab.c"
+    break;
+
+  case 58: /* fator: chamada  */
+#line 346 "parser.y"
+        {
+            printf("FATOR4 RECONHECIDO\n");
+        }
+#line 1737 "parser.tab.c"
+    break;
+
+  case 59: /* chamada: TK_ID TK_LPAREN args TK_RPAREN  */
+#line 352 "parser.y"
+        {
+            printf("CHAMADA RECONHECIDO\n");
+        }
+#line 1745 "parser.tab.c"
+    break;
+
+  case 60: /* args: arg_lista  */
+#line 358 "parser.y"
+        {
+            printf("ARGS RECONHECIDO\n");
+        }
+#line 1753 "parser.tab.c"
+    break;
+
+  case 61: /* args: %empty  */
+#line 362 "parser.y"
+        {
+            printf("ARGS RECONHECIDO\n");
+        }
+#line 1761 "parser.tab.c"
+    break;
+
+  case 62: /* arg_lista: arg_lista TK_COMMA expressao  */
+#line 368 "parser.y"
+        {
+            printf("ARG LISTA RECONHECIDO\n");
+        }
+#line 1769 "parser.tab.c"
+    break;
+
   case 63: /* arg_lista: expressao  */
-#line 236 "parser.y"
-        {printf("ARG LISTA RECONHECIDO\n");}
-#line 1639 "parser.tab.c"
+#line 372 "parser.y"
+        {
+            printf("ARG LISTA RECONHECIDO\n");
+        }
+#line 1777 "parser.tab.c"
     break;
 
 
-#line 1643 "parser.tab.c"
+#line 1781 "parser.tab.c"
 
       default: break;
     }
@@ -1832,7 +1970,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 239 "parser.y"
+#line 377 "parser.y"
 
 
 int parse(void) {
@@ -1849,7 +1987,10 @@ int yylex(void){
     valor_token = get_lexema();
     
     //mudar o valor do token para o valor que esta no parser
-    if (valor_token == 0) {
+    if(valor_token == -1){
+        valor_convertido = YYEOF;
+    }
+    else if (valor_token == 0) {
         valor_convertido = TK_ELSE;
     } else if (valor_token == 1) {
         valor_convertido = TK_IF;

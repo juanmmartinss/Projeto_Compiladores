@@ -6,26 +6,24 @@
 #include <string.h>
 #include <ctype.h>
 
-
 extern int linhaatual;
 
-typedef struct arvore {
-    char* tipo;
-    char* valor;
-    struct arvore* filho;
-    struct arvore* irmao;
-} Arvore;
+// typedef struct Arvore {
+//     char* tipo;
+//     char* valor;
+//     char lexema[25];
+//     struct Arvore* filho1;
+//     struct Arvore* filho2;
+//     struct Arvore* filho3;
+//     struct Arvore* irmao;
+// } Arvore;
 
-typedef Arvore *pont_arv;
-
+// typedef Arvore *pont_arv;
 
 extern Buffer *buffer;
 extern Lex *lex;
 extern FILE *input_file;
-
 extern char* pega_carac;
-
-
 extern char letra;
 extern char c ;
 extern int linha_atual;

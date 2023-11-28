@@ -95,6 +95,10 @@ int get_lexema(){
             lex->estado = 0;
             controle = 0;
 
+            if (c == '\0') {
+                return -1;
+            }
+
             return token_atual;
 }
 

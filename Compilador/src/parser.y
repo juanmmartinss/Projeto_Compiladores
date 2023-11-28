@@ -3,7 +3,9 @@
 #include <stdlib.h>
 #include "funcs.h"
 #include "global.h"
-// #include "parser.h"
+#include "parser_arvore.h"
+
+#define YYSTYPE pont_arv
 
 int linhaatual;
 
@@ -52,188 +54,324 @@ pont_arv raiz;
 %%
 
 programa: lista_declaracoes
-        {printf("PROGRAMA RECONHECIDO\n");}
+        {   
+            printf("PROGRAMA RECONHECIDO\n");
+            raiz = $1;
+        }
+        
 ;
 
 lista_declaracoes: lista_declaracoes declaracao
-        {printf("LISTA DE DECLARACOES RECONHECIDA\n");}
-                | declaracao
-        {printf("LISTA DE DECLARACOES RECONHECIDA\n");}
+        {   
+            printf("LISTA DE DECLARACOES RECONHECIDA\n");
+            //$$ = insere_irmao($1, $2);
+        }
+        | declaracao
+        {
+            printf("LISTA DE DECLARACOES RECONHECIDA\n");
+            $$ = $1;
+        }
 ;
 
 declaracao: declaracao_var
-        {printf("DECLARACAO RECONHECIDA\n");}
-          | declaracao_fun
-        {printf("DECLARACAO RECONHECIDA\n");}
+        {   
+            printf("DECLARACAO RECONHECIDA\n");
+            $$ = $1;
+        }
+        | declaracao_fun
+        {   
+            printf("DECLARACAO RECONHECIDA\n");
+            $$ = $1;
+        }
 ;
 
 
 declaracao_var: tipo_especificador TK_ID TK_SEMI
-        {printf("DECLARACAO VAR RECONHECIDA\n");}
-              | tipo_especificador TK_ID TK_LBRACKET TK_NUM TK_RBRACKET TK_SEMI
-        {printf("DECLARACAO VAR RECONHECIDA\n");}
+        {
+            printf("DECLARACAO VAR RECONHECIDA\n");
+            $$ = $1;
+            //pont_arv aux = cria_no($2);
+            //$$ = insere_filho($$, aux);
+        }
+        | tipo_especificador TK_ID TK_LBRACKET TK_NUM TK_RBRACKET TK_SEMI
+        {
+            printf("DECLARACAO VAR RECONHECIDA\n");
+            $$ = $1;
+
+        }
 
 ;
 
 tipo_especificador: TK_INT
-        {printf("TIPO ESPECIFICADOR RECONHECIDO\n");}
-                  | TK_VOID
-        {printf("TIPO ESPECIFICADOR RECONHECIDO\n");}
+        {
+            printf("TIPO ESPECIFICADOR RECONHECIDO\n");
+
+        }
+        | TK_VOID
+        {
+            printf("TIPO ESPECIFICADOR RECONHECIDO\n");
+
+        }
 ;
 
 declaracao_fun: tipo_especificador TK_ID TK_LPAREN params TK_RPAREN composto_decl
-        {printf("DECLARACAO FUN RECONHECIDA\n");}
+        {
+            printf("DECLARACAO FUN RECONHECIDA\n");
+        }
 ;
 
 params: lista_params
-        {printf("PARAMS RECONHECIDO\n");}
-      | TK_VOID
-        {printf("PARAMS RECONHECIDO\n");}
+        {
+            printf("PARAMS RECONHECIDO\n");
+        }
+        | TK_VOID
+        {
+            printf("PARAMS RECONHECIDO\n");
+        }
 ;
 
 lista_params: lista_params TK_COMMA param
-        {printf("LISTA PARAMS RECONHECIDO\n");}
-            | param
-        {printf("LISTA PARAMS RECONHECIDO\n");}
+        {
+            printf("LISTA PARAMS RECONHECIDO\n");
+        }
+        | param
+        {
+            printf("LISTA PARAMS RECONHECIDO\n");
+        }
 ;
 
 param: tipo_especificador TK_ID
-        {printf("PARAM RECONHECIDO\n");}
-     | tipo_especificador TK_ID TK_LBRACKET TK_RBRACKET
-        {printf("PARAM RECONHECIDO\n");}
+        {
+            printf("PARAM RECONHECIDO\n");
+        }
+        | tipo_especificador TK_ID TK_LBRACKET TK_RBRACKET
+        {
+            printf("PARAM RECONHECIDO\n");
+        }
 ;
 
 composto_decl: TK_LBRACE local_declaracoes lista_comando TK_RBRACE
-        {printf("COMPOSTO DECL RECONHECIDO\n");}
+        {
+            printf("COMPOSTO DECL RECONHECIDO\n");
+        }
 ;
 
 local_declaracoes: local_declaracoes declaracao_var
-        {printf("LOCAL DECLARACOES RECONHECIDO\n");}
-                 | 
-        {printf("LOCAL DECLARACOES RECONHECIDO\n");}
+        {
+            printf("LOCAL DECLARACOES RECONHECIDO\n");
+        }
+        | 
+        {
+            printf("LOCAL DECLARACOES RECONHECIDO\n");
+        }
 ;
 
 lista_comando: lista_comando comando
-        {printf("LISTA COMANDO RECONHECIDO\n");}
-             | 
-        {printf("LISTA COMANDO RECONHECIDO\n");}
+        {
+            printf("LISTA COMANDO RECONHECIDO\n");
+        }
+        | 
+        {
+            printf("LISTA COMANDO RECONHECIDO\n");
+        }
 ;
 
 comando: expressao_decl
-        {printf("COMANDO RECONHECIDO\n");}
-       | selecao_decl
-        {printf("COMANDO RECONHECIDO\n");}
-       | iteracao_decl
-        {printf("COMANDO RECONHECIDO\n");}
-       | retorno_decl
-        {printf("COMANDO RECONHECIDO\n");}
+        {
+            printf("COMANDO RECONHECIDO\n");
+        }
+        | selecao_decl
+        {
+            printf("COMANDO RECONHECIDO\n");
+        }
+        | iteracao_decl
+        {
+            printf("COMANDO RECONHECIDO\n");
+        }
+        | retorno_decl
+        {
+            printf("COMANDO RECONHECIDO\n");
+        }
         | composto_decl
-        {printf("COMANDO RECONHECIDO\n");}
+        {
+            printf("COMANDO RECONHECIDO\n");
+        }
 ;
 
 expressao_decl: expressao TK_SEMI
-        {printf("EXPRESSAO DECL RECONHECIDO\n");}
-              | TK_SEMI
-        {printf("EXPRESSAO DECL RECONHECIDO\n");}
+        {
+            printf("EXPRESSAO DECL RECONHECIDO\n");
+        }
+        | TK_SEMI
+        {
+            printf("EXPRESSAO DECL RECONHECIDO\n");
+        }
 ;
 
 selecao_decl: TK_IF TK_LPAREN expressao TK_RPAREN comando
-        {printf("SELECAO DECL RECONHECIDO\n");}
-            | TK_IF TK_LPAREN expressao TK_RPAREN comando TK_ELSE comando
-        {printf("SELECAO DECL RECONHECIDO\n");}
+        {
+            printf("SELECAO DECL RECONHECIDO\n");
+        }
+        | TK_IF TK_LPAREN expressao TK_RPAREN comando TK_ELSE comando
+        {
+            printf("SELECAO DECL RECONHECIDO\n");
+        }
 ;
 
 iteracao_decl: TK_WHILE TK_LPAREN expressao TK_RPAREN comando
-        {printf("ITERACAO DECL RECONHECIDO\n");}
+        {
+            printf("ITERACAO DECL RECONHECIDO\n");
+        }
 ;
 
 retorno_decl: TK_RETURN TK_SEMI
-        {printf("RETORNO DECL RECONHECIDO\n");}
-            | TK_RETURN expressao TK_SEMI
-        {printf("RETORNO DECL RECONHECIDO\n");}
+        {
+            printf("RETORNO DECL RECONHECIDO\n");
+        }
+        | TK_RETURN expressao TK_SEMI
+        {
+            printf("RETORNO DECL RECONHECIDO\n");
+        }
 ;
 
 expressao: var TK_ASSIGN expressao
-        {printf("EXPRESSAO1 RECONHECIDO\n");}
-         | simples_expressao
-        {printf("EXPRESSAO2 RECONHECIDO\n");}
+        {
+            printf("EXPRESSAO1 RECONHECIDO\n");
+        }
+        | simples_expressao
+        {
+            printf("EXPRESSAO2 RECONHECIDO\n");
+        }
 ;
 
 var: TK_ID
-        {printf("VAR1 RECONHECIDO\n");}
-   | TK_ID TK_LBRACKET expressao TK_RBRACKET
-        {printf("VAR2 RECONHECIDO\n");}
+        {
+            printf("VAR1 RECONHECIDO\n");
+        }
+        | TK_ID TK_LBRACKET expressao TK_RBRACKET
+        {
+            printf("VAR2 RECONHECIDO\n");
+        }
 ;
 
 simples_expressao: soma_expressao relacional soma_expressao
-        {printf("SIMPLES EXPRESSAO1 RECONHECIDO\n");}    
-                 | soma_expressao
-
-        {printf("SIMPLES EXPRESSAO2 RECONHECIDO\n");}
+        {
+            printf("SIMPLES EXPRESSAO1 RECONHECIDO\n");
+        }    
+        | soma_expressao
+        {
+            printf("SIMPLES EXPRESSAO2 RECONHECIDO\n");
+        }
 ;
 
 relacional: TK_LT
-        {printf("RELACIONAL RECONHECIDO\n");}
-          | TK_LE
-        {printf("RELACIONAL RECONHECIDO\n");}
-          | TK_GT
-        {printf("RELACIONAL RECONHECIDO\n");}
-          | TK_GE
-        {printf("RELACIONAL RECONHECIDO\n");}
-          | TK_EQ
-        {printf("RELACIONAL RECONHECIDO\n");}
-          | TK_NE 
-        {printf("RELACIONAL RECONHECIDO\n");}
+        {
+            printf("RELACIONAL RECONHECIDO\n");
+        }
+        | TK_LE
+        {
+            printf("RELACIONAL RECONHECIDO\n");
+        }
+        | TK_GT
+        {
+            printf("RELACIONAL RECONHECIDO\n");
+        }
+        | TK_GE
+        {
+            printf("RELACIONAL RECONHECIDO\n");
+        }
+        | TK_EQ
+        {
+            printf("RELACIONAL RECONHECIDO\n");
+        }
+        | TK_NE 
+        {
+            printf("RELACIONAL RECONHECIDO\n");
+        }
 ;
 
 soma_expressao: soma_expressao soma termo
-        {printf("SOMA EXPRESSAO1 RECONHECIDO\n");}
-              | termo
-        {printf("SOMA EXPRESSAO2 RECONHECIDO\n");}
+        {
+            printf("SOMA EXPRESSAO1 RECONHECIDO\n");
+        }
+        | termo
+        {
+            printf("SOMA EXPRESSAO2 RECONHECIDO\n");
+        }
 ;
 
 soma: TK_PLUS
-        {printf("SOMA RECONHECIDO\n");}
-    | TK_MINUS
-        {printf("SOMA RECONHECIDO\n");}
+        {
+            printf("SOMA RECONHECIDO\n");
+        }
+        | TK_MINUS
+        {
+            printf("SOMA RECONHECIDO\n");
+        }
 ;
 
 termo: termo mult fator
-        {printf("TERMO1 RECONHECIDO\n");}
-     | fator
-        {printf("TERMO2 RECONHECIDO\n");}
+        {
+            printf("TERMO1 RECONHECIDO\n");
+        }
+        | fator
+        {
+            printf("TERMO2 RECONHECIDO\n");
+        }
 ;
 
 mult: TK_TIMES
-        {printf("MULT RECONHECIDO\n");}
-    | TK_OVER
-        {printf("MULT RECONHECIDO\n");}
+        {
+            printf("MULT RECONHECIDO\n");
+        }
+        | TK_OVER
+        {
+            printf("MULT RECONHECIDO\n");
+        }
 ;
 
 fator: TK_LPAREN expressao TK_RPAREN
-        {printf("FATOR1 RECONHECIDO\n");}
-     | var
-        {printf("FATOR2 RECONHECIDO\n");}    
-     | TK_NUM
-        {printf("FATOR3 RECONHECIDO\n");}
-     | chamada
-        {printf("FATOR4 RECONHECIDO\n");}
+        {
+            printf("FATOR1 RECONHECIDO\n");
+        }
+        | var
+        {
+            printf("FATOR2 RECONHECIDO\n");
+        }    
+        | TK_NUM
+        {
+            printf("FATOR3 RECONHECIDO\n");
+        }
+        | chamada
+        {
+            printf("FATOR4 RECONHECIDO\n");
+        }
 ;
 
 chamada: TK_ID TK_LPAREN args TK_RPAREN
-        {printf("CHAMADA RECONHECIDO\n");}
+        {
+            printf("CHAMADA RECONHECIDO\n");
+        }
 ;
 
 args: arg_lista
-        {printf("ARGS RECONHECIDO\n");}
-    |
-        {printf("ARGS RECONHECIDO\n");}
+        {
+            printf("ARGS RECONHECIDO\n");
+        }
+        |
+        {
+            printf("ARGS RECONHECIDO\n");
+        }
 ;
 
 arg_lista: arg_lista TK_COMMA expressao
-        {printf("ARG LISTA RECONHECIDO\n");}
-         | expressao
-        {printf("ARG LISTA RECONHECIDO\n");}
+        {
+            printf("ARG LISTA RECONHECIDO\n");
+        }
+        | expressao
+        {
+            printf("ARG LISTA RECONHECIDO\n");
+        }
 ;
 
 %%
@@ -252,7 +390,10 @@ int yylex(void){
     valor_token = get_lexema();
     
     //mudar o valor do token para o valor que esta no parser
-    if (valor_token == 0) {
+    if(valor_token == -1){
+        valor_convertido = YYEOF;
+    }
+    else if (valor_token == 0) {
         valor_convertido = TK_ELSE;
     } else if (valor_token == 1) {
         valor_convertido = TK_IF;
