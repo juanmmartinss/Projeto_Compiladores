@@ -8,21 +8,6 @@
 
 extern int linhaatual;
 
-// typedef struct Arvore {
-//     char* tipo;
-//     char* valor;
-//     char lexema[25];
-//     struct Arvore* filho1;
-//     struct Arvore* filho2;
-//     struct Arvore* filho3;
-//     struct Arvore* irmao;
-// } Arvore;
-
-// typedef Arvore *pont_arv;
-
-//criar um vetor para receber os tokens
-//vetor para armazenar todos os lexemas
-
 extern Pilha *pilha;
 extern Buffer *buffer;
 extern Lex *lex;
