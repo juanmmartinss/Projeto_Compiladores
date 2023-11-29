@@ -108,7 +108,7 @@ declaracao_var: tipo_especificador TK_ID TK_SEMI
             lexemaauxiliar = peek(pilha);
             //printf("lexema: %s\n", lexemaauxiliar);
             strcpy(aux->lexema, lexemaauxiliar);
-            printf("string aux->lexema: %s\n", aux->lexema);
+            //printf("string aux->lexema: %s\n", aux->lexema);
             pop(pilha); //desempilha o id
 
             $$ = insere_filho($$, aux);
@@ -124,7 +124,7 @@ declaracao_var: tipo_especificador TK_ID TK_SEMI
             lexemaauxiliar = peek(pilha);
             //printf("lexema: %s\n", lexemaauxiliar);
             strcpy(aux->lexema, lexemaauxiliar);
-            printf("string aux->lexema: %s\n", aux->lexema);
+            //printf("string aux->lexema: %s\n", aux->lexema);
             pop(pilha); //desempilha o id
 
             lexemaauxiliar = peek(pilha);
@@ -219,7 +219,7 @@ param: tipo_especificador TK_ID
 
             lexemaauxiliar = peek(pilha);
             strcpy(aux->lexema, lexemaauxiliar);
-            printf("string aux->lexema: %s\n", aux->lexema);
+            //printf("string aux->lexema: %s\n", aux->lexema);
             pop(pilha); //desempilha o id
 
             $$ = insere_filho($$, aux);
@@ -232,7 +232,7 @@ param: tipo_especificador TK_ID
 
             lexemaauxiliar = peek(pilha);
             strcpy(aux->lexema, lexemaauxiliar);
-            printf("string aux->lexema: %s\n", aux->lexema);
+            //printf("string aux->lexema: %s\n", aux->lexema);
             pop(pilha); //desempilha o id
 
             $$ = insere_filho($$, aux);
@@ -736,6 +736,8 @@ int yylex(void){
     } else if (valor_token == 26) {
         valor_convertido = TK_RBRACE;
     }
+
+    //yylval = 
 
     return valor_convertido;
 }

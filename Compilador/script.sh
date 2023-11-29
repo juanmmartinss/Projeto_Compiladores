@@ -1,5 +1,7 @@
 #!/bin/bash
 
+clear
+
 # Navegar até o diretório do projeto
 cd ~/Desktop/Projeto/Compilador/
 
@@ -40,4 +42,4 @@ else
 fi
 
 # Executar o programa com o arquivo de teste
-./exec testes/testelex3.c-
+./exec testes/testelex2.c-

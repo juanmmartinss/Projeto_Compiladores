@@ -38,7 +38,7 @@ typedef struct no {
 
 typedef struct pilha{
     int topo;
-    char itens[100][645];
+    char itens[100][64];
 }Pilha;
 
 

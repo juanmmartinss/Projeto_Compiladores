@@ -1340,7 +1340,7 @@ yyreduce:
             lexemaauxiliar = peek(pilha);
             //printf("lexema: %s\n", lexemaauxiliar);
             strcpy(aux->lexema, lexemaauxiliar);
-            printf("string aux->lexema: %s\n", aux->lexema);
+            //printf("string aux->lexema: %s\n", aux->lexema);
             pop(pilha); //desempilha o id
 
             yyval = insere_filho(yyval, aux);
@@ -1360,7 +1360,7 @@ yyreduce:
             lexemaauxiliar = peek(pilha);
             //printf("lexema: %s\n", lexemaauxiliar);
             strcpy(aux->lexema, lexemaauxiliar);
-            printf("string aux->lexema: %s\n", aux->lexema);
+            //printf("string aux->lexema: %s\n", aux->lexema);
             pop(pilha); //desempilha o id
 
             lexemaauxiliar = peek(pilha);
@@ -1479,7 +1479,7 @@ yyreduce:
 
             lexemaauxiliar = peek(pilha);
             strcpy(aux->lexema, lexemaauxiliar);
-            printf("string aux->lexema: %s\n", aux->lexema);
+            //printf("string aux->lexema: %s\n", aux->lexema);
             pop(pilha); //desempilha o id
 
             yyval = insere_filho(yyval, aux);
@@ -1496,7 +1496,7 @@ yyreduce:
 
             lexemaauxiliar = peek(pilha);
             strcpy(aux->lexema, lexemaauxiliar);
-            printf("string aux->lexema: %s\n", aux->lexema);
+            //printf("string aux->lexema: %s\n", aux->lexema);
             pop(pilha); //desempilha o id
 
             yyval = insere_filho(yyval, aux);
@@ -2316,6 +2316,8 @@ int yylex(void){
     } else if (valor_token == 26) {
         valor_convertido = TK_RBRACE;
     }
+
+    //yylval = 
 
     return valor_convertido;
 }
