@@ -8,8 +8,6 @@
 
 
 pont_arv cria_no(pont_arv no){
-
-    printf("cria no\n");
     no = (pont_arv)malloc(sizeof(Arvore));
     no->filho1 = NULL;
     no->filho2 = NULL;

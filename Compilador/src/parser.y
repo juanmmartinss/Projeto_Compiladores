@@ -106,7 +106,6 @@ declaracao_var: tipo_especificador TK_ID TK_SEMI
             pont_arv aux = cria_no($2);
 
             lexemaauxiliar = peek(pilha);
-            printf("lexemaaxiliar: %s\n", lexemaauxiliar);
             //printf("lexema: %s\n", lexemaauxiliar);
             strcpy(aux->lexema, lexemaauxiliar);
             printf("string aux->lexema: %s\n", aux->lexema);
@@ -123,18 +122,15 @@ declaracao_var: tipo_especificador TK_ID TK_SEMI
             pont_arv aux2 = cria_no($4);
 
             lexemaauxiliar = peek(pilha);
-            printf("lexemaaxiliar: %s\n", lexemaauxiliar);
             //printf("lexema: %s\n", lexemaauxiliar);
             strcpy(aux->lexema, lexemaauxiliar);
             printf("string aux->lexema: %s\n", aux->lexema);
             pop(pilha); //desempilha o id
 
             lexemaauxiliar = peek(pilha);
-            printf("lexemaaxiliar: %s\n", lexemaauxiliar);
             strcpy(aux2->lexema, lexemaauxiliar);
             pop(pilha); //desempilha o id
             // lexemaauxiliar = peek(pilha);
-            printf("lexemaaxiliar: %s\n", lexemaauxiliar);
             // printf("lexema: %s\n", lexemaauxiliar);
 
             $$ = insere_filho($$, aux2);
@@ -178,7 +174,6 @@ id_fun: TK_ID
             printf("ID FUN RECONHECIDO\n");
             $$ = cria_no($1);
             lexemaauxiliar = peek(pilha);
-            printf("lexemaaxiliar: %s\n", lexemaauxiliar);
             strcpy($$->lexema, lexemaauxiliar);
             pop(pilha); //desempilha o id
         }
@@ -223,7 +218,6 @@ param: tipo_especificador TK_ID
             pont_arv aux = cria_no($2);
 
             lexemaauxiliar = peek(pilha);
-            printf("lexemaaxiliar: %s\n", lexemaauxiliar);
             strcpy(aux->lexema, lexemaauxiliar);
             printf("string aux->lexema: %s\n", aux->lexema);
             pop(pilha); //desempilha o id
@@ -237,7 +231,6 @@ param: tipo_especificador TK_ID
             pont_arv aux = cria_no($2);
 
             lexemaauxiliar = peek(pilha);
-            printf("lexemaaxiliar: %s\n", lexemaauxiliar);
             strcpy(aux->lexema, lexemaauxiliar);
             printf("string aux->lexema: %s\n", aux->lexema);
             pop(pilha); //desempilha o id
@@ -335,7 +328,7 @@ expressao_decl: expressao TK_SEMI
         }
 ;
 
-selecao_decl: TK_IF TK_LPAREN expressao TK_RPAREN comando 
+selecao_decl: TK_IF TK_LPAREN expressao TK_RPAREN comando fat_else
         {
             printf("SELECAO DECL RECONHECIDO\n");
             $$ = cria_no($1);
@@ -344,21 +337,53 @@ selecao_decl: TK_IF TK_LPAREN expressao TK_RPAREN comando
 
             insere_filho($$, $3);
             insere_filho($$, $5);
-
-            // if($6 != NULL)
-            //     insere_filho($$, $6);
-            //insere_filho($$, $6);
+            if($6 != NULL){
+                insere_filho($$, $6);
+            }
         }
-        | TK_IF TK_LPAREN expressao TK_RPAREN comando TK_ELSE comando
-        {
-            printf("SELECAO DECL RECONHECIDO\n");
-            $$ = cria_no($1);
-            insere_filho($$, $3);
-            insere_filho($$, $5);
-            insere_filho($$, $7);
+        // | TK_IF TK_LPAREN expressao TK_RPAREN comando TK_ELSE comando
+        // {
+        //     printf("SELECAO DECL RECONHECIDO\n");
 
-        }
+
+        //     $$ = cria_no($1);
+
+        //     strcpy($$->lexema, "IF");
+
+        //     //$$ = cria_no($6);
+
+        //     insere_filho($$, $3);
+        //     insere_filho($$, $5);
+        //     insere_filho($$, $7);
+
+        //     // pont_arv aux = cria_no($7);
+        //     // strcpy(aux->lexema, "ELSE");
+        //     // insere_filho($$, aux);
+
+        //     // insere_filho($1, cria_no($7));
+
+        //     // //cria_no($6);
+        //     // strcpy($$->lexema, "ELSE");
+        //     // insere_filho($$, $6);
+
+
+        // }
 ;
+
+fat_else: TK_ELSE comando
+        {
+            printf("FAT ELSE RECONHECIDO\n");
+            $$ = cria_no($1);
+
+            strcpy($$->lexema, "ELSE");
+
+            insere_filho($$, $2);
+        }
+        |
+        {
+            printf("FAT ELSE RECONHECIDO\n");
+            $$ = NULL;
+        }
 
 iteracao_decl: TK_WHILE TK_LPAREN expressao TK_RPAREN comando
         {
@@ -412,13 +437,10 @@ var: TK_ID
             printf("VAR1 RECONHECIDO\n");
             $$ = cria_no($1);
             lexemaauxiliar = peek(pilha);
-            printf("lexemaaxiliar: %s\n", lexemaauxiliar);
             //printf("lexema: %s\n", lexemaauxiliar);
             strcpy($$->lexema, lexemaauxiliar);
             pop(pilha); //desempilha o id
-            // lexemaauxiliar = peek(pilha);
-            printf("lexemaaxiliar: %s\n", lexemaauxiliar);
-            // printf("lexema2: %s\n", lexemaauxiliar);
+
 
         }
         | TK_ID TK_LBRACKET expressao TK_RBRACKET
@@ -427,7 +449,6 @@ var: TK_ID
             $$ = cria_no($1);
 
             lexemaauxiliar = peek(pilha);
-            printf("lexemaaxiliar: %s\n", lexemaauxiliar);
             strcpy($$->lexema, lexemaauxiliar);
             pop(pilha); //desempilha o id
 
@@ -577,7 +598,6 @@ fator: TK_LPAREN expressao TK_RPAREN
             printf("FATOR3 RECONHECIDO\n");
             $$ = cria_no($1);
             lexemaauxiliar = peek(pilha);
-            printf("lexemaaxiliar: %s\n", lexemaauxiliar);
             strcpy($$->lexema, lexemaauxiliar);
             pop(pilha); //desempilha o id
 
@@ -597,7 +617,7 @@ chamada: id_fun TK_LPAREN args TK_RPAREN
             $$ = $1;
 
             // lexemaauxiliar = peek(pilha);
-            printf("lexemaaxiliar: %s\n", lexemaauxiliar);
+    
             // strcpy($$->lexema, lexemaauxiliar);
             // pop(pilha); //desempilha o id
 
