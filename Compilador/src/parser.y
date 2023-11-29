@@ -8,9 +8,10 @@
 #define YYSTYPE pont_arv
 
 int linhaatual;
+const char *lexemaauxiliar;
 
 //#define YYSTYPE pont_arv;
-int parse(void);
+pont_arv parse(void);
 int yylex();
 int yyparse();
 int yyerror(char *s);
@@ -57,6 +58,7 @@ programa: lista_declaracoes
         {   
             printf("PROGRAMA RECONHECIDO\n");
             raiz = $1;
+            imprime_arvore(raiz, 0);
         }
         
 ;
@@ -64,7 +66,13 @@ programa: lista_declaracoes
 lista_declaracoes: lista_declaracoes declaracao
         {   
             printf("LISTA DE DECLARACOES RECONHECIDA\n");
-            $$ = insere_irmao($1, $2);
+            if($1 == NULL){
+                $$ = $2;
+            }
+            else{
+                $$ = $1;
+                $$ = insere_irmao($$, $2);
+            }
         }
         | declaracao
         {
@@ -91,6 +99,12 @@ declaracao_var: tipo_especificador TK_ID TK_SEMI
             printf("DECLARACAO VAR RECONHECIDA\n");
             $$ = $1;
             pont_arv aux = cria_no($2);
+
+            lexemaauxiliar = peek(pilha);
+            //printf("lexema: %s\n", lexemaauxiliar);
+            strcpy(aux->lexema, lexemaauxiliar);
+            pop(pilha); //desempilha o id
+
             $$ = insere_filho($$, aux);
 
         }
@@ -100,8 +114,22 @@ declaracao_var: tipo_especificador TK_ID TK_SEMI
             $$ = $1;
             pont_arv aux = cria_no($2);
             pont_arv aux2 = cria_no($4);
+
+            lexemaauxiliar = peek(pilha);
+            //printf("lexema: %s\n", lexemaauxiliar);
+            strcpy(aux->lexema, lexemaauxiliar);
+            pop(pilha); //desempilha o id
+
+            lexemaauxiliar = peek(pilha);
+            strcpy(aux2->lexema, lexemaauxiliar);
+            pop(pilha); //desempilha o id
+            // lexemaauxiliar = peek(pilha);
+            // printf("lexema: %s\n", lexemaauxiliar);
+
+
             $$ = insere_filho($$, aux);
             $$ = insere_filho($$, aux2);
+
 
         }
 
@@ -111,17 +139,20 @@ tipo_especificador: TK_INT
         {
             printf("TIPO ESPECIFICADOR RECONHECIDO\n");
             $$ = cria_no($1);
+            strcpy($$->lexema, "INT");
+            //printf("lexema: %s\n", $$->lexema);
 
         }
         | TK_VOID
         {
             printf("TIPO ESPECIFICADOR RECONHECIDO\n");
             $$ = cria_no($1);
+            strcpy($$->lexema, "VOID");
 
         }
 ;
 
-declaracao_fun: tipo_especificador TK_ID TK_LPAREN params TK_RPAREN composto_decl
+declaracao_fun: tipo_especificador id_fun TK_LPAREN params TK_RPAREN composto_decl
         {
             printf("DECLARACAO FUN RECONHECIDA\n");
             $$ = $1;
@@ -130,6 +161,15 @@ declaracao_fun: tipo_especificador TK_ID TK_LPAREN params TK_RPAREN composto_dec
             insere_filho($2, $6);
         }
 ;
+
+id_fun: TK_ID
+        {
+            printf("ID FUN RECONHECIDO\n");
+            $$ = cria_no($1);
+            lexemaauxiliar = peek(pilha);
+            strcpy($$->lexema, lexemaauxiliar);
+            pop(pilha); //desempilha o id
+        }
 
 params: lista_params
         {
@@ -141,6 +181,7 @@ params: lista_params
         {
             printf("PARAMS RECONHECIDO\n");
             $$ = cria_no($1);
+            strcpy($$->lexema, "VOID");
 
         }
 ;
@@ -148,8 +189,13 @@ params: lista_params
 lista_params: lista_params TK_COMMA param
         {
             printf("LISTA PARAMS RECONHECIDO\n");
-            $$ = $1;
-            insere_irmao($$, $3);
+            if($1 == NULL){
+                $$ = $3;
+            }
+            else{
+                $$ = $1;
+                insere_irmao($$, $3);
+            }
         }
         | param
         {
@@ -163,6 +209,11 @@ param: tipo_especificador TK_ID
             printf("PARAM RECONHECIDO\n");
             $$ = $1;
             pont_arv aux = cria_no($2);
+
+            lexemaauxiliar = peek(pilha);
+            strcpy(aux->lexema, lexemaauxiliar);
+            pop(pilha); //desempilha o id
+
             $$ = insere_filho($$, aux);
         }
         | tipo_especificador TK_ID TK_LBRACKET TK_RBRACKET
@@ -170,6 +221,11 @@ param: tipo_especificador TK_ID
             printf("PARAM RECONHECIDO\n");
             $$ = $1;
             pont_arv aux = cria_no($2);
+
+            lexemaauxiliar = peek(pilha);
+            strcpy(aux->lexema, lexemaauxiliar);
+            pop(pilha); //desempilha o id
+
             $$ = insere_filho($$, aux);
 
         }
@@ -178,18 +234,26 @@ param: tipo_especificador TK_ID
 composto_decl: TK_LBRACE local_declaracoes lista_comando TK_RBRACE
         {
             printf("COMPOSTO DECL RECONHECIDO\n");
-            $$ = $2;
-            insere_irmao($$, $3);
-
-
+            if($2 == NULL){
+                $$ = $3;
+            }
+            else{
+                $$ = $2;
+                insere_irmao($$, $3);
+            }
         }
 ;
 
 local_declaracoes: local_declaracoes declaracao_var
         {
             printf("LOCAL DECLARACOES RECONHECIDO\n");
-            $$ = $1;
-            insere_irmao($$, $2);
+            if($1 == NULL){
+                $$ = $2;
+            }
+            else{
+                $$ = $1;
+                insere_irmao($$, $2);
+            }
         }
         | 
         {
@@ -201,8 +265,13 @@ local_declaracoes: local_declaracoes declaracao_var
 lista_comando: lista_comando comando
         {
             printf("LISTA COMANDO RECONHECIDO\n");
-            $$ = $1;
-            insere_irmao($$, $2);
+            if($1 == NULL){
+                $$ = $2;
+            }
+            else{
+                $$ = $1;
+                insere_irmao($$, $2);
+            }
         }
         | 
         {
@@ -254,8 +323,14 @@ selecao_decl: TK_IF TK_LPAREN expressao TK_RPAREN comando
         {
             printf("SELECAO DECL RECONHECIDO\n");
             $$ = cria_no($1);
+
+            strcpy($$->lexema, "IF");
+
             insere_filho($$, $3);
             insere_filho($$, $5);
+
+            // if($6 != NULL)
+            //     insere_filho($$, $6);
             //insere_filho($$, $6);
         }
         | TK_IF TK_LPAREN expressao TK_RPAREN comando TK_ELSE comando
@@ -273,6 +348,9 @@ iteracao_decl: TK_WHILE TK_LPAREN expressao TK_RPAREN comando
         {
             printf("ITERACAO DECL RECONHECIDO\n");
             $$ = cria_no($1);
+            
+            strcpy($$->lexema, "WHILE");
+
             insere_filho($$, $3);
             insere_filho($$, $5);
 
@@ -283,11 +361,13 @@ retorno_decl: TK_RETURN TK_SEMI
         {
             printf("RETORNO DECL RECONHECIDO\n");
             $$ = cria_no($1);
+            strcpy($$->lexema, "RETURNVOID");
         }
         | TK_RETURN expressao TK_SEMI
         {
             printf("RETORNO DECL RECONHECIDO\n");
             $$ = cria_no($1);
+            strcpy($$->lexema, "RETURNINT");
             insere_filho($$, $2);
 
         }
@@ -297,6 +377,9 @@ expressao: var TK_ASSIGN expressao
         {
             printf("EXPRESSAO1 RECONHECIDO\n");
             $$ = cria_no($2);
+
+            strcpy($$->lexema, "=");
+
             insere_filho($$, $1);
             insere_filho($$, $3);
 
@@ -312,12 +395,23 @@ var: TK_ID
         {
             printf("VAR1 RECONHECIDO\n");
             $$ = cria_no($1);
+            lexemaauxiliar = peek(pilha);
+            //printf("lexema: %s\n", lexemaauxiliar);
+            strcpy($$->lexema, lexemaauxiliar);
+            pop(pilha); //desempilha o id
+            // lexemaauxiliar = peek(pilha);
+            // printf("lexema2: %s\n", lexemaauxiliar);
 
         }
         | TK_ID TK_LBRACKET expressao TK_RBRACKET
         {
             printf("VAR2 RECONHECIDO\n");
             $$ = cria_no($1);
+
+            lexemaauxiliar = peek(pilha);
+            strcpy($$->lexema, lexemaauxiliar);
+            pop(pilha); //desempilha o id
+
             insere_filho($$, $3);
 
         }
@@ -343,36 +437,42 @@ relacional: TK_LT
         {
             printf("RELACIONAL RECONHECIDO\n");
             $$ = cria_no($1);
+            strcpy($$->lexema, "<");
 
         }
         | TK_LE
         {
             printf("RELACIONAL RECONHECIDO\n");
             $$ = cria_no($1);
+            strcpy($$->lexema, "<=");
 
         }
         | TK_GT
         {
             printf("RELACIONAL RECONHECIDO\n");
             $$ = cria_no($1);
+            strcpy($$->lexema, ">");
 
         }
         | TK_GE
         {
             printf("RELACIONAL RECONHECIDO\n");
             $$ = cria_no($1);
+            strcpy($$->lexema, ">=");
 
         }
         | TK_EQ
         {
             printf("RELACIONAL RECONHECIDO\n");
             $$ = cria_no($1);
+            strcpy($$->lexema, "==");
 
         }
         | TK_NE 
         {
             printf("RELACIONAL RECONHECIDO\n");
             $$ = cria_no($1);
+            strcpy($$->lexema, "!=");
 
         }
 ;
@@ -397,12 +497,14 @@ soma: TK_PLUS
         {
             printf("SOMA RECONHECIDO\n");
             $$ = cria_no($1);
+            strcpy($$->lexema, "+");
 
         }
         | TK_MINUS
         {
             printf("SOMA RECONHECIDO\n");
             $$ = cria_no($1);
+            strcpy($$->lexema, "-");
 
         }
 ;
@@ -427,12 +529,14 @@ mult: TK_TIMES
         {
             printf("MULT RECONHECIDO\n");
             $$ = cria_no($1);
+            strcpy($$->lexema, "*");
 
         }
         | TK_OVER
         {
             printf("MULT RECONHECIDO\n");
             $$ = cria_no($1);
+            strcpy($$->lexema, "/");
 
         }
 ;
@@ -453,6 +557,9 @@ fator: TK_LPAREN expressao TK_RPAREN
         {
             printf("FATOR3 RECONHECIDO\n");
             $$ = cria_no($1);
+            lexemaauxiliar = peek(pilha);
+            strcpy($$->lexema, lexemaauxiliar);
+            pop(pilha); //desempilha o id
 
         }
         | chamada
@@ -463,10 +570,16 @@ fator: TK_LPAREN expressao TK_RPAREN
         }
 ;
 
-chamada: TK_ID TK_LPAREN args TK_RPAREN
+chamada: id_fun TK_LPAREN args TK_RPAREN
         {
             printf("CHAMADA RECONHECIDO\n");
-            $$ = cria_no($1);
+            // $$ = cria_no($1);
+            $$ = $1;
+
+            // lexemaauxiliar = peek(pilha);
+            // strcpy($$->lexema, lexemaauxiliar);
+            // pop(pilha); //desempilha o id
+
             insere_filho($$, $3);
 
         }
@@ -489,8 +602,13 @@ args: arg_lista
 arg_lista: arg_lista TK_COMMA expressao
         {
             printf("ARG LISTA RECONHECIDO\n");
-            $$ = $1;
-            insere_irmao($$, $3);
+            if($1 == NULL){
+                $$ = $3;
+            }
+            else{
+                $$ = $1;
+                insere_irmao($$, $3);
+            }
 
         }
         | expressao
@@ -503,10 +621,11 @@ arg_lista: arg_lista TK_COMMA expressao
 
 %%
 
-int parse(void) {
+pont_arv parse(void) {
     //return yyparse();
     yyparse();
-    return 0;
+    //printa a raiz da arvore
+    return raiz;
 }
 
 int yylex(void){
@@ -519,6 +638,7 @@ int yylex(void){
     //mudar o valor do token para o valor que esta no parser
     if(valor_token == -1){
         valor_convertido = YYEOF;
+        //imprime_arvore(raiz, 0);
     }
     else if (valor_token == 0) {
         valor_convertido = TK_ELSE;

@@ -63,11 +63,12 @@ int get_lexema(){
 
                     Verifica_palavra_reservada(aux, lex);//verifica se o lexema é uma palavra reservada
 
-                    if (aux[0] != '\0') { // Verifica se a string não está vazia.
+                    if (aux[0] != '\0'){ // Verifica se a string não está vazia.
                             
                           Pega_ID(lex->token, lex, pega_carac);//pega o token e o lexema e retorna o token em string 
-
+                          printf("Aux: %s\n", aux);
                           //printf("Token: %s, Linha: %d, Lexema: |%s| \n",pega_carac, lex->linha, aux);
+                          push(pilha, aux);//empilha o token
 
                           token_atual = lex->token;//manda para o analisador sintatico para verificar se esta correto sintaticamente
                         
@@ -451,4 +452,53 @@ void Pega_ID(int valor_letra, Lex *lex, char *pega_carac) {
     strcpy(pega_carac, "ID");
   }
 
+}
+
+// Função para inicializar a pilha
+void initialize(Pilha *stack) {
+    //printf("Inicializando pilha...\n");
+    stack->topo = -1;
+}
+
+// Função para verificar se a pilha está vazia
+int isEmpty(Pilha *stack) {
+    return stack->topo == -1;
+}
+
+// Função para verificar se a pilha está cheia
+int isFull(Pilha *stack) {
+    return stack->topo == 100 - 1;
+}
+
+// Função para empilhar uma palavra
+void push(Pilha *stack, const char *word) {
+    printf("word: %s\n", word);
+    if (isFull(stack)) {
+        printf("Erro: Pilha cheia\n");
+        return;
+    }
+
+    stack->topo++;
+    strcpy(stack->itens[stack->topo], word);
+    printf("stack->itens[stack->topo]: %s\n", stack->itens[stack->topo]);
+}
+
+// Função para desempilhar uma palavra
+void pop(Pilha *stack) {
+    if (isEmpty(stack)) {
+        printf("Erro: Pilha vazia\n");
+        return;
+    }
+
+    stack->topo--;
+}
+
+// Função para obter a palavra no topo da pilha
+const char *peek(Pilha *stack) {//retorna o topo da pilha
+    if (isEmpty(stack)) {
+        printf("Erro: Pilha vazia\n");
+        return NULL;
+    }
+
+    return stack->itens[stack->topo];
 }

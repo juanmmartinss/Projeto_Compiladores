@@ -36,6 +36,12 @@ typedef struct no {
     struct no *direita;
 } No;
 
+typedef struct pilha{
+    int topo;
+    char itens[100][645];
+}Pilha;
+
+
 //static No *raiz = NULL; // Árvore binária de busca balanceada
 
 int get_lexema();
@@ -55,6 +61,13 @@ void libera_arvore(No *raiz);
 void chama_desaloca_arvore();
 
 TokenType getToken(int argc, char *argv[]);
+
+void initialize(Pilha *stack);
+int isEmpty(Pilha *stack) ;
+int isFull(Pilha *stack);
+void push(Pilha *stack, const char *word);
+void pop(Pilha *stack);
+const char *peek(Pilha *stack);
 
 void teste(Lex *lex, char *pega_carac, Buffer *buffer, FILE *input_file, char letra, char c, int linha_atual, int controle);
 

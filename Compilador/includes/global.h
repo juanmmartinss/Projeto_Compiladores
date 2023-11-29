@@ -20,8 +20,10 @@ extern int linhaatual;
 
 // typedef Arvore *pont_arv;
 
-//tipo de dado
+//criar um vetor para receber os tokens
+//vetor para armazenar todos os lexemas
 
+extern Pilha *pilha;
 extern Buffer *buffer;
 extern Lex *lex;
 extern FILE *input_file;

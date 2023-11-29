@@ -10,6 +10,7 @@
 FILE *input_file = NULL;
 Buffer *buffer = NULL;
 Lex *lex = NULL;
+Pilha *pilha = NULL;
 
 char letra = '\0';
 char c = '\0';
@@ -17,7 +18,7 @@ int linha_atual = 0;
 int controle = 0;
 char* pega_carac = NULL;
 
-int parse(void);
+pont_arv parse(void);
 
 //raiz = NULL;
 
@@ -70,6 +71,11 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
+    pilha = (Pilha *)malloc(sizeof(Pilha)); // Aloque memória para lex
+    
+    // printf("passa daqui?");
+    initialize(pilha);
+    // printf("vamos descobrir");
 
     lex->linha = 0;
     buffer->pos = 0;
@@ -78,12 +84,16 @@ int main(int argc, char *argv[]) {
     // for (int i = 0; i < buffer->size; i++) {
     //     get_lexema();
     // }
-    parse();
+
+    pont_arv arvore = parse();
+
+    //imprime_arvore(arvore, 0);
     
     deallocate_buffer(buffer);
     //libera_arvore(raiz);
     free(lex); // Libere a memória alocada para lex
     //free(pega_carac);
+    free(pilha);
 
     fclose(input_file);
 

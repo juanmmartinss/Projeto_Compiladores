@@ -6,6 +6,7 @@
 #include "parser_arvore.h"
 //#include "global.h"
 
+
 pont_arv cria_no(pont_arv no){
     no = (pont_arv)malloc(sizeof(Arvore));
     no->filho1 = NULL;
@@ -14,6 +15,7 @@ pont_arv cria_no(pont_arv no){
     no->irmao = NULL;
     no->tipo = NULL;
     no->valor = NULL;
+    memset(no->lexema, 0, 20);
     return no;
 }
 
@@ -46,7 +48,10 @@ pont_arv insere_filho(pont_arv raiz, pont_arv no){
 }
 
 void imprime_arvore(pont_arv raiz, int nivel){
+    printf("-----------------ARVORE SINTATICA-----------------\n");
     if(raiz == NULL){
+        printf("ERRO, ARVORE VAZIA\n");
+        printf("---------------------------------------------\n");
         return;
     }
     int i;
@@ -58,6 +63,8 @@ void imprime_arvore(pont_arv raiz, int nivel){
     imprime_arvore(raiz->filho2, nivel+1);
     imprime_arvore(raiz->filho3, nivel+1);
     imprime_arvore(raiz->irmao, nivel);
+
+    printf("---------------------------------------------\n");
 }
 
 void libera_arvore_sintatica(pont_arv raiz){
