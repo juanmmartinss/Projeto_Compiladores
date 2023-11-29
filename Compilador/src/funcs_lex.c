@@ -66,9 +66,13 @@ int get_lexema(){
                     if (aux[0] != '\0'){ // Verifica se a string não está vazia.
                             
                           Pega_ID(lex->token, lex, pega_carac);//pega o token e o lexema e retorna o token em string 
-                          printf("Aux: %s\n", aux);
+                          //printf("Aux: %s\n", aux);
                           //printf("Token: %s, Linha: %d, Lexema: |%s| \n",pega_carac, lex->linha, aux);
-                          push(pilha, aux);//empilha o token
+                          //apenas colocar na pilha ID
+                          if((strcmp(pega_carac, "ID") == 0) || strcmp(pega_carac, "NUM")==0){
+                              push(pilha, aux);//empilha o lexema
+                          }
+                          //push(pilha, aux);//empilha o lexema
 
                           token_atual = lex->token;//manda para o analisador sintatico para verificar se esta correto sintaticamente
                         
@@ -472,15 +476,17 @@ int isFull(Pilha *stack) {
 
 // Função para empilhar uma palavra
 void push(Pilha *stack, const char *word) {
-    printf("word: %s\n", word);
+    //printf("word: %s\n", word);
     if (isFull(stack)) {
         printf("Erro: Pilha cheia\n");
         return;
     }
 
+    //printf("topo da piha antes: %s\n", stack->itens[stack->topo]);
+
     stack->topo++;
     strcpy(stack->itens[stack->topo], word);
-    printf("stack->itens[stack->topo]: %s\n", stack->itens[stack->topo]);
+    //printf("stack->itens[stack->topo]: %s\n", stack->itens[stack->topo]);
 }
 
 // Função para desempilhar uma palavra
@@ -500,5 +506,6 @@ const char *peek(Pilha *stack) {//retorna o topo da pilha
         return NULL;
     }
 
+    printf("stack->itens[stack->topo]: %s\n", stack->itens[stack->topo]);
     return stack->itens[stack->topo];
 }

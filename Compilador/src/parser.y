@@ -58,6 +58,11 @@ programa: lista_declaracoes
         {   
             printf("PROGRAMA RECONHECIDO\n");
             raiz = $1;
+
+            printf("\n");
+            printf("-----------------ARVORE SINTATICA-----------------\n");
+            printf("\n");
+
             imprime_arvore(raiz, 0);
         }
         
@@ -101,8 +106,10 @@ declaracao_var: tipo_especificador TK_ID TK_SEMI
             pont_arv aux = cria_no($2);
 
             lexemaauxiliar = peek(pilha);
+            printf("lexemaaxiliar: %s\n", lexemaauxiliar);
             //printf("lexema: %s\n", lexemaauxiliar);
             strcpy(aux->lexema, lexemaauxiliar);
+            printf("string aux->lexema: %s\n", aux->lexema);
             pop(pilha); //desempilha o id
 
             $$ = insere_filho($$, aux);
@@ -116,19 +123,23 @@ declaracao_var: tipo_especificador TK_ID TK_SEMI
             pont_arv aux2 = cria_no($4);
 
             lexemaauxiliar = peek(pilha);
+            printf("lexemaaxiliar: %s\n", lexemaauxiliar);
             //printf("lexema: %s\n", lexemaauxiliar);
             strcpy(aux->lexema, lexemaauxiliar);
+            printf("string aux->lexema: %s\n", aux->lexema);
             pop(pilha); //desempilha o id
 
             lexemaauxiliar = peek(pilha);
+            printf("lexemaaxiliar: %s\n", lexemaauxiliar);
             strcpy(aux2->lexema, lexemaauxiliar);
             pop(pilha); //desempilha o id
             // lexemaauxiliar = peek(pilha);
+            printf("lexemaaxiliar: %s\n", lexemaauxiliar);
             // printf("lexema: %s\n", lexemaauxiliar);
 
-
-            $$ = insere_filho($$, aux);
             $$ = insere_filho($$, aux2);
+            $$ = insere_filho($$, aux);
+            
 
 
         }
@@ -167,6 +178,7 @@ id_fun: TK_ID
             printf("ID FUN RECONHECIDO\n");
             $$ = cria_no($1);
             lexemaauxiliar = peek(pilha);
+            printf("lexemaaxiliar: %s\n", lexemaauxiliar);
             strcpy($$->lexema, lexemaauxiliar);
             pop(pilha); //desempilha o id
         }
@@ -211,7 +223,9 @@ param: tipo_especificador TK_ID
             pont_arv aux = cria_no($2);
 
             lexemaauxiliar = peek(pilha);
+            printf("lexemaaxiliar: %s\n", lexemaauxiliar);
             strcpy(aux->lexema, lexemaauxiliar);
+            printf("string aux->lexema: %s\n", aux->lexema);
             pop(pilha); //desempilha o id
 
             $$ = insere_filho($$, aux);
@@ -223,7 +237,9 @@ param: tipo_especificador TK_ID
             pont_arv aux = cria_no($2);
 
             lexemaauxiliar = peek(pilha);
+            printf("lexemaaxiliar: %s\n", lexemaauxiliar);
             strcpy(aux->lexema, lexemaauxiliar);
+            printf("string aux->lexema: %s\n", aux->lexema);
             pop(pilha); //desempilha o id
 
             $$ = insere_filho($$, aux);
@@ -396,10 +412,12 @@ var: TK_ID
             printf("VAR1 RECONHECIDO\n");
             $$ = cria_no($1);
             lexemaauxiliar = peek(pilha);
+            printf("lexemaaxiliar: %s\n", lexemaauxiliar);
             //printf("lexema: %s\n", lexemaauxiliar);
             strcpy($$->lexema, lexemaauxiliar);
             pop(pilha); //desempilha o id
             // lexemaauxiliar = peek(pilha);
+            printf("lexemaaxiliar: %s\n", lexemaauxiliar);
             // printf("lexema2: %s\n", lexemaauxiliar);
 
         }
@@ -409,6 +427,7 @@ var: TK_ID
             $$ = cria_no($1);
 
             lexemaauxiliar = peek(pilha);
+            printf("lexemaaxiliar: %s\n", lexemaauxiliar);
             strcpy($$->lexema, lexemaauxiliar);
             pop(pilha); //desempilha o id
 
@@ -558,6 +577,7 @@ fator: TK_LPAREN expressao TK_RPAREN
             printf("FATOR3 RECONHECIDO\n");
             $$ = cria_no($1);
             lexemaauxiliar = peek(pilha);
+            printf("lexemaaxiliar: %s\n", lexemaauxiliar);
             strcpy($$->lexema, lexemaauxiliar);
             pop(pilha); //desempilha o id
 
@@ -577,6 +597,7 @@ chamada: id_fun TK_LPAREN args TK_RPAREN
             $$ = $1;
 
             // lexemaauxiliar = peek(pilha);
+            printf("lexemaaxiliar: %s\n", lexemaauxiliar);
             // strcpy($$->lexema, lexemaauxiliar);
             // pop(pilha); //desempilha o id
 

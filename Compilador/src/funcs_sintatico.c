@@ -8,6 +8,8 @@
 
 
 pont_arv cria_no(pont_arv no){
+
+    printf("cria no\n");
     no = (pont_arv)malloc(sizeof(Arvore));
     no->filho1 = NULL;
     no->filho2 = NULL;
@@ -48,15 +50,15 @@ pont_arv insere_filho(pont_arv raiz, pont_arv no){
 }
 
 void imprime_arvore(pont_arv raiz, int nivel){
-    printf("-----------------ARVORE SINTATICA-----------------\n");
+    
     if(raiz == NULL){
-        printf("ERRO, ARVORE VAZIA\n");
-        printf("---------------------------------------------\n");
         return;
     }
+
     int i;
+
     for(i = 0; i < nivel; i++){
-        printf("  ");
+        printf("      ");
     }
     printf("%s\n", raiz->lexema);
     imprime_arvore(raiz->filho1, nivel+1);
@@ -64,7 +66,6 @@ void imprime_arvore(pont_arv raiz, int nivel){
     imprime_arvore(raiz->filho3, nivel+1);
     imprime_arvore(raiz->irmao, nivel);
 
-    printf("---------------------------------------------\n");
 }
 
 void libera_arvore_sintatica(pont_arv raiz){
