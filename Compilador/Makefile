@@ -20,6 +20,8 @@ OBJS = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRCS))
 # Regra padrão, compila todos os objetos e cria o executável
 all: $(TARGET)
 
+EXECUTABLE = exec
+
 # Cria o diretório obj, se ele não existir
 $(shell mkdir -p $(OBJDIR))
 

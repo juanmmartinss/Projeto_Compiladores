@@ -68,6 +68,7 @@ int isFull(Pilha *stack);
 void push(Pilha *stack, const char *word);
 void pop(Pilha *stack);
 const char *peek(Pilha *stack);
+void liberar_pilha(Pilha *stack);
 
 void teste(Lex *lex, char *pega_carac, Buffer *buffer, FILE *input_file, char letra, char c, int linha_atual, int controle);
 

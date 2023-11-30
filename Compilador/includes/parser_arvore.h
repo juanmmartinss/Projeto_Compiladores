@@ -1,3 +1,6 @@
+#ifndef PARSER_ARVORE_H
+#define PARSER_ARVORE_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -25,3 +28,5 @@ pont_arv insere_irmao(pont_arv raiz, pont_arv no);
 pont_arv insere_filho(pont_arv raiz, pont_arv no);
 void imprime_arvore(pont_arv raiz, int nivel);
 void libera_arvore_sintatica(pont_arv raiz);
+
+#endif

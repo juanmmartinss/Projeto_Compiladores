@@ -117,7 +117,7 @@ Buffer *allocate_buffer(int size) {
 
 void deallocate_buffer(Buffer *buffer) {
     if (buffer != NULL) { // Verificar se o buffer não é nulo antes de liberar
-
+    
         free(buffer->data);
         free(buffer);// Liberar o buffer
         buffer = NULL;
@@ -492,4 +492,11 @@ const char *peek(Pilha *stack) {//retorna o topo da pilha
         return NULL;
     }
     return stack->itens[stack->topo];
+}
+
+void liberar_pilha(Pilha *stack) {
+    if (stack != NULL) {
+        free(stack);
+        stack = NULL;
+    }
 }

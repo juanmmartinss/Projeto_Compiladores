@@ -5,7 +5,9 @@
 #include <ctype.h>
 #include "global.h"
 #include "parser_arvore.h"
-//#include "parser.tab.h"
+//#include "tabela_simbolos.h"
+//#include "semantico.h"
+#include "parser.tab.h"
 
 FILE *input_file = NULL;
 Buffer *buffer = NULL;
@@ -94,15 +96,18 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
-    
+    //SymbolTable *tabela = initializeHashTable();
 
-    //imprime_arvore(arvore, 0);
+    //insert(tabela, arvore, );
+
     
     deallocate_buffer(buffer);
     //libera_arvore(raiz);
     free(lex); // Libere a memória alocada para lex
     //free(pega_carac);
-    free(pilha);
+    liberar_pilha(pilha);
+
+    libera_arvore_sintatica(arvore);
 
     fclose(input_file);
 
