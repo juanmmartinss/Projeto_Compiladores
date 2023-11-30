@@ -10,8 +10,8 @@
 
 int matriz_dfa[16][21] = {
 
-/*inicio*/   {2, 3, 16, 16, 16, 16, 16, 16, 16, 16, 16, 4, 12, 8, 10, 9, 16, 16, 16, 1, 18},
-/*letras*/   {2, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 18},
+/*inicio*/    {2, 3, 16, 16, 16, 16, 16, 16, 16, 16, 16, 4, 12, 8, 10, 9, 16, 16, 16, 1, 18},
+/*letras*/    {2, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 18},
               {17, 3, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 18},
               {17, 17, 5, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 17, 18},
               {5, 5, 6, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5},
@@ -31,7 +31,7 @@ int matriz_dfa[16][21] = {
 
 int get_lexema(){
         int token_atual = 0;
-        char *aux;
+        char *aux = NULL;
 
             for (int k = 0; k < 128; k++) { // Zera o vetor lexema
                     lex->lexema[k] = '\0';
@@ -104,7 +104,6 @@ int get_lexema(){
             return token_atual;
 }
 
-
 Buffer *allocate_buffer(int size) {
     Buffer *buffer = (Buffer*)malloc(sizeof(Buffer));
     buffer->data = (char*)malloc(sizeof(char) * size);
@@ -141,7 +140,6 @@ char* enche_buffer(Buffer *buffer, FILE *arq) {
 
     return str;
 }
-
 
 char get_next_char(Buffer *buffer, FILE *arq, Lex *lex) {
   
@@ -385,9 +383,6 @@ void Verifica_palavra_reservada(char *palavra, Lex *lex) {
     else { // se nao for comentario, classifica como ID, ou seja ignora comentario
         lex->token = ID;//se nao for uma palavra reservada, é um ID
     }
-
-    //printa_arvore(raiz, 1);
-
 }
 
 void Pega_ID(int valor_letra, Lex *lex, char *pega_carac) {
@@ -457,7 +452,6 @@ void Pega_ID(int valor_letra, Lex *lex, char *pega_carac) {
 
 // Função para inicializar a pilha
 void initialize(Pilha *stack) {
-    //printf("Inicializando pilha...\n");
     stack->topo = -1;
 }
 
@@ -478,12 +472,8 @@ void push(Pilha *stack, const char *word) {
         printf("Erro: Pilha cheia\n");
         return;
     }
-
-    //printf("topo da piha antes: %s\n", stack->itens[stack->topo]);
-
     stack->topo++;
     strcpy(stack->itens[stack->topo], word);
-    //printf("stack->itens[stack->topo]: %s\n", stack->itens[stack->topo]);
 }
 
 // Função para desempilhar uma palavra
@@ -492,7 +482,6 @@ void pop(Pilha *stack) {
         printf("Erro: Pilha vazia\n");
         return;
     }
-
     stack->topo--;
 }
 
@@ -502,7 +491,5 @@ const char *peek(Pilha *stack) {//retorna o topo da pilha
         printf("Erro: Pilha vazia\n");
         return NULL;
     }
-
-    //printf("stack->itens[stack->topo]: %s\n", stack->itens[stack->topo]);
     return stack->itens[stack->topo];
 }

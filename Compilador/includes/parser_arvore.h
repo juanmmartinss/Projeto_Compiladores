@@ -4,45 +4,6 @@
 //#include "global.h"
 #define MAX 1000
 
-typedef enum {
-    INTEIRO,
-    VAZIO
-} Tipo_dado;
-
-//tipo de no
-typedef enum {
-    DECLARACAO,
-    EXPRESSAO,
-    NADA
-} Tipo_no;
-
-//tipo de declaracao
-typedef enum {
-    IFK, 
-    WHILEK, 
-    INTK, 
-    VOIDK, 
-    NULOK, 
-    VARIAVELK, 
-    VETORK, 
-    FUNCAOK, 
-    PARAMETROVARIAVELK,
-    PARAMETROVETORK,
-    PARAMETROVOIDK 
-} Tipo_declaracao;
-
-//tipo de expressao
-typedef enum {
-    OPERANDO, // Operando.
-    OPERADORRELACIONAL, // Operador relacional.
-    CONSTANTE, // Valor numérico constante.
-    IDK, // Uso de variável.
-    CHAMADAFUNCAO, // Chamada de função.
-    VETORPARAMETROK, // Uso de parâmetro vetor.
-    ATRIBUICAOK, // Atribuição.
-    NULO // Nulo.
-} Tipo_expressao;
-
 typedef struct Arvore {
     char* tipodeclaracao;
     char* tipoexpressao;

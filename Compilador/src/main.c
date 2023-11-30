@@ -87,6 +87,15 @@ int main(int argc, char *argv[]) {
 
     pont_arv arvore = parse();
 
+    if (arvore == NULL) {
+        printf("Erro ao gerar arvore!\n");
+        //acaba o programa
+        fclose(input_file);
+        exit(1);
+    }
+
+    
+
     //imprime_arvore(arvore, 0);
     
     deallocate_buffer(buffer);

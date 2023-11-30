@@ -6,7 +6,6 @@
 #include "parser_arvore.h"
 //#include "global.h"
 
-
 pont_arv cria_no(pont_arv no){
     no = (pont_arv)malloc(sizeof(Arvore));
     no->filho1 = NULL;

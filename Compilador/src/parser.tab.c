@@ -78,7 +78,7 @@
 #define YYSTYPE pont_arv
 
 int linhaatual;
-const char *lexemaauxiliar;
+const char *lexemaauxiliar = NULL;
 
 //#define YYSTYPE pont_arv;
 pont_arv parse(void);
