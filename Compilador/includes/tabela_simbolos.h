@@ -7,7 +7,9 @@
 #include "global.h"
 #include "funcs.h"
 
-#define SIZE 20
+#define SIZE 211
+
+
 
 typedef struct symbolTable {
     char nameID[20];//nome da variavel ou funcao
@@ -24,9 +26,10 @@ typedef struct hashNode {
 
 HashNode* hashTable[SIZE];
 
+typedef SymbolTable* symbolTable;
 
-SymbolTable *tabelasimbolos;
-
-void initializeHashTable();
+unsigned int hash(char *key);
+symbolTable* initializeHashTable();
+//void insert(SymbolTable symbol);
 
 #endif

@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "funcs.h"
 #include <string.h>
 #include <ctype.h>
 #include "global.h"
+#include "funcs.h"
 #include "parser_arvore.h"
-//#include "tabela_simbolos.h"
+#include "tabela_simbolos.h"
 //#include "semantico.h"
-#include "parser.tab.h"
+//#include "parser.tab.h"
 
 FILE *input_file = NULL;
 Buffer *buffer = NULL;
@@ -96,7 +96,8 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
-    //SymbolTable *tabela = initializeHashTable();
+    symbolTable *tabela = initializeHashTable();
+
 
     //insert(tabela, arvore, );
 
