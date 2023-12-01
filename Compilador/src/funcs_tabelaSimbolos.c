@@ -14,50 +14,75 @@ unsigned int hash(char *key) {//funcao para gerar o hash
     return value % SIZE;
 }
 
-symbolTable* initializeHashTable() {
-    symbolTable *hashTable = (symbolTable*) malloc(sizeof(symbolTable) * SIZE);
+tabelaSimbolos* initializeHashTable() {
+    tabelaSimbolos *hashTable = (tabelaSimbolos*) malloc(sizeof(tabelaSimbolos) * SIZE);
     for (int i = 0; i < SIZE; i++) {
         hashTable[i] = NULL;
     }
     return hashTable;
 }
 
-// void insert(SymbolTable symbol) {
-//     unsigned int index = hash(symbol.nameID);
-//     HashNode *newNode = (HashNode*) malloc(sizeof(HashNode));
-//     newNode->symbol = symbol;
-//     newNode->next = NULL;
-//     if (hashTable[index] == NULL) {
-//         hashTable[index] = newNode;
-//     } else {
-//         HashNode *temp = hashTable[index];
-//         while (temp->next) {
-//             temp = temp->next;
-//         }
-//         temp->next = newNode;
-//     }
-// }
+void inserttable(tabelaSimbolos *hashtable, Tipo_declaracao *typeID, Tipo_dado *dataType, char *nameID, char *escopo, int linha) {
+    int index = hash(nameID);
+    tabelaSimbolos list = hashtable[index];
 
-// symbolTable* search(char *nameID) {
-//     unsigned int index = hash(nameID);
-//     hashNode *temp = hashTable[index];
-//     while (temp) {
-//         if (strcmp(temp->symbol.nameID, nameID) == 0) {
-//             return &temp->symbol;
-//         }
-//         temp = temp->next;
-//     }
-//     return NULL;
-// }
+    if(list == NULL){
+        list = (tabelaSimbolos) malloc(sizeof(SymbolTable));
+        strcpy(list->nameID, nameID);
+        strcpy(list->escopo, escopo);
+        list->NumeroLinha = linha;
+        list->next = NULL;
+        hashtable[index] = list;
+    }else{
+        while(list->next != NULL){
+            list = list->next;
+        }
+        list->next = (tabelaSimbolos) malloc(sizeof(SymbolTable));
+        strcpy(list->next->nameID, nameID);
+        strcpy(list->next->escopo, escopo);
+        list->next->NumeroLinha = linha;
+        list->next->next = NULL;
+    }
 
-// void display() {
-//     for (int i = 0; i < SIZE; i++) {
-//         hashNode *temp = hashTable[i];
-//         while (temp) {
-//             printf("Name ID: %s, Scope: %s, Type ID: %s, Data Type: %s, Line Number: %d\n",
-//                    temp->symbol.nameID, temp->symbol.scope, temp->symbol.typeID,
-//                    temp->symbol.dataType, temp->symbol.lineNumber);
-//             temp = temp->next;
-//         }
-//     }
-// }
+
+    // tabelaSimbolos novo = (tabelaSimbolos) malloc(sizeof(SymbolTable));
+    // if (novo == NULL) {
+    //     // Tratar erro de alocação de memória, se necessário
+    //     return;
+    // }
+
+    // strcpy(novo->nameID, nameID);
+    // strcpy(novo->escopo, escopo);
+    // // Copiar typeID e dataType adequadamente, dependendo de seus tipos
+
+    // novo->NumeroLinha = linha;
+    // novo->next = NULL;
+
+    // if (list == NULL) {
+    //     hashtable[index] = novo;
+    // } else {
+    //     while (list->next != NULL) {
+    //         list = list->next;
+    //     }
+    //     list->next = novo;
+    // }
+}
+
+void printatabela(tabelaSimbolos *hashtable) {
+    for (int i = 0; i < SIZE; i++) {
+        if (hashtable[i] != NULL) {
+            tabelaSimbolos list = hashtable[i];
+            while (list != NULL) {
+                printf("Nome: %s\n", list->nameID);
+                printf("Escopo: %s\n", list->escopo);
+                printf("Linha: %d\n", list->NumeroLinha);
+                list = list->next;
+            }
+        }
+        else{
+            printf("NULL\n");
+        }
+    }
+}
+
+

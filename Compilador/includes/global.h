@@ -8,45 +8,6 @@
 
 extern int linhaatual;
 
-typedef enum {
-    INTEIRO,
-    VAZIO
-} Tipo_dado;
-
-//tipo de no
-typedef enum {
-    DECLARACAO,
-    EXPRESSAO,
-    NADA
-} Tipo_no;
-
-//tipo de declaracao
-typedef enum {
-    IFK, 
-    WHILEK, 
-    INTK, 
-    VOIDK, 
-    NULOK, 
-    VARIAVELK, 
-    VETORK, 
-    FUNCAOK, 
-    PARAMETROVARIAVELK,
-    PARAMETROVETORK,
-    PARAMETROVOIDK 
-} Tipo_declaracao;
-
-//tipo de expressao
-typedef enum {
-    OPERANDO, // Operando.
-    OPERADORRELACIONAL, // Operador relacional.
-    CONSTANTE, // Valor numérico constante.
-    IDK, // Uso de variável.
-    CHAMADAFUNCAO, // Chamada de função.
-    VETORPARAMETROK, // Uso de parâmetro vetor.
-    ATRIBUICAOK, // Atribuição.
-    NULO // Nulo.
-} Tipo_expressao;
-
 extern Pilha *pilha;
 extern Buffer *buffer;
 extern Lex *lex;

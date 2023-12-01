@@ -58,12 +58,6 @@ programa: lista_declaracoes
         {   
             printf("PROGRAMA RECONHECIDO\n");
             raiz = $1;
-
-            printf("\n");
-            printf("-----------------ARVORE SINTATICA-----------------\n");
-            printf("\n");
-
-            imprime_arvore(raiz, 0);
         }
         
 ;

@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include "global.h"
+//#include "global.h"
 #include "funcs.h"
 #include "parser_arvore.h"
 #include "tabela_simbolos.h"
@@ -95,9 +95,23 @@ int main(int argc, char *argv[]) {
         fclose(input_file);
         exit(1);
     }
+    else{
+        printf("Arvore gerada com sucesso!\n");
+        //printf("Deseja imprimir a arvore? (s/n)\n");
+        //char opcao;
+        //scanf("%c", &opcao);
+        //if (opcao == 's') {
+            printf("-----------------ARVORE SINTATICA-----------------\n");
+            imprime_arvore(arvore, 0);
+        //}
+    }
 
-    symbolTable *tabela = initializeHashTable();
+    tabelaSimbolos *tabela = initializeHashTable();
 
+    inserttable(tabela, FUNCAOK, INTEIRO, "input", "global", 0);
+    inserttable(tabela, FUNCAOK, VAZIO, "output", "global", 0);
+
+    printatabela(tabela);
 
     //insert(tabela, arvore, );
 
