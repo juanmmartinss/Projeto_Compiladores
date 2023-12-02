@@ -13,6 +13,7 @@ FILE *input_file = NULL;
 Buffer *buffer = NULL;
 Lex *lex = NULL;
 Pilha *pilha = NULL;
+//static No *raiz = NULL; // Árvore binária de busca balanceada
 
 char letra = '\0';
 char c = '\0';
@@ -111,7 +112,9 @@ int main(int argc, char *argv[]) {
     inserttable(tabela, FUNCAOK, INTEIRO, "input", "global", 0);
     inserttable(tabela, FUNCAOK, VAZIO, "output", "global", 0);
 
-    printatabela(tabela);
+    //inserttree(arvore, tabela, "global");
+
+    //printatabela(tabela);
 
     //insert(tabela, arvore, );
 

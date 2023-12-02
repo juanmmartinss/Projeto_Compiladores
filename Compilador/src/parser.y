@@ -4,6 +4,7 @@
 #include "funcs.h"
 #include "global.h"
 #include "parser_arvore.h"
+#include "tabela_simbolos.h"
 
 #define YYSTYPE pont_arv
 
@@ -97,12 +98,16 @@ declaracao_var: tipo_especificador TK_ID TK_SEMI
         {
             printf("DECLARACAO VAR RECONHECIDA\n");
             $$ = $1;
+
+            //pega o tipo do no
+            $$->tipo = DECLARACAO;
+
             pont_arv aux = cria_no($2);
 
             lexemaauxiliar = peek(pilha);
-            //printf("lexema: %s\n", lexemaauxiliar);
+
             strcpy(aux->lexema, lexemaauxiliar);
-            //printf("string aux->lexema: %s\n", aux->lexema);
+
             pop(pilha); //desempilha o id
 
             $$ = insere_filho($$, aux);
@@ -112,6 +117,10 @@ declaracao_var: tipo_especificador TK_ID TK_SEMI
         {
             printf("DECLARACAO VAR RECONHECIDA\n");
             $$ = $1;
+            
+            //pega o tipo do no
+            $$->tipo = DECLARACAO;
+
             pont_arv aux = cria_no($2);
             pont_arv aux2 = cria_no($4);
 
@@ -160,6 +169,10 @@ declaracao_fun: tipo_especificador id_fun TK_LPAREN params TK_RPAREN composto_de
             insere_filho($$, $4);
             insere_filho($$, $2);
             insere_filho($2, $6);
+
+            //pega o tipo do no
+            $$->tipo = DECLARACAO;
+
         }
 ;
 
@@ -182,6 +195,9 @@ params: lista_params
         {
             printf("PARAMS RECONHECIDO\n");
             $$ = cria_no($1);
+
+            $$->tipo = DECLARACAO;
+
             strcpy($$->lexema, "VOID");
 
         }
@@ -209,6 +225,10 @@ param: tipo_especificador TK_ID
         {
             printf("PARAM RECONHECIDO\n");
             $$ = $1;
+
+            //pega o tipo do no
+            $$->tipo = DECLARACAO;
+
             pont_arv aux = cria_no($2);
 
             lexemaauxiliar = peek(pilha);
@@ -222,6 +242,10 @@ param: tipo_especificador TK_ID
         {
             printf("PARAM RECONHECIDO\n");
             $$ = $1;
+
+            //pega o tipo do no
+            $$->tipo = DECLARACAO;
+
             pont_arv aux = cria_no($2);
 
             lexemaauxiliar = peek(pilha);
@@ -329,6 +353,8 @@ selecao_decl: TK_IF TK_LPAREN expressao TK_RPAREN comando fat_else
 
             strcpy($$->lexema, "IF");
 
+            $$->tipo = DECLARACAO;
+
             insere_filho($$, $3);
             insere_filho($$, $5);
             if($6 != NULL){
@@ -386,6 +412,8 @@ iteracao_decl: TK_WHILE TK_LPAREN expressao TK_RPAREN comando
             
             strcpy($$->lexema, "WHILE");
 
+            $$->tipo = DECLARACAO;
+
             insere_filho($$, $3);
             insere_filho($$, $5);
 
@@ -396,12 +424,18 @@ retorno_decl: TK_RETURN TK_SEMI
         {
             printf("RETORNO DECL RECONHECIDO\n");
             $$ = cria_no($1);
+
+            $$->tipo = DECLARACAO;
+
             strcpy($$->lexema, "RETURNVOID");
         }
         | TK_RETURN expressao TK_SEMI
         {
             printf("RETORNO DECL RECONHECIDO\n");
             $$ = cria_no($1);
+
+            $$->tipo = DECLARACAO;
+
             strcpy($$->lexema, "RETURNINT");
             insere_filho($$, $2);
 
@@ -412,6 +446,8 @@ expressao: var TK_ASSIGN expressao
         {
             printf("EXPRESSAO1 RECONHECIDO\n");
             $$ = cria_no($2);
+
+            $$->tipo = EXPRESSAO;
 
             strcpy($$->lexema, "=");
 
@@ -430,6 +466,10 @@ var: TK_ID
         {
             printf("VAR1 RECONHECIDO\n");
             $$ = cria_no($1);
+
+            $$->tipo = EXPRESSAO;
+            //$$->tipodeclaracao = VARIAVEL;
+
             lexemaauxiliar = peek(pilha);
             //printf("lexema: %s\n", lexemaauxiliar);
             strcpy($$->lexema, lexemaauxiliar);
@@ -441,6 +481,8 @@ var: TK_ID
         {
             printf("VAR2 RECONHECIDO\n");
             $$ = cria_no($1);
+
+            $$->tipo = EXPRESSAO;
 
             lexemaauxiliar = peek(pilha);
             strcpy($$->lexema, lexemaauxiliar);
@@ -455,6 +497,9 @@ simples_expressao: soma_expressao relacional soma_expressao
         {
             printf("SIMPLES EXPRESSAO1 RECONHECIDO\n");
             $$ = $2;
+
+            $$->tipo = EXPRESSAO;
+
             insere_filho($$, $1);
             insere_filho($$, $3);
 
@@ -515,6 +560,9 @@ soma_expressao: soma_expressao soma termo
         {
             printf("SOMA EXPRESSAO1 RECONHECIDO\n");
             $$ = $2;
+
+            $$->tipo = EXPRESSAO;
+
             insere_filho($$, $1);
             insere_filho($$, $3);
 
@@ -547,6 +595,9 @@ termo: termo mult fator
         {
             printf("TERMO1 RECONHECIDO\n");
             $$ = $2;
+
+            $$->tipo = EXPRESSAO;
+
             insere_filho($$, $1);
             insere_filho($$, $3);
 
@@ -591,6 +642,9 @@ fator: TK_LPAREN expressao TK_RPAREN
         {
             printf("FATOR3 RECONHECIDO\n");
             $$ = cria_no($1);
+
+            $$->tipo = EXPRESSAO;
+
             lexemaauxiliar = peek(pilha);
             strcpy($$->lexema, lexemaauxiliar);
             pop(pilha); //desempilha o id
@@ -609,6 +663,8 @@ chamada: id_fun TK_LPAREN args TK_RPAREN
             printf("CHAMADA RECONHECIDO\n");
             // $$ = cria_no($1);
             $$ = $1;
+
+            $$->tipo = EXPRESSAO;
 
             // lexemaauxiliar = peek(pilha);
     

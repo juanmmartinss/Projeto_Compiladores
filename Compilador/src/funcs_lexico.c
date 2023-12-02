@@ -322,6 +322,7 @@ void libera_arvore(No *raiz) {
 
 void Verifica_palavra_reservada(char *palavra, Lex *lex) {
     static No *raiz = NULL; // Árvore binária de busca balanceada
+      if (raiz == NULL) {
         raiz = novo_no("else", ELSE);
         // Inicializa a árvore binária de busca com as palavras reservadas
         raiz = insere_no(raiz, "if", IF);
@@ -370,6 +371,7 @@ void Verifica_palavra_reservada(char *palavra, Lex *lex) {
         
         //raiz = insere_no(raiz, "main", MAIN);
         raiz = insere_no(raiz, "printf", PRINTF);
+    }
 
         
 

@@ -43,29 +43,6 @@ void inserttable(tabelaSimbolos *hashtable, Tipo_declaracao *typeID, Tipo_dado *
         list->next->NumeroLinha = linha;
         list->next->next = NULL;
     }
-
-
-    // tabelaSimbolos novo = (tabelaSimbolos) malloc(sizeof(SymbolTable));
-    // if (novo == NULL) {
-    //     // Tratar erro de alocação de memória, se necessário
-    //     return;
-    // }
-
-    // strcpy(novo->nameID, nameID);
-    // strcpy(novo->escopo, escopo);
-    // // Copiar typeID e dataType adequadamente, dependendo de seus tipos
-
-    // novo->NumeroLinha = linha;
-    // novo->next = NULL;
-
-    // if (list == NULL) {
-    //     hashtable[index] = novo;
-    // } else {
-    //     while (list->next != NULL) {
-    //         list = list->next;
-    //     }
-    //     list->next = novo;
-    // }
 }
 
 void printatabela(tabelaSimbolos *hashtable) {
@@ -73,9 +50,7 @@ void printatabela(tabelaSimbolos *hashtable) {
         if (hashtable[i] != NULL) {
             tabelaSimbolos list = hashtable[i];
             while (list != NULL) {
-                printf("Nome: %s\n", list->nameID);
-                printf("Escopo: %s\n", list->escopo);
-                printf("Linha: %d\n", list->NumeroLinha);
+                printf("Nome: %s | Escopo: %s | Linha: %d\n", list->nameID, list->escopo, list->NumeroLinha);
                 list = list->next;
             }
         }
