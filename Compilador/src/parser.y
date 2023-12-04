@@ -100,7 +100,9 @@ declaracao_var: tipo_especificador TK_ID TK_SEMI
             $$ = $1;
 
             //pega o tipo do no
-            $$->tipo = DECLARACAO;
+            $$->tipo = (Tipo_no *)DECLARACAO;
+            $$->linha = linhaatual;
+            $$->tipodeclaracao = (Tipo_declaracao *)VARIAVELK;
 
             pont_arv aux = cria_no($2);
 
@@ -119,7 +121,9 @@ declaracao_var: tipo_especificador TK_ID TK_SEMI
             $$ = $1;
             
             //pega o tipo do no
-            $$->tipo = DECLARACAO;
+            $$->tipo = (Tipo_no *)DECLARACAO;
+            $$->linha = linhaatual;
+            $$->tipodeclaracao = (Tipo_declaracao *)VETORK;
 
             pont_arv aux = cria_no($2);
             pont_arv aux2 = cria_no($4);
@@ -150,6 +154,7 @@ tipo_especificador: TK_INT
             printf("TIPO ESPECIFICADOR RECONHECIDO\n");
             $$ = cria_no($1);
             strcpy($$->lexema, "INT");
+            $$->linha = linhaatual;
             //printf("lexema: %s\n", $$->lexema);
 
         }
@@ -158,6 +163,7 @@ tipo_especificador: TK_INT
             printf("TIPO ESPECIFICADOR RECONHECIDO\n");
             $$ = cria_no($1);
             strcpy($$->lexema, "VOID");
+            $$->linha = linhaatual;
 
         }
 ;
@@ -171,7 +177,9 @@ declaracao_fun: tipo_especificador id_fun TK_LPAREN params TK_RPAREN composto_de
             insere_filho($2, $6);
 
             //pega o tipo do no
-            $$->tipo = DECLARACAO;
+            $$->tipo = (Tipo_no *)DECLARACAO;
+            $$->tipodeclaracao = (Tipo_declaracao *)FUNCAOK;
+            //$$->linha = lex->linha;
 
         }
 ;
@@ -183,6 +191,7 @@ id_fun: TK_ID
             lexemaauxiliar = peek(pilha);
             strcpy($$->lexema, lexemaauxiliar);
             pop(pilha); //desempilha o id
+            $$->linha = linhaatual;
         }
 
 params: lista_params
@@ -196,7 +205,9 @@ params: lista_params
             printf("PARAMS RECONHECIDO\n");
             $$ = cria_no($1);
 
-            $$->tipo = DECLARACAO;
+            $$->tipo = (Tipo_no *)DECLARACAO;
+            $$->linha = linhaatual;
+            $$->tipodeclaracao = (Tipo_declaracao *)PARAMETROVOIDK;
 
             strcpy($$->lexema, "VOID");
 
@@ -227,12 +238,14 @@ param: tipo_especificador TK_ID
             $$ = $1;
 
             //pega o tipo do no
-            $$->tipo = DECLARACAO;
+            $$->tipo = (Tipo_no *)DECLARACAO;
+            $$->linha = linhaatual;
+            $$->tipodeclaracao = (Tipo_declaracao *)PARAMETROVARIAVELK;
 
             pont_arv aux = cria_no($2);
 
             lexemaauxiliar = peek(pilha);
-            strcpy(aux->lexema, lexemaauxiliar);
+            strcpy(aux->lexema, lexemaauxiliar);//pega o id
             //printf("string aux->lexema: %s\n", aux->lexema);
             pop(pilha); //desempilha o id
 
@@ -244,7 +257,9 @@ param: tipo_especificador TK_ID
             $$ = $1;
 
             //pega o tipo do no
-            $$->tipo = DECLARACAO;
+            $$->tipo = (Tipo_no *)DECLARACAO;
+            $$->linha = linhaatual;
+            $$->tipodeclaracao = (Tipo_declaracao *)PARAMETROVETORK;
 
             pont_arv aux = cria_no($2);
 
@@ -291,7 +306,7 @@ local_declaracoes: local_declaracoes declaracao_var
 
 lista_comando: lista_comando comando
         {
-            printf("LISTA COMANDO RECONHECIDO\n");
+            printf("LISTA COMANDO1 RECONHECIDO\n");
             if($1 == NULL){
                 $$ = $2;
             }
@@ -302,7 +317,7 @@ lista_comando: lista_comando comando
         }
         | 
         {
-            printf("LISTA COMANDO RECONHECIDO\n");
+            printf("LISTA COMANDO2 RECONHECIDO\n");
             $$ = NULL;
         }
 ;
@@ -353,7 +368,9 @@ selecao_decl: TK_IF TK_LPAREN expressao TK_RPAREN comando fat_else
 
             strcpy($$->lexema, "IF");
 
-            $$->tipo = DECLARACAO;
+            $$->tipo = (Tipo_no *)DECLARACAO;
+            $$->linha = linhaatual;
+            $$->tipodeclaracao = IFK;
 
             insere_filho($$, $3);
             insere_filho($$, $5);
@@ -393,11 +410,14 @@ selecao_decl: TK_IF TK_LPAREN expressao TK_RPAREN comando fat_else
 fat_else: TK_ELSE comando
         {
             printf("FAT ELSE RECONHECIDO\n");
-            $$ = cria_no($1);
+            $$ = $2;
+            //$$->tipo = (Tipo_no *)DECLARACAO;
+            //$$->linha = lex->linha;
+            //$$->tipodeclaracao = ELSEK;
 
-            strcpy($$->lexema, "ELSE");
+            //strcpy($$->lexema, "ELSE");
 
-            insere_filho($$, $2);
+            //insere_filho($$, $2);
         }
         |
         {
@@ -412,7 +432,9 @@ iteracao_decl: TK_WHILE TK_LPAREN expressao TK_RPAREN comando
             
             strcpy($$->lexema, "WHILE");
 
-            $$->tipo = DECLARACAO;
+            $$->tipo = (Tipo_no *)DECLARACAO;
+            $$->linha = linhaatual;
+            $$->tipodeclaracao = (Tipo_declaracao *)WHILEK;
 
             insere_filho($$, $3);
             insere_filho($$, $5);
@@ -425,7 +447,9 @@ retorno_decl: TK_RETURN TK_SEMI
             printf("RETORNO DECL RECONHECIDO\n");
             $$ = cria_no($1);
 
-            $$->tipo = DECLARACAO;
+            $$->tipo = (Tipo_no *)DECLARACAO;
+            $$->linha = linhaatual;
+            $$->tipodeclaracao = (Tipo_declaracao *)VOIDK;
 
             strcpy($$->lexema, "RETURNVOID");
         }
@@ -435,6 +459,8 @@ retorno_decl: TK_RETURN TK_SEMI
             $$ = cria_no($1);
 
             $$->tipo = DECLARACAO;
+            $$->linha = linhaatual;
+            $$->tipodeclaracao = (Tipo_declaracao *)INTK;
 
             strcpy($$->lexema, "RETURNINT");
             insere_filho($$, $2);
@@ -447,9 +473,13 @@ expressao: var TK_ASSIGN expressao
             printf("EXPRESSAO1 RECONHECIDO\n");
             $$ = cria_no($2);
 
-            $$->tipo = EXPRESSAO;
-
             strcpy($$->lexema, "=");
+            
+            $$->tipo = (Tipo_no *)EXPRESSAO;
+            $$->linha = linhaatual;
+            $$->tipoexpressao = (Tipo_expressao *)ATRIBUICAOK;
+
+            
 
             insere_filho($$, $1);
             insere_filho($$, $3);
@@ -467,8 +497,10 @@ var: TK_ID
             printf("VAR1 RECONHECIDO\n");
             $$ = cria_no($1);
 
-            $$->tipo = EXPRESSAO;
+            $$->tipo = (Tipo_no *)EXPRESSAO;
             //$$->tipodeclaracao = VARIAVEL;
+            $$->linha = linhaatual;
+            $$->tipoexpressao = (Tipo_expressao *)IDK;
 
             lexemaauxiliar = peek(pilha);
             //printf("lexema: %s\n", lexemaauxiliar);
@@ -482,7 +514,10 @@ var: TK_ID
             printf("VAR2 RECONHECIDO\n");
             $$ = cria_no($1);
 
-            $$->tipo = EXPRESSAO;
+            $$->tipo = (Tipo_no *)EXPRESSAO;
+            //$$->tipodeclaracao = VARIAVEL;
+            $$->linha = linhaatual;
+            $$->tipoexpressao = (Tipo_expressao *)VETORPARAMETROK;
 
             lexemaauxiliar = peek(pilha);
             strcpy($$->lexema, lexemaauxiliar);
@@ -498,7 +533,9 @@ simples_expressao: soma_expressao relacional soma_expressao
             printf("SIMPLES EXPRESSAO1 RECONHECIDO\n");
             $$ = $2;
 
-            $$->tipo = EXPRESSAO;
+            $$->tipo = (Tipo_no *)EXPRESSAO;
+            $$->linha = linhaatual;
+            $$->tipoexpressao = (Tipo_expressao *)OPERADORRELACIONAL;
 
             insere_filho($$, $1);
             insere_filho($$, $3);
@@ -561,7 +598,9 @@ soma_expressao: soma_expressao soma termo
             printf("SOMA EXPRESSAO1 RECONHECIDO\n");
             $$ = $2;
 
-            $$->tipo = EXPRESSAO;
+            $$->tipo = (Tipo_no *)EXPRESSAO;
+            $$->linha = linhaatual;
+            $$->tipoexpressao = OPERANDO;
 
             insere_filho($$, $1);
             insere_filho($$, $3);
@@ -596,7 +635,9 @@ termo: termo mult fator
             printf("TERMO1 RECONHECIDO\n");
             $$ = $2;
 
-            $$->tipo = EXPRESSAO;
+            $$->tipo = (Tipo_no *)EXPRESSAO;
+            $$->linha = linhaatual;
+            $$->tipoexpressao = OPERANDO;
 
             insere_filho($$, $1);
             insere_filho($$, $3);
@@ -643,7 +684,9 @@ fator: TK_LPAREN expressao TK_RPAREN
             printf("FATOR3 RECONHECIDO\n");
             $$ = cria_no($1);
 
-            $$->tipo = EXPRESSAO;
+            $$->tipo = (Tipo_no *)EXPRESSAO;
+            $$->linha = linhaatual;
+            $$->tipoexpressao = (Tipo_expressao *)CONSTANTE;
 
             lexemaauxiliar = peek(pilha);
             strcpy($$->lexema, lexemaauxiliar);
@@ -664,12 +707,11 @@ chamada: id_fun TK_LPAREN args TK_RPAREN
             // $$ = cria_no($1);
             $$ = $1;
 
-            $$->tipo = EXPRESSAO;
+            $$->tipo = (Tipo_no *)EXPRESSAO;
 
-            // lexemaauxiliar = peek(pilha);
-    
-            // strcpy($$->lexema, lexemaauxiliar);
-            // pop(pilha); //desempilha o id
+            $$->linha = linhaatual;
+            $$->tipoexpressao = (Tipo_expressao *)CHAMADAFUNCAO;
+
 
             insere_filho($$, $3);
 
@@ -726,6 +768,7 @@ int yylex(void){
 
     valor_token = get_lexema();
     
+    linhaatual = lex->linha;
     //mudar o valor do token para o valor que esta no parser
     if(valor_token == -1){
         valor_convertido = YYEOF;
@@ -787,14 +830,12 @@ int yylex(void){
         valor_convertido = TK_RBRACE;
     }
 
-    //yylval = 
-
     return valor_convertido;
 }
 
 int yyerror(char *s) {
     printf("-----------------ERRO SINTATICO-----------------\n");
     printf("LINHA: %d\n",lex->linha);
-    fprintf(stderr, "ERRO SINTÁTICO: %s LINHA: %d\n", s, lex->linha);
+    fprintf(stderr, "ERRO SINTÁTICO: %s LINHA: %d\n", s, linhaatual);
     return 0;
 }

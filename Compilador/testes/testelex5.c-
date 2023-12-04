@@ -1,0 +1,8 @@
+int exemplo(void){
+    int b;
+}
+
+void main(void){
+    int a;
+    a = exemplo();
+}

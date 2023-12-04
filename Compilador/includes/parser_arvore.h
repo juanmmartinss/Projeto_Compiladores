@@ -48,6 +48,7 @@ typedef enum tipo_expr{
 } Tipo_expressao;
 
 typedef struct Arvore {
+    //int linha;
     Tipo_declaracao* tipodeclaracao;
     Tipo_expressao* tipoexpressao;
     Tipo_no* tipo;
@@ -57,6 +58,7 @@ typedef struct Arvore {
     struct Arvore* filho2;
     struct Arvore* filho3;
     struct Arvore* irmao;
+    int linha;
 } Arvore;
 
 typedef Arvore *pont_arv;

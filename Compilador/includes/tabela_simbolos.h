@@ -1,5 +1,5 @@
-//#ifndef TABELA_SIMBOLOS_H
-//#define TABELA_SIMBOLOS_H
+#ifndef TABELA_SIMBOLOS_H
+#define TABELA_SIMBOLOS_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,10 +19,11 @@ typedef struct hashNode {
 typedef struct symbolTable {
     char nameID[20];//nome da variavel ou funcao
     char escopo[20];//escopo da variavel ou funcao
-    Tipo_declaracao *typeID[20];//tipo da variavel ou funcao
-    Tipo_dado *dataType[20]; // variavel ou funcao
+    Tipo_declaracao *typeID;//tipo da variavel ou funcao
+    Tipo_dado *dataType; // variavel ou funcao
+    int linhasvetor;
     //Lex *lineNumber;
-    HashNode *NumeroLinha;
+    HashNode *NumeroLinha[20];
     struct symbolTable *next;
 } SymbolTable;
 
@@ -39,7 +40,10 @@ unsigned int hash(char *key);
 tabelaSimbolos* initializeHashTable();
 void inserttable(tabelaSimbolos *hashtable, Tipo_declaracao *typeID, Tipo_dado *dataType, char *nameID, char *escopo, int linha);
 void printatabela(tabelaSimbolos *hashtable);
+void transformaTipo(int tipo, char *palavra);
+void inserelinha(tabelaSimbolos *hashtable, char *nameID, int linha, char *escopo);
+void tranformaTipoIntVoid(int tipo, char *palavra);
 
 //void insert(SymbolTable symbol);
 
-//#endif
+#endif

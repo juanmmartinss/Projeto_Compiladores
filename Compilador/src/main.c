@@ -6,7 +6,7 @@
 #include "funcs.h"
 #include "parser_arvore.h"
 #include "tabela_simbolos.h"
-//#include "semantico.h"
+#include "semantico.h"
 //#include "parser.tab.h"
 
 FILE *input_file = NULL;
@@ -78,7 +78,6 @@ int main(int argc, char *argv[]) {
     
     // printf("passa daqui?");
     initialize(pilha);
-    // printf("vamos descobrir");
 
     lex->linha = 0;
     buffer->pos = 0;
@@ -109,14 +108,15 @@ int main(int argc, char *argv[]) {
 
     tabelaSimbolos *tabela = initializeHashTable();
 
-    inserttable(tabela, FUNCAOK, INTEIRO, "input", "global", 0);
-    inserttable(tabela, FUNCAOK, VAZIO, "output", "global", 0);
+    inserttable(tabela, (void*)7, (void*)0, "input", "global", 0);
+    inserttable(tabela, (void*)7, (void*)1, "output", "global", 0);
 
-    //inserttree(arvore, tabela, "global");
+    // inserttree(arvore, tabela, "global");
+    // //insert(tabela, arvore,);
+    // inserearvorenaTabela(arvore, tabela, "global");
+    analise_semantica(arvore, tabela, "global");
 
-    //printatabela(tabela);
-
-    //insert(tabela, arvore, );
+    printatabela(tabela);
 
     
     deallocate_buffer(buffer);
