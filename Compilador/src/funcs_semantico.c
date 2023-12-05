@@ -74,7 +74,7 @@ void analise_semantica(pont_arv arv, tabelaSimbolos *hashtable, char *escopo)
         }
         else if(arv->tipoexpressao == CONSTANTE)
         {
-            printf("expressao CONSTANTE lexema %s linha %d \n", arv->lexema, arv->linha);
+            
         } 
         else if (arv->tipoexpressao == IDK){
             //printatabela(hashtable);
@@ -306,9 +306,6 @@ void analise_semantica(pont_arv arv, tabelaSimbolos *hashtable, char *escopo)
         }
         else if(arv->tipodeclaracao == PARAMETROVOIDK){
             printf("declaracao PARAMETROVOIDK lexema %s linha %d \n", arv->lexema, arv->linha);
-            //printf("\n filho %s \n", arv->filho1->lexema);
-            //printf("irmao %s \n", arv->irmao->lexema);
-             
 
         }
     }
