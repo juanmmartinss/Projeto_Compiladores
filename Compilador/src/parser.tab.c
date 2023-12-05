@@ -78,8 +78,10 @@
 
 #define YYSTYPE pont_arv
 
+int ultimo_token;
 int linhaatual;
 const char *lexemaauxiliar = NULL;
+
 
 //#define YYSTYPE pont_arv;
 pont_arv parse(void);
@@ -90,7 +92,7 @@ int yyerror(char *s);
 pont_arv raiz;
 
 
-#line 94 "parser.tab.c"
+#line 96 "parser.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -635,13 +637,13 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,    58,    58,    65,    75,    81,    85,    92,   112,   145,
-     153,   162,   177,   186,   191,   204,   214,   220,   238,   259,
-     271,   282,   287,   298,   303,   307,   311,   315,   319,   325,
-     329,   335,   353,   358,   362,   378,   388,   402,   418,   424,
-     440,   458,   470,   477,   483,   489,   495,   501,   507,   515,
-     527,   534,   540,   548,   560,   567,   573,   581,   586,   591,
-     604,   611,   627,   633,   639,   650
+       0,    60,    60,    67,    77,    83,    87,    94,   114,   143,
+     150,   159,   174,   183,   188,   201,   211,   217,   235,   255,
+     267,   278,   283,   294,   299,   303,   307,   311,   315,   321,
+     325,   331,   349,   354,   358,   374,   384,   398,   414,   420,
+     434,   451,   463,   470,   476,   482,   488,   494,   500,   508,
+     520,   527,   533,   541,   553,   560,   566,   574,   579,   584,
+     597,   604,   620,   626,   632,   643
 };
 #endif
 
@@ -1275,15 +1277,15 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* programa: lista_declaracoes  */
-#line 59 "parser.y"
+#line 61 "parser.y"
         {   
             raiz = yyvsp[0];
         }
-#line 1283 "parser.tab.c"
+#line 1285 "parser.tab.c"
     break;
 
   case 3: /* lista_declaracoes: lista_declaracoes declaracao  */
-#line 66 "parser.y"
+#line 68 "parser.y"
         {   
             if(yyvsp[-1] == NULL){
                 yyval = yyvsp[0];
@@ -1293,35 +1295,35 @@ yyreduce:
                 yyval = insere_irmao(yyval, yyvsp[0]);
             }
         }
-#line 1297 "parser.tab.c"
+#line 1299 "parser.tab.c"
     break;
 
   case 4: /* lista_declaracoes: declaracao  */
-#line 76 "parser.y"
+#line 78 "parser.y"
         {
             yyval = yyvsp[0];
         }
-#line 1305 "parser.tab.c"
+#line 1307 "parser.tab.c"
     break;
 
   case 5: /* declaracao: declaracao_var  */
-#line 82 "parser.y"
+#line 84 "parser.y"
         {   
             yyval = yyvsp[0];
         }
-#line 1313 "parser.tab.c"
+#line 1315 "parser.tab.c"
     break;
 
   case 6: /* declaracao: declaracao_fun  */
-#line 86 "parser.y"
+#line 88 "parser.y"
         {   
             yyval = yyvsp[0];
         }
-#line 1321 "parser.tab.c"
+#line 1323 "parser.tab.c"
     break;
 
   case 7: /* declaracao_var: tipo_especificador TK_ID TK_SEMI  */
-#line 93 "parser.y"
+#line 95 "parser.y"
         {
             yyval = yyvsp[-2];
 
@@ -1330,22 +1332,22 @@ yyreduce:
             yyval->linha = linhaatual;
             yyval->tipodeclaracao = (Tipo_declaracao *)VARIAVELK;
 
-            pont_arv aux = cria_no(yyvsp[-1]);
+            pont_arv auxiliar = cria_no(yyvsp[-1]);
 
             lexemaauxiliar = peek(pilha);
 
-            strcpy(aux->lexema, lexemaauxiliar);
+            strcpy(auxiliar->lexema, lexemaauxiliar);
 
             pop(pilha); //desempilha o id
 
-            yyval = insere_filho(yyval, aux);
+            yyval = insere_filho(yyval, auxiliar);
 
         }
-#line 1345 "parser.tab.c"
+#line 1347 "parser.tab.c"
     break;
 
   case 8: /* declaracao_var: tipo_especificador TK_ID TK_LBRACKET TK_NUM TK_RBRACKET TK_SEMI  */
-#line 113 "parser.y"
+#line 115 "parser.y"
         {
             yyval = yyvsp[-5];
             
@@ -1354,55 +1356,50 @@ yyreduce:
             yyval->linha = linhaatual;
             yyval->tipodeclaracao = (Tipo_declaracao *)VETORK;
 
-            pont_arv aux = cria_no(yyvsp[-4]);
-            pont_arv aux2 = cria_no(yyvsp[-2]);
+            pont_arv auxiliar = cria_no(yyvsp[-4]);
+            pont_arv auxiliar2 = cria_no(yyvsp[-2]);
 
             lexemaauxiliar = peek(pilha);
-            //printf("lexema: %s\n", lexemaauxiliar);
-            strcpy(aux->lexema, lexemaauxiliar);
-            //printf("string aux->lexema: %s\n", aux->lexema);
+            strcpy(auxiliar->lexema, lexemaauxiliar);
             pop(pilha); //desempilha o id
 
             lexemaauxiliar = peek(pilha);
-            strcpy(aux2->lexema, lexemaauxiliar);
+            strcpy(auxiliar2->lexema, lexemaauxiliar);
             pop(pilha); //desempilha o id
-            // lexemaauxiliar = peek(pilha);
-            // printf("lexema: %s\n", lexemaauxiliar);
 
-            yyval = insere_filho(yyval, aux2);
-            yyval = insere_filho(yyval, aux);
+            yyval = insere_filho(yyval, auxiliar2);
+            yyval = insere_filho(yyval, auxiliar);
             
 
 
         }
-#line 1379 "parser.tab.c"
+#line 1377 "parser.tab.c"
     break;
 
   case 9: /* tipo_especificador: TK_INT  */
-#line 146 "parser.y"
+#line 144 "parser.y"
         {
             yyval = cria_no(yyvsp[0]);
             strcpy(yyval->lexema, "INT");
             yyval->linha = linhaatual;
-            //printf("lexema: %s\n", $$->lexema);
 
         }
-#line 1391 "parser.tab.c"
+#line 1388 "parser.tab.c"
     break;
 
   case 10: /* tipo_especificador: TK_VOID  */
-#line 154 "parser.y"
+#line 151 "parser.y"
         {
             yyval = cria_no(yyvsp[0]);
             strcpy(yyval->lexema, "VOID");
             yyval->linha = linhaatual;
 
         }
-#line 1402 "parser.tab.c"
+#line 1399 "parser.tab.c"
     break;
 
   case 11: /* declaracao_fun: tipo_especificador id_fun TK_LPAREN params TK_RPAREN composto_decl  */
-#line 163 "parser.y"
+#line 160 "parser.y"
         {
             yyval = yyvsp[-5];
             insere_filho(yyval, yyvsp[-2]);
@@ -1415,11 +1412,11 @@ yyreduce:
             //$$->linha = lex->linha;
 
         }
-#line 1419 "parser.tab.c"
+#line 1416 "parser.tab.c"
     break;
 
   case 12: /* id_fun: TK_ID  */
-#line 178 "parser.y"
+#line 175 "parser.y"
         {
             yyval = cria_no(yyvsp[0]);
             lexemaauxiliar = peek(pilha);
@@ -1427,20 +1424,20 @@ yyreduce:
             pop(pilha); //desempilha o id
             yyval->linha = linhaatual;
         }
-#line 1431 "parser.tab.c"
+#line 1428 "parser.tab.c"
     break;
 
   case 13: /* params: lista_params  */
-#line 187 "parser.y"
+#line 184 "parser.y"
         {
             yyval = yyvsp[0];
 
         }
-#line 1440 "parser.tab.c"
+#line 1437 "parser.tab.c"
     break;
 
   case 14: /* params: TK_VOID  */
-#line 192 "parser.y"
+#line 189 "parser.y"
         {
             yyval = cria_no(yyvsp[0]);
 
@@ -1451,11 +1448,11 @@ yyreduce:
             strcpy(yyval->lexema, "VOID");
 
         }
-#line 1455 "parser.tab.c"
+#line 1452 "parser.tab.c"
     break;
 
   case 15: /* lista_params: lista_params TK_COMMA param  */
-#line 205 "parser.y"
+#line 202 "parser.y"
         {
             if(yyvsp[-2] == NULL){
                 yyval = yyvsp[0];
@@ -1465,19 +1462,19 @@ yyreduce:
                 insere_irmao(yyval, yyvsp[0]);
             }
         }
-#line 1469 "parser.tab.c"
+#line 1466 "parser.tab.c"
     break;
 
   case 16: /* lista_params: param  */
-#line 215 "parser.y"
+#line 212 "parser.y"
         {
             yyval = yyvsp[0];
         }
-#line 1477 "parser.tab.c"
+#line 1474 "parser.tab.c"
     break;
 
   case 17: /* param: tipo_especificador TK_ID  */
-#line 221 "parser.y"
+#line 218 "parser.y"
         {
             yyval = yyvsp[-1];
 
@@ -1486,20 +1483,20 @@ yyreduce:
             yyval->linha = linhaatual;
             yyval->tipodeclaracao = (Tipo_declaracao *)PARAMETROVARIAVELK;
 
-            pont_arv aux = cria_no(yyvsp[0]);
+            pont_arv auxiliar = cria_no(yyvsp[0]);
 
             lexemaauxiliar = peek(pilha);
-            strcpy(aux->lexema, lexemaauxiliar);//pega o id
+            strcpy(auxiliar->lexema, lexemaauxiliar);//pega o id
             //printf("string aux->lexema: %s\n", aux->lexema);
             pop(pilha); //desempilha o id
 
-            yyval = insere_filho(yyval, aux);
+            yyval = insere_filho(yyval, auxiliar);
         }
-#line 1499 "parser.tab.c"
+#line 1496 "parser.tab.c"
     break;
 
   case 18: /* param: tipo_especificador TK_ID TK_LBRACKET TK_RBRACKET  */
-#line 239 "parser.y"
+#line 236 "parser.y"
         {
             yyval = yyvsp[-3];
 
@@ -1508,21 +1505,20 @@ yyreduce:
             yyval->linha = linhaatual;
             yyval->tipodeclaracao = (Tipo_declaracao *)PARAMETROVETORK;
 
-            pont_arv aux = cria_no(yyvsp[-2]);
+            pont_arv auxiliar = cria_no(yyvsp[-2]);
 
             lexemaauxiliar = peek(pilha);
-            strcpy(aux->lexema, lexemaauxiliar);
-            //printf("string aux->lexema: %s\n", aux->lexema);
+            strcpy(auxiliar->lexema, lexemaauxiliar);
             pop(pilha); //desempilha o id
 
-            yyval = insere_filho(yyval, aux);
+            yyval = insere_filho(yyval, auxiliar);
 
         }
-#line 1522 "parser.tab.c"
+#line 1518 "parser.tab.c"
     break;
 
   case 19: /* composto_decl: TK_LBRACE local_declaracoes lista_comando TK_RBRACE  */
-#line 260 "parser.y"
+#line 256 "parser.y"
         {
             if(yyvsp[-2] == NULL){
                 yyval = yyvsp[-1];
@@ -1532,11 +1528,11 @@ yyreduce:
                 insere_irmao(yyval, yyvsp[-1]);
             }
         }
-#line 1536 "parser.tab.c"
+#line 1532 "parser.tab.c"
     break;
 
   case 20: /* local_declaracoes: local_declaracoes declaracao_var  */
-#line 272 "parser.y"
+#line 268 "parser.y"
         {
             if(yyvsp[-1] == NULL){
                 yyval = yyvsp[0];
@@ -1546,19 +1542,19 @@ yyreduce:
                 insere_irmao(yyval, yyvsp[0]);
             }
         }
-#line 1550 "parser.tab.c"
+#line 1546 "parser.tab.c"
     break;
 
   case 21: /* local_declaracoes: %empty  */
-#line 282 "parser.y"
+#line 278 "parser.y"
         {
             yyval = NULL;
         }
-#line 1558 "parser.tab.c"
+#line 1554 "parser.tab.c"
     break;
 
   case 22: /* lista_comando: lista_comando comando  */
-#line 288 "parser.y"
+#line 284 "parser.y"
         {
             if(yyvsp[-1] == NULL){
                 yyval = yyvsp[0];
@@ -1568,75 +1564,75 @@ yyreduce:
                 insere_irmao(yyval, yyvsp[0]);
             }
         }
-#line 1572 "parser.tab.c"
+#line 1568 "parser.tab.c"
     break;
 
   case 23: /* lista_comando: %empty  */
-#line 298 "parser.y"
+#line 294 "parser.y"
         {
             yyval = NULL;
         }
-#line 1580 "parser.tab.c"
+#line 1576 "parser.tab.c"
     break;
 
   case 24: /* comando: expressao_decl  */
+#line 300 "parser.y"
+        {
+            yyval = yyvsp[0];
+        }
+#line 1584 "parser.tab.c"
+    break;
+
+  case 25: /* comando: selecao_decl  */
 #line 304 "parser.y"
         {
             yyval = yyvsp[0];
         }
-#line 1588 "parser.tab.c"
+#line 1592 "parser.tab.c"
     break;
 
-  case 25: /* comando: selecao_decl  */
+  case 26: /* comando: iteracao_decl  */
 #line 308 "parser.y"
         {
             yyval = yyvsp[0];
         }
-#line 1596 "parser.tab.c"
+#line 1600 "parser.tab.c"
     break;
 
-  case 26: /* comando: iteracao_decl  */
+  case 27: /* comando: retorno_decl  */
 #line 312 "parser.y"
         {
             yyval = yyvsp[0];
         }
-#line 1604 "parser.tab.c"
+#line 1608 "parser.tab.c"
     break;
 
-  case 27: /* comando: retorno_decl  */
+  case 28: /* comando: composto_decl  */
 #line 316 "parser.y"
         {
             yyval = yyvsp[0];
         }
-#line 1612 "parser.tab.c"
-    break;
-
-  case 28: /* comando: composto_decl  */
-#line 320 "parser.y"
-        {
-            yyval = yyvsp[0];
-        }
-#line 1620 "parser.tab.c"
+#line 1616 "parser.tab.c"
     break;
 
   case 29: /* expressao_decl: expressao TK_SEMI  */
-#line 326 "parser.y"
+#line 322 "parser.y"
         {
             yyval = yyvsp[-1];
         }
-#line 1628 "parser.tab.c"
+#line 1624 "parser.tab.c"
     break;
 
   case 30: /* expressao_decl: TK_SEMI  */
-#line 330 "parser.y"
+#line 326 "parser.y"
         {
             yyval = NULL;
         }
-#line 1636 "parser.tab.c"
+#line 1632 "parser.tab.c"
     break;
 
   case 31: /* selecao_decl: TK_IF TK_LPAREN expressao TK_RPAREN comando fat_else  */
-#line 336 "parser.y"
+#line 332 "parser.y"
         {
             yyval = cria_no(yyvsp[-5]);
 
@@ -1652,27 +1648,27 @@ yyreduce:
                 insere_filho(yyval, yyvsp[0]);
             }
         }
-#line 1656 "parser.tab.c"
+#line 1652 "parser.tab.c"
     break;
 
   case 32: /* fat_else: TK_ELSE comando  */
-#line 354 "parser.y"
+#line 350 "parser.y"
         {
             yyval = yyvsp[0];
         }
-#line 1664 "parser.tab.c"
+#line 1660 "parser.tab.c"
     break;
 
   case 33: /* fat_else: %empty  */
-#line 358 "parser.y"
+#line 354 "parser.y"
         {
             yyval = NULL;
         }
-#line 1672 "parser.tab.c"
+#line 1668 "parser.tab.c"
     break;
 
   case 34: /* iteracao_decl: TK_WHILE TK_LPAREN expressao TK_RPAREN comando  */
-#line 363 "parser.y"
+#line 359 "parser.y"
         {
             yyval = cria_no(yyvsp[-4]);
             
@@ -1686,11 +1682,11 @@ yyreduce:
             insere_filho(yyval, yyvsp[0]);
 
         }
-#line 1690 "parser.tab.c"
+#line 1686 "parser.tab.c"
     break;
 
   case 35: /* retorno_decl: TK_RETURN TK_SEMI  */
-#line 379 "parser.y"
+#line 375 "parser.y"
         {
             yyval = cria_no(yyvsp[-1]);
 
@@ -1700,11 +1696,11 @@ yyreduce:
 
             strcpy(yyval->lexema, "RETURNVOID");
         }
-#line 1704 "parser.tab.c"
+#line 1700 "parser.tab.c"
     break;
 
   case 36: /* retorno_decl: TK_RETURN expressao TK_SEMI  */
-#line 389 "parser.y"
+#line 385 "parser.y"
         {
             yyval = cria_no(yyvsp[-2]);
 
@@ -1716,11 +1712,11 @@ yyreduce:
             insere_filho(yyval, yyvsp[-1]);
 
         }
-#line 1720 "parser.tab.c"
+#line 1716 "parser.tab.c"
     break;
 
   case 37: /* expressao: var TK_ASSIGN expressao  */
-#line 403 "parser.y"
+#line 399 "parser.y"
         {
             yyval = cria_no(yyvsp[-1]);
 
@@ -1736,44 +1732,41 @@ yyreduce:
             insere_filho(yyval, yyvsp[0]);
 
         }
-#line 1740 "parser.tab.c"
+#line 1736 "parser.tab.c"
     break;
 
   case 38: /* expressao: simples_expressao  */
-#line 419 "parser.y"
+#line 415 "parser.y"
         {
             yyval = yyvsp[0];
         }
-#line 1748 "parser.tab.c"
+#line 1744 "parser.tab.c"
     break;
 
   case 39: /* var: TK_ID  */
-#line 425 "parser.y"
+#line 421 "parser.y"
         {
             yyval = cria_no(yyvsp[0]);
 
             yyval->tipo = (Tipo_no *)EXPRESSAO;
-            //$$->tipodeclaracao = VARIAVEL;
             yyval->linha = linhaatual;
             yyval->tipoexpressao = (Tipo_expressao *)IDK;
 
             lexemaauxiliar = peek(pilha);
-            //printf("lexema: %s\n", lexemaauxiliar);
             strcpy(yyval->lexema, lexemaauxiliar);
             pop(pilha); //desempilha o id
 
 
         }
-#line 1768 "parser.tab.c"
+#line 1762 "parser.tab.c"
     break;
 
   case 40: /* var: TK_ID TK_LBRACKET expressao TK_RBRACKET  */
-#line 441 "parser.y"
+#line 435 "parser.y"
         {
             yyval = cria_no(yyvsp[-3]);
 
             yyval->tipo = (Tipo_no *)EXPRESSAO;
-            //$$->tipodeclaracao = VARIAVEL;
             yyval->linha = linhaatual;
             yyval->tipoexpressao = (Tipo_expressao *)VETORPARAMETROK;
 
@@ -1784,11 +1777,11 @@ yyreduce:
             insere_filho(yyval, yyvsp[-1]);
 
         }
-#line 1788 "parser.tab.c"
+#line 1781 "parser.tab.c"
     break;
 
   case 41: /* simples_expressao: soma_expressao relacional soma_expressao  */
-#line 459 "parser.y"
+#line 452 "parser.y"
         {
             yyval = yyvsp[-1];
 
@@ -1800,80 +1793,80 @@ yyreduce:
             insere_filho(yyval, yyvsp[0]);
 
         }
-#line 1804 "parser.tab.c"
+#line 1797 "parser.tab.c"
     break;
 
   case 42: /* simples_expressao: soma_expressao  */
-#line 471 "parser.y"
+#line 464 "parser.y"
         {
             yyval = yyvsp[0];
 
         }
-#line 1813 "parser.tab.c"
+#line 1806 "parser.tab.c"
     break;
 
   case 43: /* relacional: TK_LT  */
-#line 478 "parser.y"
+#line 471 "parser.y"
         {
             yyval = cria_no(yyvsp[0]);
             strcpy(yyval->lexema, "<");
 
         }
-#line 1823 "parser.tab.c"
+#line 1816 "parser.tab.c"
     break;
 
   case 44: /* relacional: TK_LE  */
-#line 484 "parser.y"
+#line 477 "parser.y"
         {
             yyval = cria_no(yyvsp[0]);
             strcpy(yyval->lexema, "<=");
 
         }
-#line 1833 "parser.tab.c"
+#line 1826 "parser.tab.c"
     break;
 
   case 45: /* relacional: TK_GT  */
-#line 490 "parser.y"
+#line 483 "parser.y"
         {
             yyval = cria_no(yyvsp[0]);
             strcpy(yyval->lexema, ">");
 
         }
-#line 1843 "parser.tab.c"
+#line 1836 "parser.tab.c"
     break;
 
   case 46: /* relacional: TK_GE  */
-#line 496 "parser.y"
+#line 489 "parser.y"
         {
             yyval = cria_no(yyvsp[0]);
             strcpy(yyval->lexema, ">=");
 
         }
-#line 1853 "parser.tab.c"
+#line 1846 "parser.tab.c"
     break;
 
   case 47: /* relacional: TK_EQ  */
-#line 502 "parser.y"
+#line 495 "parser.y"
         {
             yyval = cria_no(yyvsp[0]);
             strcpy(yyval->lexema, "==");
 
         }
-#line 1863 "parser.tab.c"
+#line 1856 "parser.tab.c"
     break;
 
   case 48: /* relacional: TK_NE  */
-#line 508 "parser.y"
+#line 501 "parser.y"
         {
             yyval = cria_no(yyvsp[0]);
             strcpy(yyval->lexema, "!=");
 
         }
-#line 1873 "parser.tab.c"
+#line 1866 "parser.tab.c"
     break;
 
   case 49: /* soma_expressao: soma_expressao soma termo  */
-#line 516 "parser.y"
+#line 509 "parser.y"
         {
             yyval = yyvsp[-1];
 
@@ -1885,40 +1878,40 @@ yyreduce:
             insere_filho(yyval, yyvsp[0]);
 
         }
-#line 1889 "parser.tab.c"
+#line 1882 "parser.tab.c"
     break;
 
   case 50: /* soma_expressao: termo  */
-#line 528 "parser.y"
+#line 521 "parser.y"
         {
             yyval = yyvsp[0];
         
         }
-#line 1898 "parser.tab.c"
+#line 1891 "parser.tab.c"
     break;
 
   case 51: /* soma: TK_PLUS  */
-#line 535 "parser.y"
+#line 528 "parser.y"
         {
             yyval = cria_no(yyvsp[0]);
             strcpy(yyval->lexema, "+");
 
         }
-#line 1908 "parser.tab.c"
+#line 1901 "parser.tab.c"
     break;
 
   case 52: /* soma: TK_MINUS  */
-#line 541 "parser.y"
+#line 534 "parser.y"
         {
             yyval = cria_no(yyvsp[0]);
             strcpy(yyval->lexema, "-");
 
         }
-#line 1918 "parser.tab.c"
+#line 1911 "parser.tab.c"
     break;
 
   case 53: /* termo: termo mult fator  */
-#line 549 "parser.y"
+#line 542 "parser.y"
         {
             yyval = yyvsp[-1];
 
@@ -1930,58 +1923,58 @@ yyreduce:
             insere_filho(yyval, yyvsp[0]);
 
         }
-#line 1934 "parser.tab.c"
+#line 1927 "parser.tab.c"
     break;
 
   case 54: /* termo: fator  */
-#line 561 "parser.y"
+#line 554 "parser.y"
         {
             yyval = yyvsp[0];
 
         }
-#line 1943 "parser.tab.c"
+#line 1936 "parser.tab.c"
     break;
 
   case 55: /* mult: TK_TIMES  */
-#line 568 "parser.y"
+#line 561 "parser.y"
         {
             yyval = cria_no(yyvsp[0]);
             strcpy(yyval->lexema, "*");
 
         }
-#line 1953 "parser.tab.c"
+#line 1946 "parser.tab.c"
     break;
 
   case 56: /* mult: TK_OVER  */
-#line 574 "parser.y"
+#line 567 "parser.y"
         {
             yyval = cria_no(yyvsp[0]);
             strcpy(yyval->lexema, "/");
 
         }
-#line 1963 "parser.tab.c"
+#line 1956 "parser.tab.c"
     break;
 
   case 57: /* fator: TK_LPAREN expressao TK_RPAREN  */
-#line 582 "parser.y"
+#line 575 "parser.y"
         {
             yyval = yyvsp[-1];
 
         }
-#line 1972 "parser.tab.c"
+#line 1965 "parser.tab.c"
     break;
 
   case 58: /* fator: var  */
-#line 587 "parser.y"
+#line 580 "parser.y"
         {
             yyval = yyvsp[0];
 
         }
-#line 1981 "parser.tab.c"
+#line 1974 "parser.tab.c"
     break;
 
   case 59: /* fator: TK_NUM  */
-#line 592 "parser.y"
+#line 585 "parser.y"
         {
             yyval = cria_no(yyvsp[0]);
 
@@ -1994,20 +1987,20 @@ yyreduce:
             pop(pilha); //desempilha o id
 
         }
-#line 1998 "parser.tab.c"
+#line 1991 "parser.tab.c"
     break;
 
   case 60: /* fator: chamada  */
-#line 605 "parser.y"
+#line 598 "parser.y"
         {
             yyval = yyvsp[0];
 
         }
-#line 2007 "parser.tab.c"
+#line 2000 "parser.tab.c"
     break;
 
   case 61: /* chamada: id_fun TK_LPAREN args TK_RPAREN  */
-#line 612 "parser.y"
+#line 605 "parser.y"
         {
             // $$ = cria_no($1);
             yyval = yyvsp[-3];
@@ -2021,29 +2014,29 @@ yyreduce:
             insere_filho(yyval, yyvsp[-1]);
 
         }
-#line 2025 "parser.tab.c"
+#line 2018 "parser.tab.c"
     break;
 
   case 62: /* args: arg_lista  */
-#line 628 "parser.y"
+#line 621 "parser.y"
         {
             yyval = yyvsp[0];
 
         }
-#line 2034 "parser.tab.c"
+#line 2027 "parser.tab.c"
     break;
 
   case 63: /* args: %empty  */
-#line 633 "parser.y"
+#line 626 "parser.y"
         {
             yyval = NULL;
 
         }
-#line 2043 "parser.tab.c"
+#line 2036 "parser.tab.c"
     break;
 
   case 64: /* arg_lista: arg_lista TK_COMMA expressao  */
-#line 640 "parser.y"
+#line 633 "parser.y"
         {
             if(yyvsp[-2] == NULL){
                 yyval = yyvsp[0];
@@ -2054,20 +2047,20 @@ yyreduce:
             }
 
         }
-#line 2058 "parser.tab.c"
+#line 2051 "parser.tab.c"
     break;
 
   case 65: /* arg_lista: expressao  */
-#line 651 "parser.y"
+#line 644 "parser.y"
         {
             yyval = yyvsp[0];
             
         }
-#line 2067 "parser.tab.c"
+#line 2060 "parser.tab.c"
     break;
 
 
-#line 2071 "parser.tab.c"
+#line 2064 "parser.tab.c"
 
       default: break;
     }
@@ -2260,7 +2253,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 657 "parser.y"
+#line 650 "parser.y"
 
 
 pont_arv parse(void) {
@@ -2338,13 +2331,77 @@ int yylex(void){
     } else if (valor_token == 26) {
         valor_convertido = TK_RBRACE;
     }
-
+    ultimo_token = valor_convertido;
     return valor_convertido;
 }
 
 int yyerror(char *s) {
+
+    char *erro = (char *)malloc(50);
+
+    if (ultimo_token == 258){
+        strcpy(erro, "TK_ELSE");
+    }else if(ultimo_token == 259){
+        strcpy(erro, "TK_IF");
+    }else if(ultimo_token == 260){
+        strcpy(erro, "TK_INT");
+    }else if(ultimo_token == 261){
+        strcpy(erro, "TK_RETURN");
+    }else if(ultimo_token == 262){
+        strcpy(erro, "TK_VOID");
+    }else if(ultimo_token == 263){
+        strcpy(erro, "TK_WHILE");
+    }else if(ultimo_token == 264){
+        strcpy(erro, "TK_ID");
+    }else if(ultimo_token == 265){
+        strcpy(erro, "TK_NUM");
+    }else if(ultimo_token == 266){
+        strcpy(erro, "TK_PLUS");
+    }else if(ultimo_token == 267){
+        strcpy(erro, "TK_MINUS");
+    }else if(ultimo_token == 268){
+        strcpy(erro, "TK_TIMES");
+    }else if(ultimo_token == 269){
+        strcpy(erro, "TK_OVER");
+    }else if(ultimo_token == 270){
+        strcpy(erro, "TK_LT");
+    }else if(ultimo_token == 271){
+        strcpy(erro, "TK_LE");
+    }else if(ultimo_token == 272){
+        strcpy(erro, "TK_GT");
+    }else if(ultimo_token == 273){
+        strcpy(erro, "TK_GE");
+    }else if(ultimo_token == 274){
+        strcpy(erro, "TK_EQ");
+    }else if(ultimo_token == 275){
+        strcpy(erro, "TK_NE");
+    }else if(ultimo_token == 276){
+        strcpy(erro, "TK_ASSIGN");
+    }else if(ultimo_token == 277){
+        strcpy(erro, "TK_SEMI");
+    }else if(ultimo_token == 278){
+        strcpy(erro, "TK_COMMA");
+    }else if(ultimo_token == 279){
+        strcpy(erro, "TK_LPAREN");
+    }else if(ultimo_token == 280){
+        strcpy(erro, "TK_RPAREN");
+    }else if(ultimo_token == 281){
+        strcpy(erro, "TK_LBRACKET");
+    }else if(ultimo_token == 282){
+        strcpy(erro, "TK_RBRACKET");
+    }else if(ultimo_token == 283){
+        strcpy(erro, "TK_LBRACE");
+    }else if(ultimo_token == 284){
+        strcpy(erro, "TK_RBRACE");
+    }else if(ultimo_token == 285){
+        strcpy(erro, "TK_MAIN");
+    }else if(ultimo_token == 286){
+        strcpy(erro, "TK_PRINTF");
+    }
+
     printf("-----------------ERRO SINTATICO-----------------\n");
-    printf("LINHA: %d\n",lex->linha);
-    fprintf(stderr, "ERRO SINTÁTICO: %s LINHA: %d\n", s, linhaatual);
+    printf("TOKEN: %s LINHA: %d\n", erro, linhaatual);
+
+    free(erro);
     return 0;
 }

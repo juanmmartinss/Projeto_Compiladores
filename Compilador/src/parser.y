@@ -8,8 +8,10 @@
 
 #define YYSTYPE pont_arv
 
+int ultimo_token;
 int linhaatual;
 const char *lexemaauxiliar = NULL;
+
 
 //#define YYSTYPE pont_arv;
 pont_arv parse(void);
@@ -98,15 +100,15 @@ declaracao_var: tipo_especificador TK_ID TK_SEMI
             $$->linha = linhaatual;
             $$->tipodeclaracao = (Tipo_declaracao *)VARIAVELK;
 
-            pont_arv aux = cria_no($2);
+            pont_arv auxiliar = cria_no($2);
 
             lexemaauxiliar = peek(pilha);
 
-            strcpy(aux->lexema, lexemaauxiliar);
+            strcpy(auxiliar->lexema, lexemaauxiliar);
 
             pop(pilha); //desempilha o id
 
-            $$ = insere_filho($$, aux);
+            $$ = insere_filho($$, auxiliar);
 
         }
         | tipo_especificador TK_ID TK_LBRACKET TK_NUM TK_RBRACKET TK_SEMI
@@ -118,23 +120,19 @@ declaracao_var: tipo_especificador TK_ID TK_SEMI
             $$->linha = linhaatual;
             $$->tipodeclaracao = (Tipo_declaracao *)VETORK;
 
-            pont_arv aux = cria_no($2);
-            pont_arv aux2 = cria_no($4);
+            pont_arv auxiliar = cria_no($2);
+            pont_arv auxiliar2 = cria_no($4);
 
             lexemaauxiliar = peek(pilha);
-            //printf("lexema: %s\n", lexemaauxiliar);
-            strcpy(aux->lexema, lexemaauxiliar);
-            //printf("string aux->lexema: %s\n", aux->lexema);
+            strcpy(auxiliar->lexema, lexemaauxiliar);
             pop(pilha); //desempilha o id
 
             lexemaauxiliar = peek(pilha);
-            strcpy(aux2->lexema, lexemaauxiliar);
+            strcpy(auxiliar2->lexema, lexemaauxiliar);
             pop(pilha); //desempilha o id
-            // lexemaauxiliar = peek(pilha);
-            // printf("lexema: %s\n", lexemaauxiliar);
 
-            $$ = insere_filho($$, aux2);
-            $$ = insere_filho($$, aux);
+            $$ = insere_filho($$, auxiliar2);
+            $$ = insere_filho($$, auxiliar);
             
 
 
@@ -147,7 +145,6 @@ tipo_especificador: TK_INT
             $$ = cria_no($1);
             strcpy($$->lexema, "INT");
             $$->linha = linhaatual;
-            //printf("lexema: %s\n", $$->lexema);
 
         }
         | TK_VOID
@@ -226,14 +223,14 @@ param: tipo_especificador TK_ID
             $$->linha = linhaatual;
             $$->tipodeclaracao = (Tipo_declaracao *)PARAMETROVARIAVELK;
 
-            pont_arv aux = cria_no($2);
+            pont_arv auxiliar = cria_no($2);
 
             lexemaauxiliar = peek(pilha);
-            strcpy(aux->lexema, lexemaauxiliar);//pega o id
+            strcpy(auxiliar->lexema, lexemaauxiliar);//pega o id
             //printf("string aux->lexema: %s\n", aux->lexema);
             pop(pilha); //desempilha o id
 
-            $$ = insere_filho($$, aux);
+            $$ = insere_filho($$, auxiliar);
         }
         | tipo_especificador TK_ID TK_LBRACKET TK_RBRACKET
         {
@@ -244,14 +241,13 @@ param: tipo_especificador TK_ID
             $$->linha = linhaatual;
             $$->tipodeclaracao = (Tipo_declaracao *)PARAMETROVETORK;
 
-            pont_arv aux = cria_no($2);
+            pont_arv auxiliar = cria_no($2);
 
             lexemaauxiliar = peek(pilha);
-            strcpy(aux->lexema, lexemaauxiliar);
-            //printf("string aux->lexema: %s\n", aux->lexema);
+            strcpy(auxiliar->lexema, lexemaauxiliar);
             pop(pilha); //desempilha o id
 
-            $$ = insere_filho($$, aux);
+            $$ = insere_filho($$, auxiliar);
 
         }
 ;
@@ -426,12 +422,10 @@ var: TK_ID
             $$ = cria_no($1);
 
             $$->tipo = (Tipo_no *)EXPRESSAO;
-            //$$->tipodeclaracao = VARIAVEL;
             $$->linha = linhaatual;
             $$->tipoexpressao = (Tipo_expressao *)IDK;
 
             lexemaauxiliar = peek(pilha);
-            //printf("lexema: %s\n", lexemaauxiliar);
             strcpy($$->lexema, lexemaauxiliar);
             pop(pilha); //desempilha o id
 
@@ -442,7 +436,6 @@ var: TK_ID
             $$ = cria_no($1);
 
             $$->tipo = (Tipo_no *)EXPRESSAO;
-            //$$->tipodeclaracao = VARIAVEL;
             $$->linha = linhaatual;
             $$->tipoexpressao = (Tipo_expressao *)VETORPARAMETROK;
 
@@ -731,13 +724,77 @@ int yylex(void){
     } else if (valor_token == 26) {
         valor_convertido = TK_RBRACE;
     }
-
+    ultimo_token = valor_convertido;
     return valor_convertido;
 }
 
 int yyerror(char *s) {
+
+    char *erro = (char *)malloc(50);
+
+    if (ultimo_token == 258){
+        strcpy(erro, "TK_ELSE");
+    }else if(ultimo_token == 259){
+        strcpy(erro, "TK_IF");
+    }else if(ultimo_token == 260){
+        strcpy(erro, "TK_INT");
+    }else if(ultimo_token == 261){
+        strcpy(erro, "TK_RETURN");
+    }else if(ultimo_token == 262){
+        strcpy(erro, "TK_VOID");
+    }else if(ultimo_token == 263){
+        strcpy(erro, "TK_WHILE");
+    }else if(ultimo_token == 264){
+        strcpy(erro, "TK_ID");
+    }else if(ultimo_token == 265){
+        strcpy(erro, "TK_NUM");
+    }else if(ultimo_token == 266){
+        strcpy(erro, "TK_PLUS");
+    }else if(ultimo_token == 267){
+        strcpy(erro, "TK_MINUS");
+    }else if(ultimo_token == 268){
+        strcpy(erro, "TK_TIMES");
+    }else if(ultimo_token == 269){
+        strcpy(erro, "TK_OVER");
+    }else if(ultimo_token == 270){
+        strcpy(erro, "TK_LT");
+    }else if(ultimo_token == 271){
+        strcpy(erro, "TK_LE");
+    }else if(ultimo_token == 272){
+        strcpy(erro, "TK_GT");
+    }else if(ultimo_token == 273){
+        strcpy(erro, "TK_GE");
+    }else if(ultimo_token == 274){
+        strcpy(erro, "TK_EQ");
+    }else if(ultimo_token == 275){
+        strcpy(erro, "TK_NE");
+    }else if(ultimo_token == 276){
+        strcpy(erro, "TK_ASSIGN");
+    }else if(ultimo_token == 277){
+        strcpy(erro, "TK_SEMI");
+    }else if(ultimo_token == 278){
+        strcpy(erro, "TK_COMMA");
+    }else if(ultimo_token == 279){
+        strcpy(erro, "TK_LPAREN");
+    }else if(ultimo_token == 280){
+        strcpy(erro, "TK_RPAREN");
+    }else if(ultimo_token == 281){
+        strcpy(erro, "TK_LBRACKET");
+    }else if(ultimo_token == 282){
+        strcpy(erro, "TK_RBRACKET");
+    }else if(ultimo_token == 283){
+        strcpy(erro, "TK_LBRACE");
+    }else if(ultimo_token == 284){
+        strcpy(erro, "TK_RBRACE");
+    }else if(ultimo_token == 285){
+        strcpy(erro, "TK_MAIN");
+    }else if(ultimo_token == 286){
+        strcpy(erro, "TK_PRINTF");
+    }
+
     printf("-----------------ERRO SINTATICO-----------------\n");
-    printf("LINHA: %d\n",lex->linha);
-    fprintf(stderr, "ERRO SINTÁTICO: %s LINHA: %d\n", s, linhaatual);
+    printf("TOKEN: %s LINHA: %d\n", erro, linhaatual);
+
+    free(erro);
     return 0;
 }

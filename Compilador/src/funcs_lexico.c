@@ -85,7 +85,6 @@ int get_lexema(){
                 }
             }
             else if (lex->aux != 0){//se for um erro, printa a linha do erro
-                //printf("buffer->data dentro do else: %s\n", buffer->data);
                 if((linha_atual != lex->linha)){//logica para verificar se esta na mesma linha, se estiver printa apenas uma vez
                     if(buffer->data[0] != '\0'){//para nao printar o restando do buffer vazio
 
@@ -145,7 +144,6 @@ char* enche_buffer(Buffer *buffer, FILE *arq) {
         buffer->data[strlen(buffer->data)] = '\n';
         str = buffer->data;
     }
-
     return str;
 }
 
@@ -333,9 +331,13 @@ void Verifica_palavra_reservada(char *palavra, Lex *lex) {
         raiz = novo_no("else", ELSE);
         // Inicializa a árvore binária de busca com as palavras reservadas
         raiz = insere_no(raiz, "if", IF);
+
         raiz = insere_no(raiz, "int", INT);
+
         raiz = insere_no(raiz, "return", RETURN);
+
         raiz = insere_no(raiz, "void", VOID);
+
         raiz = insere_no(raiz, "while", WHILE);
         //plus
         raiz = insere_no(raiz, "+", PLUS);
@@ -379,8 +381,6 @@ void Verifica_palavra_reservada(char *palavra, Lex *lex) {
         //raiz = insere_no(raiz, "main", MAIN);
         raiz = insere_no(raiz, "printf", PRINTF);
     }
-
-        
 
     No *no = busca_no(raiz, palavra);
     if(isdigit(palavra[0]) != 0){
