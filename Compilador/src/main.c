@@ -2,12 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-//#include "global.h"
 #include "funcs.h"
 #include "parser_arvore.h"
 #include "tabela_simbolos.h"
 #include "semantico.h"
-//#include "parser.tab.h"
 
 FILE *input_file = NULL;
 Buffer *buffer = NULL;
@@ -22,8 +20,6 @@ int controle = 0;
 char* pega_carac = NULL;
 
 pont_arv parse(void);
-
-//raiz = NULL;
 
 int main(int argc, char *argv[]) {
 
@@ -76,16 +72,10 @@ int main(int argc, char *argv[]) {
 
     pilha = (Pilha *)malloc(sizeof(Pilha)); // Aloque memória para lex
     
-    // printf("passa daqui?");
     initialize(pilha);
 
     lex->linha = 0;
     buffer->pos = 0;
-
-
-    // for (int i = 0; i < buffer->size; i++) {
-    //     get_lexema();
-    // }
 
     pont_arv arvore = parse();
 
@@ -95,29 +85,39 @@ int main(int argc, char *argv[]) {
         fclose(input_file);
         exit(1);
     }
-    else{
-        printf("Arvore gerada com sucesso!\n");
-        //printf("Deseja imprimir a arvore? (s/n)\n");
-        //char opcao;
-        //scanf("%c", &opcao);
-        //if (opcao == 's') {
-            printf("-----------------ARVORE SINTATICA-----------------\n");
-            imprime_arvore(arvore, 0);
-        //}
-    }
 
     tabelaSimbolos *tabela = initializeHashTable();
 
     inserttable(tabela, (void*)7, (void*)0, "input", "global", 0);
     inserttable(tabela, (void*)7, (void*)1, "output", "global", 0);
 
-    // inserttree(arvore, tabela, "global");
-    // //insert(tabela, arvore,);
-    // inserearvorenaTabela(arvore, tabela, "global");
     analise_semantica(arvore, tabela, "global");
 
-    printatabela(tabela);
+    while (1) {
+        printf("Deseja imprimir a arvore ou a tabela? (a/t/n)\n");
+        char opcao;
+        scanf("%c", &opcao);
+        getchar();
+        if (opcao == 'a') {
+            system("clear"); 
+            printf("-----------------ARVORE SINTATICA-----------------\n");
+            imprime_arvore(arvore, 0);
+            printf("---------------------------------------------------\n");
+            printf("\n");
+        }
+        else if (opcao == 't') {
+            system("clear");
+            printf("-------------------------------TABELA DE SIMBOLOS------------------------------\n");
+            printatabela(tabela);
+            printf("--------------------------------------------------------------------------------\n");
+            printf("\n");
+        }
+        else if (opcao == 'n') {
+            break;
+        }
+    }
 
+    chama_desaloca_arvore();
     
     deallocate_buffer(buffer);
     //libera_arvore(raiz);
@@ -129,8 +129,5 @@ int main(int argc, char *argv[]) {
 
     fclose(input_file);
 
-    
-
-
-    //return 0;
+    return 0;
 }

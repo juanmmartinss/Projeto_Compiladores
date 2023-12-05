@@ -42,4 +42,4 @@ else
 fi
 
 # Executar o programa com o arquivo de teste
-./exec testes/testelex2.c-
+./exec testes/testelex.c-

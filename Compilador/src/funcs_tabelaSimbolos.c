@@ -58,6 +58,8 @@ void inserelinha(tabelaSimbolos *hashtable, char *nameID, int linha, char *escop
     tabelaSimbolos list = hashtable[index];
     //printf("entra na funcao linhas iguais");
 
+    printf("inserindo linha %d para %s no escopo %s\n", linha, nameID, escopo);
+
     while(list != NULL){
         if(strcmp(list->nameID, nameID) == 0 && strcmp(list->escopo, escopo) == 0){
             list->NumeroLinha[list->linhasvetor] = linha;

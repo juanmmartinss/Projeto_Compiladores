@@ -1,4 +1,4 @@
-int exemplo(void){
+void exemplo(void){
     int b;
 }
 

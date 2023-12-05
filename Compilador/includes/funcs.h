@@ -41,7 +41,6 @@ typedef struct pilha{
     char itens[100][64];
 }Pilha;
 
-
 //static No *raiz = NULL; // Árvore binária de busca balanceada
 
 int get_lexema();

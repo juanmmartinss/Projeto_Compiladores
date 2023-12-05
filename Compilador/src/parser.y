@@ -57,7 +57,6 @@ pont_arv raiz;
 
 programa: lista_declaracoes
         {   
-            printf("PROGRAMA RECONHECIDO\n");
             raiz = $1;
         }
         
@@ -65,7 +64,6 @@ programa: lista_declaracoes
 
 lista_declaracoes: lista_declaracoes declaracao
         {   
-            printf("LISTA DE DECLARACOES RECONHECIDA\n");
             if($1 == NULL){
                 $$ = $2;
             }
@@ -76,19 +74,16 @@ lista_declaracoes: lista_declaracoes declaracao
         }
         | declaracao
         {
-            printf("LISTA DE DECLARACOES RECONHECIDA\n");
             $$ = $1;
         }
 ;
 
 declaracao: declaracao_var
         {   
-            printf("DECLARACAO RECONHECIDA\n");
             $$ = $1;
         }
         | declaracao_fun
         {   
-            printf("DECLARACAO RECONHECIDA\n");
             $$ = $1;
         }
 ;
@@ -96,7 +91,6 @@ declaracao: declaracao_var
 
 declaracao_var: tipo_especificador TK_ID TK_SEMI
         {
-            printf("DECLARACAO VAR RECONHECIDA\n");
             $$ = $1;
 
             //pega o tipo do no
@@ -117,7 +111,6 @@ declaracao_var: tipo_especificador TK_ID TK_SEMI
         }
         | tipo_especificador TK_ID TK_LBRACKET TK_NUM TK_RBRACKET TK_SEMI
         {
-            printf("DECLARACAO VAR RECONHECIDA\n");
             $$ = $1;
             
             //pega o tipo do no
@@ -151,7 +144,6 @@ declaracao_var: tipo_especificador TK_ID TK_SEMI
 
 tipo_especificador: TK_INT
         {
-            printf("TIPO ESPECIFICADOR RECONHECIDO\n");
             $$ = cria_no($1);
             strcpy($$->lexema, "INT");
             $$->linha = linhaatual;
@@ -160,7 +152,6 @@ tipo_especificador: TK_INT
         }
         | TK_VOID
         {
-            printf("TIPO ESPECIFICADOR RECONHECIDO\n");
             $$ = cria_no($1);
             strcpy($$->lexema, "VOID");
             $$->linha = linhaatual;
@@ -170,7 +161,6 @@ tipo_especificador: TK_INT
 
 declaracao_fun: tipo_especificador id_fun TK_LPAREN params TK_RPAREN composto_decl
         {
-            printf("DECLARACAO FUN RECONHECIDA\n");
             $$ = $1;
             insere_filho($$, $4);
             insere_filho($$, $2);
@@ -186,7 +176,6 @@ declaracao_fun: tipo_especificador id_fun TK_LPAREN params TK_RPAREN composto_de
 
 id_fun: TK_ID
         {
-            printf("ID FUN RECONHECIDO\n");
             $$ = cria_no($1);
             lexemaauxiliar = peek(pilha);
             strcpy($$->lexema, lexemaauxiliar);
@@ -196,13 +185,11 @@ id_fun: TK_ID
 
 params: lista_params
         {
-            printf("PARAMS RECONHECIDO\n");
             $$ = $1;
 
         }
         | TK_VOID
         {
-            printf("PARAMS RECONHECIDO\n");
             $$ = cria_no($1);
 
             $$->tipo = (Tipo_no *)DECLARACAO;
@@ -216,7 +203,6 @@ params: lista_params
 
 lista_params: lista_params TK_COMMA param
         {
-            printf("LISTA PARAMS RECONHECIDO\n");
             if($1 == NULL){
                 $$ = $3;
             }
@@ -227,14 +213,12 @@ lista_params: lista_params TK_COMMA param
         }
         | param
         {
-            printf("LISTA PARAMS RECONHECIDO\n");
             $$ = $1;
         }
 ;
 
 param: tipo_especificador TK_ID
         {
-            printf("PARAM RECONHECIDO\n");
             $$ = $1;
 
             //pega o tipo do no
@@ -253,7 +237,6 @@ param: tipo_especificador TK_ID
         }
         | tipo_especificador TK_ID TK_LBRACKET TK_RBRACKET
         {
-            printf("PARAM RECONHECIDO\n");
             $$ = $1;
 
             //pega o tipo do no
@@ -275,7 +258,6 @@ param: tipo_especificador TK_ID
 
 composto_decl: TK_LBRACE local_declaracoes lista_comando TK_RBRACE
         {
-            printf("COMPOSTO DECL RECONHECIDO\n");
             if($2 == NULL){
                 $$ = $3;
             }
@@ -288,7 +270,6 @@ composto_decl: TK_LBRACE local_declaracoes lista_comando TK_RBRACE
 
 local_declaracoes: local_declaracoes declaracao_var
         {
-            printf("LOCAL DECLARACOES RECONHECIDO\n");
             if($1 == NULL){
                 $$ = $2;
             }
@@ -299,14 +280,12 @@ local_declaracoes: local_declaracoes declaracao_var
         }
         | 
         {
-            printf("LOCAL DECLARACOES RECONHECIDO\n");
             $$ = NULL;
         }
 ;
 
 lista_comando: lista_comando comando
         {
-            printf("LISTA COMANDO1 RECONHECIDO\n");
             if($1 == NULL){
                 $$ = $2;
             }
@@ -317,53 +296,44 @@ lista_comando: lista_comando comando
         }
         | 
         {
-            printf("LISTA COMANDO2 RECONHECIDO\n");
             $$ = NULL;
         }
 ;
 
 comando: expressao_decl
         {
-            printf("COMANDO RECONHECIDO\n");
             $$ = $1;
         }
         | selecao_decl
         {
-            printf("COMANDO RECONHECIDO\n");
             $$ = $1;
         }
         | iteracao_decl
         {
-            printf("COMANDO RECONHECIDO\n");
             $$ = $1;
         }
         | retorno_decl
         {
-            printf("COMANDO RECONHECIDO\n");
             $$ = $1;
         }
         | composto_decl
         {
-            printf("COMANDO RECONHECIDO\n");
             $$ = $1;
         }
 ;
 
 expressao_decl: expressao TK_SEMI
         {
-            printf("EXPRESSAO DECL RECONHECIDO\n");
             $$ = $1;
         }
         | TK_SEMI
         {
-            printf("EXPRESSAO DECL RECONHECIDO\n");
             $$ = NULL;
         }
 ;
 
 selecao_decl: TK_IF TK_LPAREN expressao TK_RPAREN comando fat_else
         {
-            printf("SELECAO DECL RECONHECIDO\n");
             $$ = cria_no($1);
 
             strcpy($$->lexema, "IF");
@@ -378,56 +348,19 @@ selecao_decl: TK_IF TK_LPAREN expressao TK_RPAREN comando fat_else
                 insere_filho($$, $6);
             }
         }
-        // | TK_IF TK_LPAREN expressao TK_RPAREN comando TK_ELSE comando
-        // {
-        //     printf("SELECAO DECL RECONHECIDO\n");
-
-
-        //     $$ = cria_no($1);
-
-        //     strcpy($$->lexema, "IF");
-
-        //     //$$ = cria_no($6);
-
-        //     insere_filho($$, $3);
-        //     insere_filho($$, $5);
-        //     insere_filho($$, $7);
-
-        //     // pont_arv aux = cria_no($7);
-        //     // strcpy(aux->lexema, "ELSE");
-        //     // insere_filho($$, aux);
-
-        //     // insere_filho($1, cria_no($7));
-
-        //     // //cria_no($6);
-        //     // strcpy($$->lexema, "ELSE");
-        //     // insere_filho($$, $6);
-
-
-        // }
 ;
 
 fat_else: TK_ELSE comando
         {
-            printf("FAT ELSE RECONHECIDO\n");
             $$ = $2;
-            //$$->tipo = (Tipo_no *)DECLARACAO;
-            //$$->linha = lex->linha;
-            //$$->tipodeclaracao = ELSEK;
-
-            //strcpy($$->lexema, "ELSE");
-
-            //insere_filho($$, $2);
         }
         |
         {
-            printf("FAT ELSE RECONHECIDO\n");
             $$ = NULL;
         }
 
 iteracao_decl: TK_WHILE TK_LPAREN expressao TK_RPAREN comando
         {
-            printf("ITERACAO DECL RECONHECIDO\n");
             $$ = cria_no($1);
             
             strcpy($$->lexema, "WHILE");
@@ -444,7 +377,6 @@ iteracao_decl: TK_WHILE TK_LPAREN expressao TK_RPAREN comando
 
 retorno_decl: TK_RETURN TK_SEMI
         {
-            printf("RETORNO DECL RECONHECIDO\n");
             $$ = cria_no($1);
 
             $$->tipo = (Tipo_no *)DECLARACAO;
@@ -455,7 +387,6 @@ retorno_decl: TK_RETURN TK_SEMI
         }
         | TK_RETURN expressao TK_SEMI
         {
-            printf("RETORNO DECL RECONHECIDO\n");
             $$ = cria_no($1);
 
             $$->tipo = DECLARACAO;
@@ -470,7 +401,6 @@ retorno_decl: TK_RETURN TK_SEMI
 
 expressao: var TK_ASSIGN expressao
         {
-            printf("EXPRESSAO1 RECONHECIDO\n");
             $$ = cria_no($2);
 
             strcpy($$->lexema, "=");
@@ -487,14 +417,12 @@ expressao: var TK_ASSIGN expressao
         }
         | simples_expressao
         {
-            printf("EXPRESSAO2 RECONHECIDO\n");
             $$ = $1;
         }
 ;
 
 var: TK_ID
         {
-            printf("VAR1 RECONHECIDO\n");
             $$ = cria_no($1);
 
             $$->tipo = (Tipo_no *)EXPRESSAO;
@@ -511,7 +439,6 @@ var: TK_ID
         }
         | TK_ID TK_LBRACKET expressao TK_RBRACKET
         {
-            printf("VAR2 RECONHECIDO\n");
             $$ = cria_no($1);
 
             $$->tipo = (Tipo_no *)EXPRESSAO;
@@ -530,7 +457,6 @@ var: TK_ID
 
 simples_expressao: soma_expressao relacional soma_expressao
         {
-            printf("SIMPLES EXPRESSAO1 RECONHECIDO\n");
             $$ = $2;
 
             $$->tipo = (Tipo_no *)EXPRESSAO;
@@ -543,7 +469,6 @@ simples_expressao: soma_expressao relacional soma_expressao
         }    
         | soma_expressao
         {
-            printf("SIMPLES EXPRESSAO2 RECONHECIDO\n");
             $$ = $1;
 
         }
@@ -551,42 +476,36 @@ simples_expressao: soma_expressao relacional soma_expressao
 
 relacional: TK_LT
         {
-            printf("RELACIONAL RECONHECIDO\n");
             $$ = cria_no($1);
             strcpy($$->lexema, "<");
 
         }
         | TK_LE
         {
-            printf("RELACIONAL RECONHECIDO\n");
             $$ = cria_no($1);
             strcpy($$->lexema, "<=");
 
         }
         | TK_GT
         {
-            printf("RELACIONAL RECONHECIDO\n");
             $$ = cria_no($1);
             strcpy($$->lexema, ">");
 
         }
         | TK_GE
         {
-            printf("RELACIONAL RECONHECIDO\n");
             $$ = cria_no($1);
             strcpy($$->lexema, ">=");
 
         }
         | TK_EQ
         {
-            printf("RELACIONAL RECONHECIDO\n");
             $$ = cria_no($1);
             strcpy($$->lexema, "==");
 
         }
         | TK_NE 
         {
-            printf("RELACIONAL RECONHECIDO\n");
             $$ = cria_no($1);
             strcpy($$->lexema, "!=");
 
@@ -595,7 +514,6 @@ relacional: TK_LT
 
 soma_expressao: soma_expressao soma termo
         {
-            printf("SOMA EXPRESSAO1 RECONHECIDO\n");
             $$ = $2;
 
             $$->tipo = (Tipo_no *)EXPRESSAO;
@@ -608,7 +526,6 @@ soma_expressao: soma_expressao soma termo
         }
         | termo
         {
-            printf("SOMA EXPRESSAO2 RECONHECIDO\n");
             $$ = $1;
         
         }
@@ -616,14 +533,12 @@ soma_expressao: soma_expressao soma termo
 
 soma: TK_PLUS
         {
-            printf("SOMA RECONHECIDO\n");
             $$ = cria_no($1);
             strcpy($$->lexema, "+");
 
         }
         | TK_MINUS
         {
-            printf("SOMA RECONHECIDO\n");
             $$ = cria_no($1);
             strcpy($$->lexema, "-");
 
@@ -632,7 +547,6 @@ soma: TK_PLUS
 
 termo: termo mult fator
         {
-            printf("TERMO1 RECONHECIDO\n");
             $$ = $2;
 
             $$->tipo = (Tipo_no *)EXPRESSAO;
@@ -645,7 +559,6 @@ termo: termo mult fator
         }
         | fator
         {
-            printf("TERMO2 RECONHECIDO\n");
             $$ = $1;
 
         }
@@ -653,14 +566,12 @@ termo: termo mult fator
 
 mult: TK_TIMES
         {
-            printf("MULT RECONHECIDO\n");
             $$ = cria_no($1);
             strcpy($$->lexema, "*");
 
         }
         | TK_OVER
         {
-            printf("MULT RECONHECIDO\n");
             $$ = cria_no($1);
             strcpy($$->lexema, "/");
 
@@ -669,19 +580,16 @@ mult: TK_TIMES
 
 fator: TK_LPAREN expressao TK_RPAREN
         {
-            printf("FATOR1 RECONHECIDO\n");
             $$ = $2;
 
         }
         | var
         {
-            printf("FATOR2 RECONHECIDO\n");
             $$ = $1;
 
         }    
         | TK_NUM
         {
-            printf("FATOR3 RECONHECIDO\n");
             $$ = cria_no($1);
 
             $$->tipo = (Tipo_no *)EXPRESSAO;
@@ -695,7 +603,6 @@ fator: TK_LPAREN expressao TK_RPAREN
         }
         | chamada
         {
-            printf("FATOR4 RECONHECIDO\n");
             $$ = $1;
 
         }
@@ -703,7 +610,6 @@ fator: TK_LPAREN expressao TK_RPAREN
 
 chamada: id_fun TK_LPAREN args TK_RPAREN
         {
-            printf("CHAMADA RECONHECIDO\n");
             // $$ = cria_no($1);
             $$ = $1;
 
@@ -720,13 +626,11 @@ chamada: id_fun TK_LPAREN args TK_RPAREN
 
 args: arg_lista
         {
-            printf("ARGS RECONHECIDO\n");
             $$ = $1;
 
         }
         |
         {
-            printf("ARGS RECONHECIDO\n");
             $$ = NULL;
 
         }
@@ -734,7 +638,6 @@ args: arg_lista
 
 arg_lista: arg_lista TK_COMMA expressao
         {
-            printf("ARG LISTA RECONHECIDO\n");
             if($1 == NULL){
                 $$ = $3;
             }
@@ -746,7 +649,6 @@ arg_lista: arg_lista TK_COMMA expressao
         }
         | expressao
         {
-            printf("ARG LISTA RECONHECIDO\n");
             $$ = $1;
             
         }

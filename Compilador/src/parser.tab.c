@@ -635,13 +635,13 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,    58,    58,    66,    77,    84,    89,    97,   118,   152,
-     161,   171,   187,   197,   203,   217,   228,   235,   254,   276,
-     289,   301,   307,   319,   325,   330,   335,   340,   345,   352,
-     357,   364,   410,   423,   428,   445,   456,   471,   488,   495,
-     512,   531,   544,   552,   559,   566,   573,   580,   587,   596,
-     609,   617,   624,   633,   646,   654,   661,   670,   676,   682,
-     696,   704,   721,   728,   735,   747
+       0,    58,    58,    65,    75,    81,    85,    92,   112,   145,
+     153,   162,   177,   186,   191,   204,   214,   220,   238,   259,
+     271,   282,   287,   298,   303,   307,   311,   315,   319,   325,
+     329,   335,   353,   358,   362,   378,   388,   402,   418,   424,
+     440,   458,   470,   477,   483,   489,   495,   501,   507,   515,
+     527,   534,   540,   548,   560,   567,   573,   581,   586,   591,
+     604,   611,   627,   633,   639,   650
 };
 #endif
 
@@ -1277,16 +1277,14 @@ yyreduce:
   case 2: /* programa: lista_declaracoes  */
 #line 59 "parser.y"
         {   
-            printf("PROGRAMA RECONHECIDO\n");
             raiz = yyvsp[0];
         }
-#line 1284 "parser.tab.c"
+#line 1283 "parser.tab.c"
     break;
 
   case 3: /* lista_declaracoes: lista_declaracoes declaracao  */
-#line 67 "parser.y"
+#line 66 "parser.y"
         {   
-            printf("LISTA DE DECLARACOES RECONHECIDA\n");
             if(yyvsp[-1] == NULL){
                 yyval = yyvsp[0];
             }
@@ -1295,40 +1293,36 @@ yyreduce:
                 yyval = insere_irmao(yyval, yyvsp[0]);
             }
         }
-#line 1299 "parser.tab.c"
+#line 1297 "parser.tab.c"
     break;
 
   case 4: /* lista_declaracoes: declaracao  */
-#line 78 "parser.y"
+#line 76 "parser.y"
         {
-            printf("LISTA DE DECLARACOES RECONHECIDA\n");
             yyval = yyvsp[0];
         }
-#line 1308 "parser.tab.c"
+#line 1305 "parser.tab.c"
     break;
 
   case 5: /* declaracao: declaracao_var  */
-#line 85 "parser.y"
+#line 82 "parser.y"
         {   
-            printf("DECLARACAO RECONHECIDA\n");
             yyval = yyvsp[0];
         }
-#line 1317 "parser.tab.c"
+#line 1313 "parser.tab.c"
     break;
 
   case 6: /* declaracao: declaracao_fun  */
-#line 90 "parser.y"
+#line 86 "parser.y"
         {   
-            printf("DECLARACAO RECONHECIDA\n");
             yyval = yyvsp[0];
         }
-#line 1326 "parser.tab.c"
+#line 1321 "parser.tab.c"
     break;
 
   case 7: /* declaracao_var: tipo_especificador TK_ID TK_SEMI  */
-#line 98 "parser.y"
+#line 93 "parser.y"
         {
-            printf("DECLARACAO VAR RECONHECIDA\n");
             yyval = yyvsp[-2];
 
             //pega o tipo do no
@@ -1347,13 +1341,12 @@ yyreduce:
             yyval = insere_filho(yyval, aux);
 
         }
-#line 1351 "parser.tab.c"
+#line 1345 "parser.tab.c"
     break;
 
   case 8: /* declaracao_var: tipo_especificador TK_ID TK_LBRACKET TK_NUM TK_RBRACKET TK_SEMI  */
-#line 119 "parser.y"
+#line 113 "parser.y"
         {
-            printf("DECLARACAO VAR RECONHECIDA\n");
             yyval = yyvsp[-5];
             
             //pega o tipo do no
@@ -1382,38 +1375,35 @@ yyreduce:
 
 
         }
-#line 1386 "parser.tab.c"
+#line 1379 "parser.tab.c"
     break;
 
   case 9: /* tipo_especificador: TK_INT  */
-#line 153 "parser.y"
+#line 146 "parser.y"
         {
-            printf("TIPO ESPECIFICADOR RECONHECIDO\n");
             yyval = cria_no(yyvsp[0]);
             strcpy(yyval->lexema, "INT");
             yyval->linha = linhaatual;
             //printf("lexema: %s\n", $$->lexema);
 
         }
-#line 1399 "parser.tab.c"
+#line 1391 "parser.tab.c"
     break;
 
   case 10: /* tipo_especificador: TK_VOID  */
-#line 162 "parser.y"
+#line 154 "parser.y"
         {
-            printf("TIPO ESPECIFICADOR RECONHECIDO\n");
             yyval = cria_no(yyvsp[0]);
             strcpy(yyval->lexema, "VOID");
             yyval->linha = linhaatual;
 
         }
-#line 1411 "parser.tab.c"
+#line 1402 "parser.tab.c"
     break;
 
   case 11: /* declaracao_fun: tipo_especificador id_fun TK_LPAREN params TK_RPAREN composto_decl  */
-#line 172 "parser.y"
+#line 163 "parser.y"
         {
-            printf("DECLARACAO FUN RECONHECIDA\n");
             yyval = yyvsp[-5];
             insere_filho(yyval, yyvsp[-2]);
             insere_filho(yyval, yyvsp[-4]);
@@ -1425,36 +1415,33 @@ yyreduce:
             //$$->linha = lex->linha;
 
         }
-#line 1429 "parser.tab.c"
+#line 1419 "parser.tab.c"
     break;
 
   case 12: /* id_fun: TK_ID  */
-#line 188 "parser.y"
+#line 178 "parser.y"
         {
-            printf("ID FUN RECONHECIDO\n");
             yyval = cria_no(yyvsp[0]);
             lexemaauxiliar = peek(pilha);
             strcpy(yyval->lexema, lexemaauxiliar);
             pop(pilha); //desempilha o id
             yyval->linha = linhaatual;
         }
-#line 1442 "parser.tab.c"
+#line 1431 "parser.tab.c"
     break;
 
   case 13: /* params: lista_params  */
-#line 198 "parser.y"
+#line 187 "parser.y"
         {
-            printf("PARAMS RECONHECIDO\n");
             yyval = yyvsp[0];
 
         }
-#line 1452 "parser.tab.c"
+#line 1440 "parser.tab.c"
     break;
 
   case 14: /* params: TK_VOID  */
-#line 204 "parser.y"
+#line 192 "parser.y"
         {
-            printf("PARAMS RECONHECIDO\n");
             yyval = cria_no(yyvsp[0]);
 
             yyval->tipo = (Tipo_no *)DECLARACAO;
@@ -1464,13 +1451,12 @@ yyreduce:
             strcpy(yyval->lexema, "VOID");
 
         }
-#line 1468 "parser.tab.c"
+#line 1455 "parser.tab.c"
     break;
 
   case 15: /* lista_params: lista_params TK_COMMA param  */
-#line 218 "parser.y"
+#line 205 "parser.y"
         {
-            printf("LISTA PARAMS RECONHECIDO\n");
             if(yyvsp[-2] == NULL){
                 yyval = yyvsp[0];
             }
@@ -1479,22 +1465,20 @@ yyreduce:
                 insere_irmao(yyval, yyvsp[0]);
             }
         }
-#line 1483 "parser.tab.c"
+#line 1469 "parser.tab.c"
     break;
 
   case 16: /* lista_params: param  */
-#line 229 "parser.y"
+#line 215 "parser.y"
         {
-            printf("LISTA PARAMS RECONHECIDO\n");
             yyval = yyvsp[0];
         }
-#line 1492 "parser.tab.c"
+#line 1477 "parser.tab.c"
     break;
 
   case 17: /* param: tipo_especificador TK_ID  */
-#line 236 "parser.y"
+#line 221 "parser.y"
         {
-            printf("PARAM RECONHECIDO\n");
             yyval = yyvsp[-1];
 
             //pega o tipo do no
@@ -1511,13 +1495,12 @@ yyreduce:
 
             yyval = insere_filho(yyval, aux);
         }
-#line 1515 "parser.tab.c"
+#line 1499 "parser.tab.c"
     break;
 
   case 18: /* param: tipo_especificador TK_ID TK_LBRACKET TK_RBRACKET  */
-#line 255 "parser.y"
+#line 239 "parser.y"
         {
-            printf("PARAM RECONHECIDO\n");
             yyval = yyvsp[-3];
 
             //pega o tipo do no
@@ -1535,13 +1518,12 @@ yyreduce:
             yyval = insere_filho(yyval, aux);
 
         }
-#line 1539 "parser.tab.c"
+#line 1522 "parser.tab.c"
     break;
 
   case 19: /* composto_decl: TK_LBRACE local_declaracoes lista_comando TK_RBRACE  */
-#line 277 "parser.y"
+#line 260 "parser.y"
         {
-            printf("COMPOSTO DECL RECONHECIDO\n");
             if(yyvsp[-2] == NULL){
                 yyval = yyvsp[-1];
             }
@@ -1550,13 +1532,12 @@ yyreduce:
                 insere_irmao(yyval, yyvsp[-1]);
             }
         }
-#line 1554 "parser.tab.c"
+#line 1536 "parser.tab.c"
     break;
 
   case 20: /* local_declaracoes: local_declaracoes declaracao_var  */
-#line 290 "parser.y"
+#line 272 "parser.y"
         {
-            printf("LOCAL DECLARACOES RECONHECIDO\n");
             if(yyvsp[-1] == NULL){
                 yyval = yyvsp[0];
             }
@@ -1565,22 +1546,20 @@ yyreduce:
                 insere_irmao(yyval, yyvsp[0]);
             }
         }
-#line 1569 "parser.tab.c"
+#line 1550 "parser.tab.c"
     break;
 
   case 21: /* local_declaracoes: %empty  */
-#line 301 "parser.y"
+#line 282 "parser.y"
         {
-            printf("LOCAL DECLARACOES RECONHECIDO\n");
             yyval = NULL;
         }
-#line 1578 "parser.tab.c"
+#line 1558 "parser.tab.c"
     break;
 
   case 22: /* lista_comando: lista_comando comando  */
-#line 308 "parser.y"
+#line 288 "parser.y"
         {
-            printf("LISTA COMANDO1 RECONHECIDO\n");
             if(yyvsp[-1] == NULL){
                 yyval = yyvsp[0];
             }
@@ -1589,85 +1568,76 @@ yyreduce:
                 insere_irmao(yyval, yyvsp[0]);
             }
         }
-#line 1593 "parser.tab.c"
+#line 1572 "parser.tab.c"
     break;
 
   case 23: /* lista_comando: %empty  */
-#line 319 "parser.y"
+#line 298 "parser.y"
         {
-            printf("LISTA COMANDO2 RECONHECIDO\n");
             yyval = NULL;
         }
-#line 1602 "parser.tab.c"
+#line 1580 "parser.tab.c"
     break;
 
   case 24: /* comando: expressao_decl  */
-#line 326 "parser.y"
+#line 304 "parser.y"
         {
-            printf("COMANDO RECONHECIDO\n");
             yyval = yyvsp[0];
         }
-#line 1611 "parser.tab.c"
+#line 1588 "parser.tab.c"
     break;
 
   case 25: /* comando: selecao_decl  */
-#line 331 "parser.y"
+#line 308 "parser.y"
         {
-            printf("COMANDO RECONHECIDO\n");
+            yyval = yyvsp[0];
+        }
+#line 1596 "parser.tab.c"
+    break;
+
+  case 26: /* comando: iteracao_decl  */
+#line 312 "parser.y"
+        {
+            yyval = yyvsp[0];
+        }
+#line 1604 "parser.tab.c"
+    break;
+
+  case 27: /* comando: retorno_decl  */
+#line 316 "parser.y"
+        {
+            yyval = yyvsp[0];
+        }
+#line 1612 "parser.tab.c"
+    break;
+
+  case 28: /* comando: composto_decl  */
+#line 320 "parser.y"
+        {
             yyval = yyvsp[0];
         }
 #line 1620 "parser.tab.c"
     break;
 
-  case 26: /* comando: iteracao_decl  */
-#line 336 "parser.y"
-        {
-            printf("COMANDO RECONHECIDO\n");
-            yyval = yyvsp[0];
-        }
-#line 1629 "parser.tab.c"
-    break;
-
-  case 27: /* comando: retorno_decl  */
-#line 341 "parser.y"
-        {
-            printf("COMANDO RECONHECIDO\n");
-            yyval = yyvsp[0];
-        }
-#line 1638 "parser.tab.c"
-    break;
-
-  case 28: /* comando: composto_decl  */
-#line 346 "parser.y"
-        {
-            printf("COMANDO RECONHECIDO\n");
-            yyval = yyvsp[0];
-        }
-#line 1647 "parser.tab.c"
-    break;
-
   case 29: /* expressao_decl: expressao TK_SEMI  */
-#line 353 "parser.y"
+#line 326 "parser.y"
         {
-            printf("EXPRESSAO DECL RECONHECIDO\n");
             yyval = yyvsp[-1];
         }
-#line 1656 "parser.tab.c"
+#line 1628 "parser.tab.c"
     break;
 
   case 30: /* expressao_decl: TK_SEMI  */
-#line 358 "parser.y"
+#line 330 "parser.y"
         {
-            printf("EXPRESSAO DECL RECONHECIDO\n");
             yyval = NULL;
         }
-#line 1665 "parser.tab.c"
+#line 1636 "parser.tab.c"
     break;
 
   case 31: /* selecao_decl: TK_IF TK_LPAREN expressao TK_RPAREN comando fat_else  */
-#line 365 "parser.y"
+#line 336 "parser.y"
         {
-            printf("SELECAO DECL RECONHECIDO\n");
             yyval = cria_no(yyvsp[-5]);
 
             strcpy(yyval->lexema, "IF");
@@ -1682,38 +1652,28 @@ yyreduce:
                 insere_filho(yyval, yyvsp[0]);
             }
         }
-#line 1686 "parser.tab.c"
+#line 1656 "parser.tab.c"
     break;
 
   case 32: /* fat_else: TK_ELSE comando  */
-#line 411 "parser.y"
+#line 354 "parser.y"
         {
-            printf("FAT ELSE RECONHECIDO\n");
             yyval = yyvsp[0];
-            //$$->tipo = (Tipo_no *)DECLARACAO;
-            //$$->linha = lex->linha;
-            //$$->tipodeclaracao = ELSEK;
-
-            //strcpy($$->lexema, "ELSE");
-
-            //insere_filho($$, $2);
         }
-#line 1702 "parser.tab.c"
+#line 1664 "parser.tab.c"
     break;
 
   case 33: /* fat_else: %empty  */
-#line 423 "parser.y"
+#line 358 "parser.y"
         {
-            printf("FAT ELSE RECONHECIDO\n");
             yyval = NULL;
         }
-#line 1711 "parser.tab.c"
+#line 1672 "parser.tab.c"
     break;
 
   case 34: /* iteracao_decl: TK_WHILE TK_LPAREN expressao TK_RPAREN comando  */
-#line 429 "parser.y"
+#line 363 "parser.y"
         {
-            printf("ITERACAO DECL RECONHECIDO\n");
             yyval = cria_no(yyvsp[-4]);
             
             strcpy(yyval->lexema, "WHILE");
@@ -1726,13 +1686,12 @@ yyreduce:
             insere_filho(yyval, yyvsp[0]);
 
         }
-#line 1730 "parser.tab.c"
+#line 1690 "parser.tab.c"
     break;
 
   case 35: /* retorno_decl: TK_RETURN TK_SEMI  */
-#line 446 "parser.y"
+#line 379 "parser.y"
         {
-            printf("RETORNO DECL RECONHECIDO\n");
             yyval = cria_no(yyvsp[-1]);
 
             yyval->tipo = (Tipo_no *)DECLARACAO;
@@ -1741,13 +1700,12 @@ yyreduce:
 
             strcpy(yyval->lexema, "RETURNVOID");
         }
-#line 1745 "parser.tab.c"
+#line 1704 "parser.tab.c"
     break;
 
   case 36: /* retorno_decl: TK_RETURN expressao TK_SEMI  */
-#line 457 "parser.y"
+#line 389 "parser.y"
         {
-            printf("RETORNO DECL RECONHECIDO\n");
             yyval = cria_no(yyvsp[-2]);
 
             yyval->tipo = DECLARACAO;
@@ -1758,13 +1716,12 @@ yyreduce:
             insere_filho(yyval, yyvsp[-1]);
 
         }
-#line 1762 "parser.tab.c"
+#line 1720 "parser.tab.c"
     break;
 
   case 37: /* expressao: var TK_ASSIGN expressao  */
-#line 472 "parser.y"
+#line 403 "parser.y"
         {
-            printf("EXPRESSAO1 RECONHECIDO\n");
             yyval = cria_no(yyvsp[-1]);
 
             strcpy(yyval->lexema, "=");
@@ -1779,22 +1736,20 @@ yyreduce:
             insere_filho(yyval, yyvsp[0]);
 
         }
-#line 1783 "parser.tab.c"
+#line 1740 "parser.tab.c"
     break;
 
   case 38: /* expressao: simples_expressao  */
-#line 489 "parser.y"
+#line 419 "parser.y"
         {
-            printf("EXPRESSAO2 RECONHECIDO\n");
             yyval = yyvsp[0];
         }
-#line 1792 "parser.tab.c"
+#line 1748 "parser.tab.c"
     break;
 
   case 39: /* var: TK_ID  */
-#line 496 "parser.y"
+#line 425 "parser.y"
         {
-            printf("VAR1 RECONHECIDO\n");
             yyval = cria_no(yyvsp[0]);
 
             yyval->tipo = (Tipo_no *)EXPRESSAO;
@@ -1809,13 +1764,12 @@ yyreduce:
 
 
         }
-#line 1813 "parser.tab.c"
+#line 1768 "parser.tab.c"
     break;
 
   case 40: /* var: TK_ID TK_LBRACKET expressao TK_RBRACKET  */
-#line 513 "parser.y"
+#line 441 "parser.y"
         {
-            printf("VAR2 RECONHECIDO\n");
             yyval = cria_no(yyvsp[-3]);
 
             yyval->tipo = (Tipo_no *)EXPRESSAO;
@@ -1830,13 +1784,12 @@ yyreduce:
             insere_filho(yyval, yyvsp[-1]);
 
         }
-#line 1834 "parser.tab.c"
+#line 1788 "parser.tab.c"
     break;
 
   case 41: /* simples_expressao: soma_expressao relacional soma_expressao  */
-#line 532 "parser.y"
+#line 459 "parser.y"
         {
-            printf("SIMPLES EXPRESSAO1 RECONHECIDO\n");
             yyval = yyvsp[-1];
 
             yyval->tipo = (Tipo_no *)EXPRESSAO;
@@ -1847,89 +1800,81 @@ yyreduce:
             insere_filho(yyval, yyvsp[0]);
 
         }
-#line 1851 "parser.tab.c"
+#line 1804 "parser.tab.c"
     break;
 
   case 42: /* simples_expressao: soma_expressao  */
-#line 545 "parser.y"
+#line 471 "parser.y"
         {
-            printf("SIMPLES EXPRESSAO2 RECONHECIDO\n");
             yyval = yyvsp[0];
 
         }
-#line 1861 "parser.tab.c"
+#line 1813 "parser.tab.c"
     break;
 
   case 43: /* relacional: TK_LT  */
-#line 553 "parser.y"
+#line 478 "parser.y"
         {
-            printf("RELACIONAL RECONHECIDO\n");
             yyval = cria_no(yyvsp[0]);
             strcpy(yyval->lexema, "<");
 
         }
-#line 1872 "parser.tab.c"
+#line 1823 "parser.tab.c"
     break;
 
   case 44: /* relacional: TK_LE  */
-#line 560 "parser.y"
+#line 484 "parser.y"
         {
-            printf("RELACIONAL RECONHECIDO\n");
             yyval = cria_no(yyvsp[0]);
             strcpy(yyval->lexema, "<=");
 
         }
-#line 1883 "parser.tab.c"
+#line 1833 "parser.tab.c"
     break;
 
   case 45: /* relacional: TK_GT  */
-#line 567 "parser.y"
+#line 490 "parser.y"
         {
-            printf("RELACIONAL RECONHECIDO\n");
             yyval = cria_no(yyvsp[0]);
             strcpy(yyval->lexema, ">");
 
         }
-#line 1894 "parser.tab.c"
+#line 1843 "parser.tab.c"
     break;
 
   case 46: /* relacional: TK_GE  */
-#line 574 "parser.y"
+#line 496 "parser.y"
         {
-            printf("RELACIONAL RECONHECIDO\n");
             yyval = cria_no(yyvsp[0]);
             strcpy(yyval->lexema, ">=");
 
         }
-#line 1905 "parser.tab.c"
+#line 1853 "parser.tab.c"
     break;
 
   case 47: /* relacional: TK_EQ  */
-#line 581 "parser.y"
+#line 502 "parser.y"
         {
-            printf("RELACIONAL RECONHECIDO\n");
             yyval = cria_no(yyvsp[0]);
             strcpy(yyval->lexema, "==");
 
         }
-#line 1916 "parser.tab.c"
+#line 1863 "parser.tab.c"
     break;
 
   case 48: /* relacional: TK_NE  */
-#line 588 "parser.y"
+#line 508 "parser.y"
         {
-            printf("RELACIONAL RECONHECIDO\n");
             yyval = cria_no(yyvsp[0]);
             strcpy(yyval->lexema, "!=");
 
         }
-#line 1927 "parser.tab.c"
+#line 1873 "parser.tab.c"
     break;
 
   case 49: /* soma_expressao: soma_expressao soma termo  */
-#line 597 "parser.y"
+#line 516 "parser.y"
         {
-            printf("SOMA EXPRESSAO1 RECONHECIDO\n");
             yyval = yyvsp[-1];
 
             yyval->tipo = (Tipo_no *)EXPRESSAO;
@@ -1940,45 +1885,41 @@ yyreduce:
             insere_filho(yyval, yyvsp[0]);
 
         }
-#line 1944 "parser.tab.c"
+#line 1889 "parser.tab.c"
     break;
 
   case 50: /* soma_expressao: termo  */
-#line 610 "parser.y"
+#line 528 "parser.y"
         {
-            printf("SOMA EXPRESSAO2 RECONHECIDO\n");
             yyval = yyvsp[0];
         
         }
-#line 1954 "parser.tab.c"
+#line 1898 "parser.tab.c"
     break;
 
   case 51: /* soma: TK_PLUS  */
-#line 618 "parser.y"
+#line 535 "parser.y"
         {
-            printf("SOMA RECONHECIDO\n");
             yyval = cria_no(yyvsp[0]);
             strcpy(yyval->lexema, "+");
 
         }
-#line 1965 "parser.tab.c"
+#line 1908 "parser.tab.c"
     break;
 
   case 52: /* soma: TK_MINUS  */
-#line 625 "parser.y"
+#line 541 "parser.y"
         {
-            printf("SOMA RECONHECIDO\n");
             yyval = cria_no(yyvsp[0]);
             strcpy(yyval->lexema, "-");
 
         }
-#line 1976 "parser.tab.c"
+#line 1918 "parser.tab.c"
     break;
 
   case 53: /* termo: termo mult fator  */
-#line 634 "parser.y"
+#line 549 "parser.y"
         {
-            printf("TERMO1 RECONHECIDO\n");
             yyval = yyvsp[-1];
 
             yyval->tipo = (Tipo_no *)EXPRESSAO;
@@ -1989,65 +1930,59 @@ yyreduce:
             insere_filho(yyval, yyvsp[0]);
 
         }
-#line 1993 "parser.tab.c"
+#line 1934 "parser.tab.c"
     break;
 
   case 54: /* termo: fator  */
-#line 647 "parser.y"
+#line 561 "parser.y"
         {
-            printf("TERMO2 RECONHECIDO\n");
             yyval = yyvsp[0];
 
         }
-#line 2003 "parser.tab.c"
+#line 1943 "parser.tab.c"
     break;
 
   case 55: /* mult: TK_TIMES  */
-#line 655 "parser.y"
+#line 568 "parser.y"
         {
-            printf("MULT RECONHECIDO\n");
             yyval = cria_no(yyvsp[0]);
             strcpy(yyval->lexema, "*");
 
         }
-#line 2014 "parser.tab.c"
+#line 1953 "parser.tab.c"
     break;
 
   case 56: /* mult: TK_OVER  */
-#line 662 "parser.y"
+#line 574 "parser.y"
         {
-            printf("MULT RECONHECIDO\n");
             yyval = cria_no(yyvsp[0]);
             strcpy(yyval->lexema, "/");
 
         }
-#line 2025 "parser.tab.c"
+#line 1963 "parser.tab.c"
     break;
 
   case 57: /* fator: TK_LPAREN expressao TK_RPAREN  */
-#line 671 "parser.y"
+#line 582 "parser.y"
         {
-            printf("FATOR1 RECONHECIDO\n");
             yyval = yyvsp[-1];
 
         }
-#line 2035 "parser.tab.c"
+#line 1972 "parser.tab.c"
     break;
 
   case 58: /* fator: var  */
-#line 677 "parser.y"
+#line 587 "parser.y"
         {
-            printf("FATOR2 RECONHECIDO\n");
             yyval = yyvsp[0];
 
         }
-#line 2045 "parser.tab.c"
+#line 1981 "parser.tab.c"
     break;
 
   case 59: /* fator: TK_NUM  */
-#line 683 "parser.y"
+#line 592 "parser.y"
         {
-            printf("FATOR3 RECONHECIDO\n");
             yyval = cria_no(yyvsp[0]);
 
             yyval->tipo = (Tipo_no *)EXPRESSAO;
@@ -2059,23 +1994,21 @@ yyreduce:
             pop(pilha); //desempilha o id
 
         }
-#line 2063 "parser.tab.c"
+#line 1998 "parser.tab.c"
     break;
 
   case 60: /* fator: chamada  */
-#line 697 "parser.y"
+#line 605 "parser.y"
         {
-            printf("FATOR4 RECONHECIDO\n");
             yyval = yyvsp[0];
 
         }
-#line 2073 "parser.tab.c"
+#line 2007 "parser.tab.c"
     break;
 
   case 61: /* chamada: id_fun TK_LPAREN args TK_RPAREN  */
-#line 705 "parser.y"
+#line 612 "parser.y"
         {
-            printf("CHAMADA RECONHECIDO\n");
             // $$ = cria_no($1);
             yyval = yyvsp[-3];
 
@@ -2088,33 +2021,30 @@ yyreduce:
             insere_filho(yyval, yyvsp[-1]);
 
         }
-#line 2092 "parser.tab.c"
+#line 2025 "parser.tab.c"
     break;
 
   case 62: /* args: arg_lista  */
-#line 722 "parser.y"
+#line 628 "parser.y"
         {
-            printf("ARGS RECONHECIDO\n");
             yyval = yyvsp[0];
 
         }
-#line 2102 "parser.tab.c"
+#line 2034 "parser.tab.c"
     break;
 
   case 63: /* args: %empty  */
-#line 728 "parser.y"
+#line 633 "parser.y"
         {
-            printf("ARGS RECONHECIDO\n");
             yyval = NULL;
 
         }
-#line 2112 "parser.tab.c"
+#line 2043 "parser.tab.c"
     break;
 
   case 64: /* arg_lista: arg_lista TK_COMMA expressao  */
-#line 736 "parser.y"
+#line 640 "parser.y"
         {
-            printf("ARG LISTA RECONHECIDO\n");
             if(yyvsp[-2] == NULL){
                 yyval = yyvsp[0];
             }
@@ -2124,21 +2054,20 @@ yyreduce:
             }
 
         }
-#line 2128 "parser.tab.c"
+#line 2058 "parser.tab.c"
     break;
 
   case 65: /* arg_lista: expressao  */
-#line 748 "parser.y"
+#line 651 "parser.y"
         {
-            printf("ARG LISTA RECONHECIDO\n");
             yyval = yyvsp[0];
             
         }
-#line 2138 "parser.tab.c"
+#line 2067 "parser.tab.c"
     break;
 
 
-#line 2142 "parser.tab.c"
+#line 2071 "parser.tab.c"
 
       default: break;
     }
@@ -2331,7 +2260,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 755 "parser.y"
+#line 657 "parser.y"
 
 
 pont_arv parse(void) {

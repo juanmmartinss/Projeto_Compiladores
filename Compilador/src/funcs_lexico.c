@@ -7,6 +7,8 @@
 #include "global.h"
 //#include "parser.tab.h"
 
+static No *raiz = NULL; // Árvore binária de busca balanceada
+
 
 int matriz_dfa[16][21] = {
 
@@ -315,13 +317,12 @@ void libera_arvore(No *raiz) {
     if (raiz != NULL) {
         libera_arvore(raiz->esquerda);
         libera_arvore(raiz->direita);
-        free(raiz->palavra);
         free(raiz);
     }
 }
 
 void Verifica_palavra_reservada(char *palavra, Lex *lex) {
-    static No *raiz = NULL; // Árvore binária de busca balanceada
+    
       if (raiz == NULL) {
         raiz = novo_no("else", ELSE);
         // Inicializa a árvore binária de busca com as palavras reservadas
@@ -450,6 +451,10 @@ void Pega_ID(int valor_letra, Lex *lex, char *pega_carac) {
     strcpy(pega_carac, "ID");
   }
 
+}
+
+void chama_desaloca_arvore(){
+    libera_arvore(raiz);
 }
 
 // Função para inicializar a pilha

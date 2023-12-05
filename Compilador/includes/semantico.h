@@ -12,6 +12,7 @@ int verificalexema(char *letra);
 int verificaSeEfuncao(pont_arv arv, char *escopo);
 int buscarnatabelatipo(pont_arv arv, tabelaSimbolos *hashtable, char *escopo, char *lexema);
 int verificaPalavraReservada(char *lexema);
+void analise_semantica(pont_arv arv, tabelaSimbolos *hashtable, char *escopo);
 
 
 #endif
