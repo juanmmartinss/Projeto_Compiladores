@@ -1,3 +1,11 @@
+/*
+Aluno: Juan Marcos Martins
+RA:156.470
+Compiladores - 2023-1
+Universidade Federal de São Paulo
+*/
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -120,7 +128,7 @@ int main(int argc, char *argv[]) {
     chama_desaloca_arvore();
     
     deallocate_buffer(buffer);
-    //libera_arvore(raiz);
+    
     free(lex); // Libere a memória alocada para lex
     //free(pega_carac);
     liberar_pilha(pilha);

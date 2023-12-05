@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "tabela_simbolos.h"
-//#include "global.h"
 
 #define SIZE 211
 
@@ -56,16 +55,11 @@ void inserttable(tabelaSimbolos *hashtable, Tipo_declaracao *typeID, Tipo_dado *
 void inserelinha(tabelaSimbolos *hashtable, char *nameID, int linha, char *escopo) {
     int index = hash(nameID);
     tabelaSimbolos list = hashtable[index];
-    //printf("entra na funcao linhas iguais");
-
-    printf("inserindo linha %d para %s no escopo %s\n", linha, nameID, escopo);
 
     while(list != NULL){
         if(strcmp(list->nameID, nameID) == 0 && strcmp(list->escopo, escopo) == 0){
             list->NumeroLinha[list->linhasvetor] = linha;
-            //printf("linha inserida %d", list->NumeroLinha[list->linhasvetor]);
             list->linhasvetor++;
-            //printf("linha inserida");
             break;
         }
         list = list->next;
@@ -76,8 +70,6 @@ void inserelinha(tabelaSimbolos *hashtable, char *nameID, int linha, char *escop
 
 //funcao para imprimir a tabela
 void printatabela(tabelaSimbolos *hashtable) {
-    char *palavra;
-    char *palavra2;
 
     printf("%-10s | %-10s | %-15s | %-15s | %s\n", "Nome", "Escopo", "Tipo", "Tipo de Dado", "Linhas");
     printf("-------------------------------------------------------------------------------\n");
@@ -85,10 +77,8 @@ void printatabela(tabelaSimbolos *hashtable) {
     for (int i = 0; i < SIZE; i++) {
         if (hashtable[i] != NULL) {
             tabelaSimbolos list = hashtable[i];
-            //transformaTipo(list->typeID, palavra);
-            //tranformaTipoIntVoid(list->dataType, palavra2);
             while (list != NULL) {
-                printf("%-10s | %-10s | %-15d | %-15d | ", list->nameID, list->escopo, list->typeID, list->dataType);
+                printf("%-10s | %-10s | %-15d | %-15d | ", list->nameID, list->escopo, (int)list->typeID, (int)list->dataType);
 
                 for(int j = 0; j < list->linhasvetor; j++){
                     if(list->NumeroLinha[j] == list->NumeroLinha[j+1]){

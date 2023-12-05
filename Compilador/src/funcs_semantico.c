@@ -9,7 +9,7 @@
 int tipofuncao;
 
 
-int buscarnatabela(pont_arv arv, tabelaSimbolos *hashtable, char *escopo, char *lexema){
+int buscarnatabela(pont_arv arv, tabelaSimbolos *hashtable, char *escopo, char *lexema){//retorna 1 se nao encontrar o identificador na tabela
     int index = hash(lexema);
     tabelaSimbolos list = hashtable[index];
 
@@ -19,7 +19,7 @@ int buscarnatabela(pont_arv arv, tabelaSimbolos *hashtable, char *escopo, char *
     else{
         while(list != NULL){
             if(strcmp(list->nameID, lexema) == 0 ){
-                if((strcmp(list->escopo, escopo) == 0)||(strcmp(list->escopo, "global") == 0)){
+                if((strcmp(list->escopo, escopo) == 0)||(strcmp(list->escopo, "global") == 0)){//compara escopo
                     return 0;
                 }
             }
@@ -29,7 +29,7 @@ int buscarnatabela(pont_arv arv, tabelaSimbolos *hashtable, char *escopo, char *
     return 1;
 }
 
-int buscarnatabelatipo(pont_arv arv, tabelaSimbolos *hashtable, char *escopo, char *lexema){
+int buscarnatabelatipo(pont_arv arv, tabelaSimbolos *hashtable, char *escopo, char *lexema){//retorna 1 se nao encontrar o identificador na tabela
     int index = hash(lexema);
     tabelaSimbolos list = hashtable[index];
 
@@ -40,7 +40,6 @@ int buscarnatabelatipo(pont_arv arv, tabelaSimbolos *hashtable, char *escopo, ch
         while(list != NULL){
             if(strcmp(list->nameID, lexema) == 0 ){
                 if((strcmp(list->escopo, escopo) == 0)||(strcmp(list->escopo, "global") == 0)){
-                    printf("tipo %d \n", list->dataType);
                     return list->dataType;
                 }
             }
@@ -50,38 +49,31 @@ int buscarnatabelatipo(pont_arv arv, tabelaSimbolos *hashtable, char *escopo, ch
     return -1;
 }
 
-void analise_semantica(pont_arv arv, tabelaSimbolos *hashtable, char *escopo)
-{
-
+void analise_semantica(pont_arv arv, tabelaSimbolos *hashtable, char *escopo){
     int controle; int monit; int flag;int controletabela;
-
+    
     if(arv == NULL){
         return;
     }
 
     if(arv->tipo == EXPRESSAO){
-        printf("EXPRESSAO \n");
-        printf("tipoexpressao %d \n", arv->tipoexpressao);
-        printf("lexema %s \n", arv->lexema);
 
-        if(arv->tipoexpressao == OPERANDO)
-        {
-            printf("expressao OPERANDO lexema %s linha %d \n", arv->lexema, arv->linha);
+        if(arv->tipoexpressao == OPERANDO){
+            analise_semantica(arv->filho1, hashtable, escopo);
+            analise_semantica(arv->filho2, hashtable, escopo);
         }
         else if(arv->tipoexpressao == OPERADORRELACIONAL)
         {
-            printf("expressao OPERADORRELACIONAL lexema %s linha %d \n", arv->lexema, arv->linha);
+            analise_semantica(arv->filho1, hashtable, escopo);
+            analise_semantica(arv->filho2, hashtable, escopo);
         }
         else if(arv->tipoexpressao == CONSTANTE)
         {
             
         } 
         else if (arv->tipoexpressao == IDK){
-            //printatabela(hashtable);
-            printf("expressao IDK lexema %s linha %d \n", arv->lexema, arv->linha);
             controle = buscarnatabela(arv, hashtable, escopo, arv->lexema);
             if(controle == 1){//se nao encontrar o identificador na tabela
-                //printf("controledsffsdfdfsdsdf %d\n", controle);
                 controletabela = buscarnatabelatipo(arv, hashtable, escopo, arv->lexema);
                 if(controletabela == VAZIO){
                     monit = 4;
@@ -100,7 +92,6 @@ void analise_semantica(pont_arv arv, tabelaSimbolos *hashtable, char *escopo)
 
         } 
         else if (arv->tipoexpressao == CHAMADAFUNCAO){
-            printf("expressao CHAMADAFUNCAO lexema %s linha %d \n", arv->lexema, arv->linha);
 
             if(controle = buscarnatabela(arv, hashtable, escopo, arv->lexema) == 1){//se nao encontrar o identificador na tabela
                     monit = 5;
@@ -111,8 +102,6 @@ void analise_semantica(pont_arv arv, tabelaSimbolos *hashtable, char *escopo)
             }
         } 
         else if (arv->tipoexpressao == VETORPARAMETROK){
-            printf("expressao VETORPARAMETROK param lexema %s linha %d \n", arv->lexema, arv->linha);
-            printf("\n filho %s \n", arv->filho1->lexema);
                 controletabela = buscarnatabelatipo(arv, hashtable, escopo, arv->filho1->lexema);
 
                 if(controletabela != -1){//se nao encontrar o identificador na tabela
@@ -121,7 +110,6 @@ void analise_semantica(pont_arv arv, tabelaSimbolos *hashtable, char *escopo)
                         errosemantico(arv->filho1->lexema, arv->linha, monit);
                     }
                     else{
-                        printf("entrou no else");
                         inserelinha(hashtable, arv->lexema, arv->linha, escopo);
                         inserelinha(hashtable, arv->lexema, arv->linha, "global");
                     }
@@ -132,17 +120,10 @@ void analise_semantica(pont_arv arv, tabelaSimbolos *hashtable, char *escopo)
                 }
         } 
         else if (arv->tipoexpressao == ATRIBUICAOK){
-            printf("expressao ATRIBUICAOK lexema %s linha %d \n", arv->lexema, arv->linha);
-            printf("\n filho %s \n", arv->filho1->lexema);
-            printf("\n filho %s \n", arv->filho2->lexema);
-
-            printf("\ntipo %d vs %d\n", arv->filho2->tipoexpressao, CHAMADAFUNCAO);
-
             if(strcmp(arv->filho2->lexema, "input") != 0){
                 if(strcmp(arv->filho2->lexema, "output") != 0){
                     if(arv->filho2->tipoexpressao == CHAMADAFUNCAO){
                         controletabela = buscarnatabelatipo(arv, hashtable, escopo, arv->filho2->lexema);
-                        printf("\ncontrole tabela %d\n", controletabela);
                         if(controletabela != -1){
                             if(controletabela == VAZIO){
 
@@ -170,17 +151,8 @@ void analise_semantica(pont_arv arv, tabelaSimbolos *hashtable, char *escopo)
             }
 
         } 
-        else if (arv->tipoexpressao == NULO){
-            printf("expressao NULO lexema %s linha %d \n", arv->lexema, arv->linha);
-        } 
-        
     } else if (arv->tipo == DECLARACAO){
-        printf("DECLARACAO \n");
         if(arv->tipodeclaracao == IFK){
-            
-            printf("declaracao IFK lexema %s linha %d \n", arv->lexema, arv->linha);
-            printf("tipo do filho %d \n", arv->tipoexpressao);
-
             if(arv->linha != 0 ){
                 controle = buscarnatabela(arv, hashtable, escopo, arv->lexema);
                 if(controle == 1){//se nao encontrar o identificador na tabela
@@ -198,33 +170,37 @@ void analise_semantica(pont_arv arv, tabelaSimbolos *hashtable, char *escopo)
 
         }
         else if(arv->tipodeclaracao == WHILEK){
-            printf("declaracao WHILEK lexema %s linha %d \n", arv->lexema, arv->linha);
+            if(arv->linha != 0 ){
+                controle = buscarnatabela(arv, hashtable, escopo, arv->lexema);
+                if(controle == 1){//se nao encontrar o identificador na tabela
+                    
+                    if(verificaPalavraReservada(arv->lexema) != 0){
+                        inserttable(hashtable, arv->tipodeclaracao, tipofuncao, arv->lexema, "global", arv->linha);
+                        controle = 0;
+                    }
+                }
+                else{
+                    monit = 1;
+                    errosemantico(arv->lexema, arv->linha, monit);
+                }
+            }
         }
         else if(arv->tipodeclaracao == INTK){
-            printf("declaracao INTK lexema %s linha %d \n", arv->lexema, arv->linha);
-            printf("\n filho %s \n", arv->filho1->lexema);
             controle = buscarnatabela(arv, hashtable, escopo, arv->filho1->lexema);
             if(controle == 1){//se nao encontrar o identificador na tabela
                     inserttable(hashtable, arv->tipodeclaracao, arv->tipo, arv->filho1->lexema, escopo, arv->linha);
                     controle = 0;
             }
             else{
-                //adiciona apenas mais uma linha
-                printf("\nadiciona linha %d\n", arv->linha);
                 inserelinha(hashtable, arv->filho1->lexema, arv->linha, "global");
 
             }
         }
         else if(arv->tipodeclaracao == VOIDK){
-            printf("declaracao VOIDK  lexema %s linha %d \n", arv->lexema, arv->linha);
         }
         else if(arv->tipodeclaracao == NULOK){
-            printf("declaracao NULOK lexema %s linha %d \n", arv->lexema, arv->linha);
         }
         else if(arv->tipodeclaracao == VARIAVELK){
-            printf("declaracao VARIAVELK lexema %s linha %d \n", arv->lexema, arv->linha);
-            printf("\n filho %s \n", arv->filho1->lexema);
-            
             if(strcmp(arv->lexema, "VOID") == 0){
                 monit = 2;
                 errosemantico(arv->filho1->lexema, arv->linha, monit);
@@ -242,10 +218,6 @@ void analise_semantica(pont_arv arv, tabelaSimbolos *hashtable, char *escopo)
 
         }else if(arv->tipodeclaracao == VETORK)
         {
-            printf("declaracao VETORK lexema %s linha %d \n", arv->lexema, arv->linha);
-            printf("\n filho %s \n", arv->filho1->lexema);
-            printf("tipo do filho %d \n", arv->filho1->tipoexpressao);
-            printf("\n filho %s \n", arv->filho2->lexema);
             controle = buscarnatabela(arv, hashtable, escopo, arv->filho1->lexema);
             if(controle == 1){//se nao encontrar o identificador na tabela
                 inserttable(hashtable, arv->tipodeclaracao, arv->tipo, arv->filho1->lexema, escopo, arv->linha);
@@ -257,7 +229,6 @@ void analise_semantica(pont_arv arv, tabelaSimbolos *hashtable, char *escopo)
 
         }else if(arv->tipodeclaracao == FUNCAOK)
         {
-            printf("declaracao FUNCAOK lexema %s linha %d \n", arv->lexema, arv->linha);
             escopo = arv->filho2->lexema;
             if(strcmp(arv->lexema, "VOID") == 0){
                 tipofuncao = 1;
@@ -267,10 +238,6 @@ void analise_semantica(pont_arv arv, tabelaSimbolos *hashtable, char *escopo)
 
         }else if(arv->tipodeclaracao == PARAMETROVARIAVELK)
         {
-            printf("declaracao PARAMETROVARIAVELK lexema %s linha %d \n", arv->lexema, arv->linha);
-
-            printf("\n filho %s \n", arv->filho1->lexema);
-
             if(controle = buscarnatabela(arv, hashtable, escopo, arv->filho1->lexema) == 1){//se nao encontrar o identificador na tabela
                     inserttable(hashtable, arv->tipodeclaracao, arv->tipo, arv->filho1->lexema, escopo, arv->linha);
                     controle = 0;
@@ -282,9 +249,6 @@ void analise_semantica(pont_arv arv, tabelaSimbolos *hashtable, char *escopo)
 
         }
         else if(arv->tipodeclaracao == PARAMETROVETORK){
-            printf("declaracao PARAMETROVETORK lexema %s linha %d \n", arv->lexema, arv->linha);
-            printf("\n filho %s \n", arv->filho1->lexema);
-
                 controletabela = buscarnatabelatipo(arv, hashtable, escopo, arv->filho1->lexema);
 
                 if(controletabela != -1){
@@ -305,7 +269,6 @@ void analise_semantica(pont_arv arv, tabelaSimbolos *hashtable, char *escopo)
             
         }
         else if(arv->tipodeclaracao == PARAMETROVOIDK){
-            printf("declaracao PARAMETROVOIDK lexema %s linha %d \n", arv->lexema, arv->linha);
 
         }
     }

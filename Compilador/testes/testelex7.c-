@@ -1,0 +1,28 @@
+void x;
+int y;
+int z[10];
+
+void funcaoErrada(int a, int b[])
+{
+    return a;
+}
+
+int funcaoErradaDois(int a, int b[])
+{
+    funcaoErrada(a, a);
+    funcaoErrada(a, 5);
+    funcaoErrada(b, b);
+    funcaoErrada(c, b);
+    funcaoErrada(funcaoErrada(a, b), b);
+
+    return;
+}
+
+void mainErrada(void){
+    int funcaoErrada;
+    int a;
+    int a;
+    int a[5];
+
+    funcaoErradaTres();
+}

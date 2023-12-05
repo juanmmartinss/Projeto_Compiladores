@@ -31,7 +31,7 @@ fi
 cd ..
 
 # Compilar o código usando make
-make -s
+make -s 2>/dev/null
 
 # Verificar se a compilação foi bem-sucedida
 if [ $? -eq 0 ]; then

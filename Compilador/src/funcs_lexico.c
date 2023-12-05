@@ -5,7 +5,6 @@
 #include <ctype.h>
 #include <stdbool.h>
 #include "global.h"
-//#include "parser.tab.h"
 
 static No *raiz = NULL; // Árvore binária de busca balanceada
 
@@ -18,7 +17,7 @@ int matriz_dfa[16][21] = {
               {17, 17, 5, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 17, 18},
               {5, 5, 6, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5},
               {5, 5, 6, 5, 5, 5, 5, 5, 5, 5, 5, 7, 5, 5, 5, 5, 5, 5, 5, 5, 5},
-              {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+              {17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17},
               {17, 17, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 15, 18, 18, 18, 18, 18, 18, 17, 18},
               {18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 12, 18, 18, 18, 18, 18, 18, 18, 18},
               {17, 17, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 14, 18, 18, 18, 18, 18, 18, 17, 18},
@@ -51,6 +50,13 @@ int get_lexema(){
                 else {
                     break;
                 }
+            }
+
+            for(int i = 0; i < 128; i++){//percorre o lexema da linha
+                if(lex->lexema[i] == '/' && lex->lexema[i+1] == '*'){//verifica se é um comentario
+                    
+                }
+                
             }
 
             if(lex->aux == 0){//verifica se o lexema é um erro, se for 1 é um erro e nao printa, apenas mostra a msg de erro
