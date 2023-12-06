@@ -2,6 +2,7 @@ int x[10];
 
 int minloc(int a[], int low, int high)
 {
+    /*dfdhsufdfdsfdsfdsfdsfs*/
     int i; int k ;
     k = low;
     x = a[low];
