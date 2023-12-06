@@ -668,7 +668,6 @@ int yylex(void){
     //mudar o valor do token para o valor que esta no parser
     if(valor_token == -1){
         valor_convertido = YYEOF;
-        //imprime_arvore(raiz, 0);
     }
     else if (valor_token == 0) {
         valor_convertido = TK_ELSE;
@@ -726,11 +725,9 @@ int yylex(void){
         valor_convertido = TK_RBRACE;
     }
     else if(valor_token == 27){
-        //while(lex->linha == 27){
         return yylex();
-        //}
-        
     }
+
     ultimo_token = valor_convertido;
     return valor_convertido;
 }

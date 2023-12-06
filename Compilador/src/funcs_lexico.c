@@ -391,7 +391,6 @@ void Verifica_palavra_reservada(char *palavra, Lex *lex) {
     else { // se nao for comentario, classifica como ID, ou seja ignora comentario
         if(palavra[0] == '/' && palavra[1] == '*'){
             lex->token = COMMENT;
-            printf("comentario\n");
         }
         else{
             lex->token = ID;
