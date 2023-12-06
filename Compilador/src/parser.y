@@ -54,6 +54,7 @@ pont_arv raiz;
 %token TK_RBRACE
 %token TK_MAIN
 %token TK_PRINTF
+%token TK_COMMENT
 
 %%
 
@@ -723,6 +724,12 @@ int yylex(void){
         valor_convertido = TK_LBRACE;
     } else if (valor_token == 26) {
         valor_convertido = TK_RBRACE;
+    }
+    else if(valor_token == 27){
+        //while(lex->linha == 27){
+        return yylex();
+        //}
+        
     }
     ultimo_token = valor_convertido;
     return valor_convertido;

@@ -377,8 +377,7 @@ void Verifica_palavra_reservada(char *palavra, Lex *lex) {
         raiz = insere_no(raiz, "{", LBRACE);
         //rbrace
         raiz = insere_no(raiz, "}", RBRACE);
-        
-        //raiz = insere_no(raiz, "main", MAIN);
+        //cometario
         raiz = insere_no(raiz, "printf", PRINTF);
     }
 
@@ -387,10 +386,17 @@ void Verifica_palavra_reservada(char *palavra, Lex *lex) {
         lex->token = NUM;
     }
     else if (no != NULL) {
-        lex->token = no->token;
+        lex->token = no->token;//se for uma palavra reservada, classifica como palavra reservada
     }
     else { // se nao for comentario, classifica como ID, ou seja ignora comentario
-        lex->token = ID;//se nao for uma palavra reservada, é um ID
+        if(palavra[0] == '/' && palavra[1] == '*'){
+            lex->token = COMMENT;
+            printf("comentario\n");
+        }
+        else{
+            lex->token = ID;
+        }
+        //lex->token = ID;//se nao for uma palavra reservada, é um ID
     }
 }
 
